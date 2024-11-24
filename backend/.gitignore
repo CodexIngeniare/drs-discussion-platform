@@ -1,0 +1,13 @@
+# Python bytecode files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environment directories
+env/
+venv/
+
+# .env file with environment variables
+.env
+.flaskenv
