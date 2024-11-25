@@ -1,3 +1,4 @@
 
 class Config:
-    DEBUG = False
+    # TODO: implementirati ucitavanje konfiguracije iz .env fajla
+    pass
