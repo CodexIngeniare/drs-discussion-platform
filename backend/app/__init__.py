@@ -21,6 +21,9 @@ def create_app():
 
     from app.routes import home_bp
     app.register_blueprint(home_bp)
+    
+    from app.routes import auth_bp
+    app.register_blueprint(auth_bp)
 
     # Registracija ruta
     from app.routes.db_test import db_bp  # Uvozimo db_bp koji sadrži testne rute za bazu
