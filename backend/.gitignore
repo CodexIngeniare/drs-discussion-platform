@@ -11,3 +11,5 @@ venv/
 # .env file with environment variables
 .env
 .flaskenv
+
+.venv/
