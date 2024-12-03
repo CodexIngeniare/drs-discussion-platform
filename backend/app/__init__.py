@@ -12,7 +12,8 @@ def create_app():
 
 
     # Konfiguracija baze
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:my-secret-pw@localhost:3307/docker_mysql_db'
+    #app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:my-secret-pw@localhost:3307/docker_mysql_db'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///:memory:'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
     # Inicijalizacija baze podataka i migracija
