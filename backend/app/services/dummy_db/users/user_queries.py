@@ -26,15 +26,17 @@ def log_user(email):
     db.session.commit()
     return True
 
-def get_admins():
-    admins = None
+def get_admin_emails():
+    admin_emails = []
 
     try:
         admins = RegisteredUser.query.filter_by(is_admin = True).all()
+        for admin in admins:
+            admin_emails.append(admin.email)
     except Exception:
-        return None
+        return []
     
-    return admins
+    return admin_emails
 
 def is_email_available(email):
     user = get_user(email)
