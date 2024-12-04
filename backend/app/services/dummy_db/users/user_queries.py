@@ -2,10 +2,19 @@ from datetime import datetime
 from app.models import RegisteredUser, PendingUser
 from app.services.dummy_db.users import db
 
-def get_user(email):
+def get_user_by_email(email):
     user = None
     try:
         user = RegisteredUser.query.filter_by(email=email).first()
+    except Exception:
+        return None
+    
+    return user
+
+def get_user_by_username(username):
+    user = None
+    try:
+        user = RegisteredUser.query.filter_by(username=username).first()
     except Exception:
         return None
     
@@ -38,10 +47,16 @@ def get_admin_emails():
     
     return admin_emails
 
-def is_email_available(email):
-    user = get_user(email)
+def is_email_taken(email):
+    user = get_user_by_email(email)
+    if user is None:
+        return False
+    
+    return True
 
-    if user is not None:
+def is_username_taken(username):
+    user = get_user_by_username(username)
+    if user  is None:
         return False
     
     return True
@@ -69,7 +84,7 @@ def register_new_user(email, user_data):
 
 def update_user_data(email, user_data):
     try:
-        user = get_user(email)
+        user = get_user_by_email(email)
 
         if user is None:
             return False
