@@ -1,31 +1,61 @@
 import React, { useState } from 'react';
 
-function LoginForm() {
+function LoginForm(props) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [errors, setErrors] = useState({});
 
-    const validateForm = () => {
-        const newErrors = {};
-
+    const validateEmail = (newErrors) => {
         if (!email) {
             newErrors.email = "Email is required.";
         } else if (!/\S+@\S+\.\S+/.test(email)) {
             newErrors.email = "Please enter a valid email.";
         }
-
+    };
+    const validatePassword = (newErrors) => {
         if (!password) {
             newErrors.password = "Password is required.";
         }
-
-        return newErrors;
     };
+    const validateForm = () => {
+        const newErrors = {};
 
-    const handleSubmit = (e) => {
+        validateEmail(newErrors);
+        validatePassword(newErrors);
+
+        setErrors(newErrors);
+
+        if(Object.keys(newErrors).length === 0)
+            return true;
+
+        return false;
+    };
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const newErrors = validateForm();
-        setErrors(newErrors);
+        if (validateForm()) {
+            try {
+                const response = await fetch(props.apiLoginEndpoint, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email, password }),
+                });
+    
+                if (response.ok) {
+                    const responseData = await response.json();
+                    const token = responseData.token
+                    //console.log(`token: ${token}`);
+                } else {
+                    const errorData = await response.json();
+                    //console.log(errorData)
+                    setErrors({"email": errorData.email_error, "password": errorData.password_error})
+                }
+            } catch (error) {
+                console.error('Error submitting form:', error);
+            }
+        }
     };
 
     return (
@@ -35,6 +65,8 @@ function LoginForm() {
                     <tbody>
                         <tr>
                             <td><label htmlFor='email'>Email:</label></td>
+                        </tr>
+                        <tr>
                             <td>
                                 <input id="email"
                                     type="text"
@@ -45,11 +77,12 @@ function LoginForm() {
                         </tr>
                         {errors.email &&
                         <tr>
-                            <td></td>
-                            <td><span>{errors.email}</span></td>
+                            <td><span className='error-message'>{errors.email}</span></td>
                         </tr>}
                         <tr>
                             <td><label htmlFor='password'>Password:</label></td>
+                        </tr>
+                        <tr>
                             <td>
                                 <input id="password"
                                     type="password"
@@ -60,11 +93,9 @@ function LoginForm() {
                         </tr>
                         {errors.password &&
                         <tr>
-                            <td></td>
-                            <td><span>{errors.password}</span></td>
+                            <td><span className='error-message'>{errors.password}</span></td>
                         </tr>}
                         <tr>
-                            <td></td>
                             <td><button type="submit">Login</button></td>
                         </tr>
                     </tbody>

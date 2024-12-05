@@ -5,8 +5,8 @@ import LoginForm from './components/LoginForm';
 function App() {
   return (
     <div className="App">
-      <h1>Forum Ingeniorum</h1>
-      <LoginForm />
+      {/*<h1>Forum Ingeniorum</h1>*/}
+      <LoginForm apiLoginEndpoint='http://127.0.0.1:5000/login'/>
       {/* <EndpointDataViewer baseURL="http://127.0.0.1:5000"/> */}
     </div>
   );
