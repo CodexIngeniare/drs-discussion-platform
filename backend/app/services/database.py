@@ -46,7 +46,7 @@ def get_all_registered_users():
         print(f"Greška: {str(e)}")
         return None
 
-def get_user_auth_data(email):
+def get_user_by_email(email):
     """ Dohvata podatke o korisniku na osnovu emaila """
     try:
         return RegisteredUser.query.filter_by(email=email).first()
@@ -71,7 +71,7 @@ def log_user_login(email):
         print(f"Greška: {str(e)}")
         return None
 
-def email_already_in_use(email):
+def is_email_registered(email):
     """
     Proverava da li je email već u upotrebi u tabeli registrovanih korisnika.
     :param email: Email adresa koja se proverava.
@@ -92,7 +92,7 @@ def register_new_user(email, form_data):
     """
     try:
         # Provera da li je email već u upotrebi
-        if email_already_in_use(email) == "yes":
+        if is_email_registered(email) == "yes":
             return None  # Email već postoji, korisnik se ne registruje
 
         # Kreiranje novog korisnika i dodavanje u bazu
@@ -118,7 +118,7 @@ def update_user_data(email, form_data):
     form_data je rečnik koji može sadržavati jedan ili više atributa korisnika.
     """
     try:
-        user = get_user_auth_data(email)  # Dohvata korisnika prema emailu
+        user = get_user_by_email(email)  # Dohvata korisnika prema emailu
         if not user:
             return None  # Ako korisnik nije pronađen, vraćamo None
 

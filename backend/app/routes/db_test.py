@@ -3,9 +3,9 @@ from app.services.database import (
     get_all_pending_users, 
     get_all_registered_users, 
     approve_user, 
-    get_user_auth_data, 
+    get_user_by_email, 
     log_user_login,
-    email_already_in_use,
+    is_email_registered,
     register_new_user,
     update_user_data  # Dodali smo novu funkciju
 )
@@ -95,7 +95,7 @@ def db_log_user_login(email):
 @db_bp.route('/db/email_in_use/<string:email>', methods=['GET'])
 def db_email_already_in_use(email):
     try:
-        result = email_already_in_use(email)
+        result = is_email_registered(email)
         return {"email_in_use": result}, 200
     except Exception as e:
         return {
@@ -133,7 +133,7 @@ def db_register_new_user(email):
 def db_get_user_data(email):
     try:
         # Pozivamo funkciju koja pretražuje registrovane korisnike po email-u
-        user = get_user_auth_data(email)
+        user = get_user_by_email(email)
         if user is None:
             return {"user_data": None}, 200
         
