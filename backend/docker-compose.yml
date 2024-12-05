@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0  # Koristi MySQL 8.0 ili drugu verziju
+    container_name: mysql-container-3
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: my-secret-pw  # Postavi root korisnikov password
+      MYSQL_DATABASE: docker_mysql_db    # Kreiraću bazu podataka pod ovim imenom
+    ports:
+      - "3307:3306"  # Host port 3307 -> Container port 3306
+    volumes:
+      - mysql_data:/var/lib/mysql  # Trajno skladištenje podataka baze
+      - ./mysql_config/my.cnf:/etc/mysql/my.cnf  # Prilagođena konfiguracija
+
+volumes:
+  mysql_data: {}
