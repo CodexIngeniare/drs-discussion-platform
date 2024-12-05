@@ -49,8 +49,15 @@ function LoginForm(props) {
                     //console.log(`token: ${token}`);
                 } else {
                     const errorData = await response.json();
+                    if(errorData.error_code === "EMAIL_NOT_REGISTERED")
+                    {
+                        setErrors({"email": "email is not registered."})
+                    }
+                    if(errorData.error_code === "INVALID_PASSWORD")
+                        {
+                            setErrors({"password": "incorrect password."})
+                        }
                     //console.log(errorData)
-                    setErrors({"email": errorData.email_error, "password": errorData.password_error})
                 }
             } catch (error) {
                 console.error('Error submitting form:', error);
