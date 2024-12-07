@@ -116,17 +116,23 @@ def register_new_user(email, form_data):
     Registruje novog korisnika na osnovu prosleđenog email-a i podataka (form_data).
     """
     try:
-        # Provera da li je email već u upotrebi
+
+       # Provera da li je email već u upotrebi
         if is_email_registered(email) == True:
             return None  # Email već postoji, korisnik se ne registruje
-
+       
         # Kreiranje novog korisnika i dodavanje u bazu
         new_user = PendingUser(
             first_name=form_data['first_name'],
             last_name=form_data['last_name'],
             email=email,
             username=form_data['username'],
-            password_hash=form_data['password_hash']  # Pretpostavljam da koristiš hashovanu lozinku
+            password_hash=form_data['password_hash'],  # Hashovana lozinka
+            phone_number=form_data.get('phone_number', None),  # Opcionalno polje
+            address=form_data.get('address', None),  # Opcionalno polje
+            city=form_data.get('city', None),  # Opcionalno polje
+            country=form_data.get('country', None)  # Opcionalno polje
+
         )
 
         db.session.add(new_user)
