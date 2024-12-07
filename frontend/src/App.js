@@ -1,14 +1,20 @@
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import LoginPage from './pages/LoginPage';
+import RegisterPage from './pages/RegisterPage';
+import DashboardPage from './pages/DashboardPage';
 import './styles/App.css';
-import LoginForm from './components/LoginForm';
-//import EndpointDataViewer from './components/EndpointDataViewer';
 
 function App() {
   return (
-    <div className="App">
-      {/*<h1>Forum Ingeniorum</h1>*/}
-      <LoginForm apiLoginEndpoint='http://127.0.0.1:5000/login'/>
-      {/* <EndpointDataViewer baseURL="http://127.0.0.1:5000"/> */}
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Navigate to="/login" />} />
+        <Route path='/login' element={<LoginPage/>} />
+        <Route path='/register' element={<RegisterPage/>} />
+        <Route path='/dashboard' element={<DashboardPage/>} />
+      </Routes>
+    </Router>
+    
   );
 }
 

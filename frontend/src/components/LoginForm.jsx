@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function LoginForm(props) {
+    const navigate = useNavigate();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [errors, setErrors] = useState({});
@@ -45,71 +47,62 @@ function LoginForm(props) {
     
                 if (response.ok) {
                     const responseData = await response.json();
-                    const token = responseData.token
-                    //console.log(`token: ${token}`);
+                    const token = responseData.token;
+                    sessionStorage.setItem("token", token);
+                    navigate("/dashboard");
                 } else {
                     const errorData = await response.json();
                     if(errorData.error_code === "EMAIL_NOT_REGISTERED")
                     {
-                        setErrors({"email": "email is not registered."})
+                        setErrors({"email": "email is not registered."});
                     }
                     if(errorData.error_code === "INVALID_PASSWORD")
                         {
-                            setErrors({"password": "incorrect password."})
+                            setErrors({"password": "incorrect password."});
                         }
-                    //console.log(errorData)
+                    console.log(errorData);
                 }
             } catch (error) {
                 console.error('Error submitting form:', error);
             }
         }
     };
+    const navigateToRegistration = () => {
+        navigate("/register");
+    };
 
     return (
         <div className="LoginForm">
             <form onSubmit={handleSubmit}>
-                <table>
-                    <tbody>
-                        <tr>
-                            <td><label htmlFor='email'>Email:</label></td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <input id="email"
-                                    type="text"
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
-                                />
-                            </td>
-                        </tr>
-                        {errors.email &&
-                        <tr>
-                            <td><span className='error-message'>{errors.email}</span></td>
-                        </tr>}
-                        <tr>
-                            <td><label htmlFor='password'>Password:</label></td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <input id="password"
-                                    type="password"
-                                    value={password}
-                                    onChange={(e) => setPassword(e.target.value)}
-                                />
-                            </td>
-                        </tr>
-                        {errors.password &&
-                        <tr>
-                            <td><span className='error-message'>{errors.password}</span></td>
-                        </tr>}
-                        <tr>
-                            <td><button type="submit">Login</button></td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div>
+                    <label htmlFor='email'>Email</label>
+                    <br />
+                    <input id="email"
+                        type="text"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        placeholder="enter your email address"
+                    />
+                    {errors.email && <div className='error-message'><span>{errors.email}</span></div>}
+                </div>
+                <div>
+                    <label htmlFor='password'>Password</label>
+                    <br />
+                    <input id="password"
+                        type="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        placeholder="enter your password"
+                    />
+                    {errors.password && <div className='error-message'><span>{errors.password}</span></div>}
+                </div>   
+                <div>
+                    <button type='button' onClick={navigateToRegistration}>Sign up</button>
+                    <button type="submit">Sign in</button>
+                </div>
             </form>
         </div>
-  );
+    );
 }
 
 export default LoginForm;
