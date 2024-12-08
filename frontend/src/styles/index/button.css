@@ -1,0 +1,14 @@
+@import './variables.css';
+
+button {
+    color: var(--text-color);
+    background-color: var(--primary-color);
+    border-color: var(--secondary-color);
+    border-radius: 7px;
+    padding: 10px;
+    height: auto;
+    outline: none;
+}
+button:hover {
+    background-color: var(--button-hover-color);
+}

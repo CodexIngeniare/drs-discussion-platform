@@ -1,0 +1,9 @@
+:root {
+    --primary-color: black;                 /* Main black color */
+    --secondary-color: white;               /* Accent white */
+    --background-color: #000008;            /* Background color */
+    --text-color: white;                    /* Text color */
+    --standout-color: #FFD700;               /* Golden */
+    --error-color: #F44336;                 /* Red for errors */
+    --button-hover-color: rgb(19, 19, 233); /* Button hover color */
+  }

@@ -1,0 +1,24 @@
+@import './variables.css';
+
+input{
+    color: var(--text-color);
+    background-color: var(--primary-color);
+    border-color: var(--secondary-color);
+    border-radius: 7px;
+    outline: var(--secondary-color);
+    height: auto;
+    padding: 5px;
+}
+input:focus {
+    border-color: rgb(73, 73, 255);
+}
+input:hover {
+    background-color: #111111; 
+}
+input:hover::placeholder {
+    color: rgb(194, 194, 194);
+}
+input::placeholder {
+    color: rgb(156, 156, 156);
+    font-style: italic;
+}

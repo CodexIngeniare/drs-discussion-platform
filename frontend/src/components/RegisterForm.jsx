@@ -102,6 +102,7 @@ function RegisterForm(props) {
 
         return false;
     };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -130,6 +131,7 @@ function RegisterForm(props) {
             if (response.status_code >= 200 && response.status_code < 300) {
                 const responseData = await response.json();
                 console.log(responseData);
+                navigate("/login");
             } else {
                 const errorData = await response.json();
                 if(errorData.email_error === "EMAIL_ALREADY_REGISTERED")
@@ -154,7 +156,7 @@ function RegisterForm(props) {
     };
     return (
         <div className='RegisterForm'>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} autoComplete="off">
                 <div>
                     <label htmlFor='email'>Email</label>
                     <label className="required-asterix">*</label>

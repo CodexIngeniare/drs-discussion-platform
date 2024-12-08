@@ -1,8 +1,11 @@
+import '../styles/DashboardPage.css';
 
 function DashboardPage() {
   return (
     <div className="DashboardPage">
-        <h1>Dashboard</h1>
+      <header className="header">Navbar</header>
+      <main className="main-content">Main Content</main>
+      <footer className="footer">Footer</footer>
     </div>
   );
 }

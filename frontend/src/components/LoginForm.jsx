@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import '../styles/login/LoginForm.css';
 
 function LoginForm(props) {
     const navigate = useNavigate();
@@ -77,28 +78,28 @@ function LoginForm(props) {
                 <div>
                     <label htmlFor='email'>Email</label>
                     <br />
-                    <input id="email"
-                        type="text"
+                    <input id='email'
+                        type='text'
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        placeholder="enter your email address"
+                        placeholder='enter your email address'
                     />
                     {errors.email && <div className='error-message'><span>{errors.email}</span></div>}
                 </div>
                 <div>
                     <label htmlFor='password'>Password</label>
                     <br />
-                    <input id="password"
-                        type="password"
+                    <input id='password'
+                        type='password'
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        placeholder="enter your password"
+                        placeholder='enter your password'
                     />
                     {errors.password && <div className='error-message'><span>{errors.password}</span></div>}
                 </div>   
-                <div>
+                <div className='button-container'>
                     <button type='button' onClick={navigateToRegistration}>Sign up</button>
-                    <button type="submit">Sign in</button>
+                    <button className='signIn' type='submit'>Sign in</button>
                 </div>
             </form>
         </div>

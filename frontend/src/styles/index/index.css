@@ -1,0 +1,12 @@
+@import './variables.css';
+@import './body.css';
+@import './input.css';
+@import './button.css';
+
+.error-message {
+    color: var(--error-color);
+    font-style: italic;
+}
+.required-asterix {
+    color: var(--standout-color);
+}
