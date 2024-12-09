@@ -73,16 +73,41 @@ def log_user_login(email):
 
 def is_email_registered(email):
     """
-    Proverava da li je email već u upotrebi u tabeli registrovanih korisnika.
+    Proverava da li je email već u upotrebi u tabeli odobrenih i neodobrenih korisnika.
     :param email: Email adresa koja se proverava.
-    :return: "yes" ako je email već u upotrebi, "no" u suprotnom.
+
+    :return: True ako je email već u upotrebi, False u suprotnom.
     """
     try:
-        existing_user = RegisteredUser.query.filter_by(email=email).first()
-        return "yes" if existing_user else "no"
+        reg_user_with_email = RegisteredUser.query.filter_by(email=email).first()
+        if reg_user_with_email is None:
+            pen_user_with_email = PendingUser.query.filter_by(email=email).first()
+            if pen_user_with_email is None:
+                return False
+        
+        return True
     except SQLAlchemyError as e:
         print(f"Greška: {str(e)}")
-        return "no"
+        return True
+    
+def is_username_registered(username):
+    """
+    Proverava da li je username već u upotrebi u tabeli odobrenih i neodobrenih korisnika.
+    :param username: Korisnicko ime koja se proverava.
+
+    :return: True ako je username već u upotrebi, False u suprotnom.
+    """
+    try:
+        reg_user_with_username = RegisteredUser.query.filter_by(username=username).first()
+        if reg_user_with_username is None:
+            pen_user_with_username = PendingUser.query.filter_by(username=username).first()
+            if pen_user_with_username is None:
+                return False
+        
+        return True
+    except SQLAlchemyError as e:
+        print(f"Greška: {str(e)}")
+        return True
     
 
 # Funkcija za registraciju novog korisnika
@@ -92,7 +117,7 @@ def register_new_user(email, form_data):
     """
     try:
         # Provera da li je email već u upotrebi
-        if is_email_registered(email) == "yes":
+        if is_email_registered(email) == True:
             return None  # Email već postoji, korisnik se ne registruje
 
         # Kreiranje novog korisnika i dodavanje u bazu
