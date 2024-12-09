@@ -1,5 +1,6 @@
 from flask import Blueprint, request
 from app.services.database import (
+    get_admin_emails,
     get_all_pending_users, 
     get_all_registered_users, 
     approve_user, 
@@ -185,3 +186,21 @@ def db_update_user_data(email):
             "message": str(e)
         }, 500
     
+
+    # Dohvatanje svih email-ova admina
+@db_bp.route('/db/get_all_admin_emails', methods=['GET'])
+def db_get_all_admin_emails():
+    try:
+        # Pozivamo funkciju koja vraća sve email adrese admina
+        admin_emails = get_admin_emails()
+        
+        if not admin_emails:
+            raise Exception("Došlo je do greške prilikom dohvatanja email adresa admina.")
+
+        # Vraćamo listu email adresa
+        return {"admin_emails": admin_emails}, 200
+    except Exception as e:
+        return {
+            "status": "error",
+            "message": str(e)
+        }, 500

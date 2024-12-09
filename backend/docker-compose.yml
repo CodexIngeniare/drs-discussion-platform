@@ -1,6 +1,7 @@
 version: '3.8'
 
 services:
+  # MySQL baza podataka
   mysql:
     image: mysql:8.0  # Koristi MySQL 8.0 ili drugu verziju
     container_name: mysql-container-3
@@ -13,6 +14,51 @@ services:
     volumes:
       - mysql_data:/var/lib/mysql  # Trajno skladištenje podataka baze
       - ./mysql_config/my.cnf:/etc/mysql/my.cnf  # Prilagođena konfiguracija
+    networks:
+      - app_network
+
+  # Backend aplikacija
+  backend:
+    build:
+      context: .  # Putanja do direktorijuma sa Dockerfile za backend
+      dockerfile: Dockerfile
+    container_name: backend
+    ports:
+      - "5000:5000"  # Port 5000 za backend
+    environment:
+      - FLASK_APP=run.py
+      - FLASK_ENV=development
+      - MYSQL_HOST=mysql  # Host za bazu podataka (servis 'mysql')
+      - MYSQL_USER=root  # Korisničko ime za bazu (root)
+      - MYSQL_PASSWORD=my-secret-pw  # Lozinka za bazu
+      - MYSQL_DB=docker_mysql_db  # Naziv baze podataka
+    volumes:
+      - ./backend:/app  # Montiranje backend koda u kontejner
+      - ./backend/uploads:/app/uploads  # Montiranje direktorijuma za upload fajlove
+    networks:
+      - app_network
+    depends_on:
+      - mysql  # Backend zavisi od MySQL baze
+    command: flask run --host=0.0.0.0 --port=5000 --app=run.py  # Prilagođena komanda za pokretanje Flask aplikacije
+
+  # Frontend aplikacija
+  frontend:
+    build:
+      context: ../frontend  # Putanja do direktorijuma sa Dockerfile za frontend
+      dockerfile: Dockerfile
+    container_name: frontend
+    ports:
+      - "3000:3000"  # Port 3000 za frontend
+    environment:
+      - REACT_APP_BACKEND_URL=http://backend:5000  # Povezivanje sa backendom
+    networks:
+      - app_network
+    depends_on:
+      - backend  # Frontend zavisi od backenda
 
 volumes:
-  mysql_data: {}
+  mysql_data: {}  # Volumen za čuvanje podataka MySQL baze
+
+networks:
+  app_network:
+    driver: bridge  # Mreža za komunikaciju između servisa
