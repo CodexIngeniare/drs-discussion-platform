@@ -4,9 +4,11 @@ from werkzeug.security import check_password_hash
 from threading import Thread
 from flask import jsonify
 import uuid
+from . import active_sessions
+from app.services.database import log_user_login, get_user_by_email
 
 # Dictionary to manage sessions
-active_sessions = {}
+
 
 def notify_admin(user):
     """
@@ -24,12 +26,12 @@ def login_user(email, password):
     - Notifies admin for the first login
     """
     try:
-        user = RegisteredUser.query.filter_by(email=email).first()
+        user = get_user_by_email(email)
         if not user:
-            return jsonify({"error_code": "EMAIL_NOT_REGISTERED", "message": "Email is not registered."}), 400
+            return jsonify({"error_code": "EMAIL_NOT_REGISTERED", "message": "Email is not registered."}), 404
 
         if not check_password_hash(user.password_hash, password):
-            return jsonify({"error_code": "INVALID_PASSWORD", "message": "Incorrect password."}), 400
+            return jsonify({"error_code": "INVALID_PASSWORD", "message": "Incorrect password."}), 401
 
         # Create token and store session
         token = str(uuid.uuid4())
@@ -43,9 +45,7 @@ def login_user(email, password):
             thread = Thread(target=notify_admin, args=(user,))
             thread.start()
 
-        # Update last login
-        user.last_logged_in = db.func.current_timestamp()
-        db.session.commit()
+        log_user_login(email)
 
         return jsonify({"token": token}), 200
 
