@@ -1,12 +1,52 @@
-@import './variables.css';
-@import './body.css';
-@import './input.css';
-@import './button.css';
+@import './global_variables.css';
+@import './global_custom.css';
 
-.error-message {
-    color: var(--error-color);
-    font-style: italic;
+body{
+    font-family: var(--font-primary);
+    height: 100vh;
+    width: 100vw;
+    margin: 0%;
+    padding: 0%;
+    color: var(--text-clr);
+    background-color: var(--background-clr);
 }
-.required-asterix {
-    color: var(--standout-color);
+button {
+    font-family: var(--font-primary);
+    color: var(--text-clr);
+    background-color: var(--primary-clr);
+    border-color: var(--border-clr);
+    border-radius: 7px;
+    border-style: solid;
+    padding: 10px;
+    height: auto;
+    outline: none;
 }
+    button:hover {
+        background-color: var(--hover-info-clr);
+    }
+hr{
+    color: var(--border-clr);
+}
+input{
+    font-family: var(--font-primary);
+    color: var(--text-clr);
+    background-color: var(--primary-clr);
+    border-color: var(--border-color);
+    border-radius: 7px;
+    border-style: solid;
+    outline: var(--border-clr);
+    padding: 10px;
+}
+    input:focus {
+        border-color: var(--info-clr);
+    }
+    input:hover {
+        background-color: #111111; 
+    }
+        input:hover::placeholder {
+            color: rgb(194, 194, 194);
+        }
+    input::placeholder {
+        color: rgb(156, 156, 156);
+        font-style: italic;
+    }

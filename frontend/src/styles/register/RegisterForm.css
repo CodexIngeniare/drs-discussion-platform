@@ -1,0 +1,50 @@
+@import '../index/global_variables.css';
+
+.RegisterForm{
+    padding: 20px 70px 0px 70px;
+    border-right: solid;
+    background-color: var(--secondary-clr);
+}
+    .RegisterForm label{
+        font-size: 20px;
+    }
+    .RegisterForm input{
+        font-size: 16px;
+        padding: 10px;
+        width: 400px;
+    }
+    .RegisterForm button{
+        font-size: 18px;
+        width: 100px;
+}
+.error-message{
+    font-size: 14px;
+}
+.form-container{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+.button-container{
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+.button-container button {
+    flex: 1;
+    text-align: center;
+}
+.password-container{
+    width: 100%;
+}
+    .password-container input {
+        width: 330px;
+        border-top-right-radius: 0px;
+        border-bottom-right-radius: 0px;
+    }
+    .password-container .toggle-password {
+        font-size: 16px;
+        width: 70px;
+        border-top-left-radius: 0px;
+        border-bottom-left-radius: 0px;
+    }

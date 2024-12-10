@@ -1,0 +1,14 @@
+:root {
+    --font-primary: 'Courier New', Courier, monospace;
+    --background-clr: rgb(0, 0, 10); 
+    --primary-clr: black;
+    --secondary-clr: rgb(10, 10, 20);
+    --border-clr: white;
+    --text-clr: white;
+    --info-clr: rgb(50, 50, 168);
+    --success-clr: rgb(22, 75, 15);
+    --warning-clr: rgb(255, 215, 0);
+    --caution-clr: rgb(255, 0, 0);
+    --hover-info-clr: rgb(29, 29, 168);
+    --hover-success-clr: rgb(47, 124, 37);
+  } 

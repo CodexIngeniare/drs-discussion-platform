@@ -4,6 +4,7 @@ import '../styles/login/LoginForm.css';
 
 function LoginForm(props) {
     const navigate = useNavigate();
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [errors, setErrors] = useState({});
@@ -35,37 +36,46 @@ function LoginForm(props) {
     };
     const handleSubmit = async (e) => {
         e.preventDefault();
+        
+        if (isSubmitting){
+            return;
+        }
+        setIsSubmitting(true);
 
-        if (validateForm()) {
-            try {
-                const response = await fetch(props.apiLoginEndpoint, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ email, password }),
-                });
-    
-                if (response.ok) {
+        if (!validateForm()) {
+            setIsSubmitting(false);
+            return;
+        }
+        try {
+            const response = await fetch(props.apiLoginEndpoint, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, password }),
+            });
+
+            if (response.ok) {
                     const responseData = await response.json();
                     const token = responseData.token;
                     sessionStorage.setItem("token", token);
                     navigate("/dashboard");
-                } else {
-                    const errorData = await response.json();
-                    if(errorData.error_code === "EMAIL_NOT_REGISTERED")
-                    {
-                        setErrors({"email": "email is not registered."});
-                    }
-                    if(errorData.error_code === "INVALID_PASSWORD")
-                        {
-                            setErrors({"password": "incorrect password."});
-                        }
-                    console.log(errorData);
+            } else {
+                const errorData = await response.json();
+                if(errorData.error_code === "EMAIL_NOT_REGISTERED")
+                {
+                    setErrors({"email": "email is not registered."});
                 }
-            } catch (error) {
-                console.error('Error submitting form:', error);
+                if(errorData.error_code === "INVALID_PASSWORD")
+                    {
+                        setErrors({"password": "incorrect password."});
+                    }
+                console.log(errorData);
             }
+        } catch (error) {
+            console.error('Error submitting form:', error);
+        } finally {
+            setIsSubmitting(false);
         }
     };
     const navigateToRegistration = () => {
@@ -74,7 +84,7 @@ function LoginForm(props) {
 
     return (
         <div className="LoginForm">
-            <form onSubmit={handleSubmit}>
+            <form className='form-container' onSubmit={handleSubmit}>
                 <div>
                     <label htmlFor='email'>Email</label>
                     <br />
@@ -99,7 +109,9 @@ function LoginForm(props) {
                 </div>   
                 <div className='button-container'>
                     <button type='button' onClick={navigateToRegistration}>Sign up</button>
-                    <button className='signIn' type='submit'>Sign in</button>
+                    <button className='success-btn' type='submit' disabled={isSubmitting}>
+                        {isSubmitting ? 'Signing in...' : 'Sign in'}
+                    </button>
                 </div>
             </form>
         </div>

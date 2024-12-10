@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import '../styles/register/RegisterForm.css';
 
 function RegisterForm(props) {
     const navigate = useNavigate();
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const [errors, setErrors] = useState({});
 
@@ -27,8 +29,12 @@ function RegisterForm(props) {
         // email max length?
     };
     const validateUsername = (newErrors) => {
+        const maxLength = 50;
+
         if (!username) {
             newErrors.username = "username is required.";
+        } else if(username.length >= maxLength){
+            newErrors.username = "username length exceeded.";
         }
         // username min/max length?
         // username allowed characters?
@@ -66,6 +72,7 @@ function RegisterForm(props) {
     };
     const validatePhoneNumber = (newErrors) => {
         const phoneRegex = /^(?:\+?(\d{1,3}))?[-.\s]?(?:\(?(\d{1,4})\)?[-.\s]?)(\d{1,4})[-.\s]?(\d{1,4})$/;
+
         if(phoneNumber === "")
             return;
 
@@ -74,13 +81,27 @@ function RegisterForm(props) {
         }
     };
     const validateCountry = (newErrors) => {
+        const maxLength = 100;
+
         if(country === "kosovo" || country === "Kosovo"){
             newErrors.country = "Kosovo is Serbia.";
+        } else if(country.length >= maxLength){
+            newErrors.country = "country length exceeded.";
         }
     };
     const validateCity = (newErrors) => {
+        const maxLength = 100;
+
+        if(city.length >= maxLength){
+            newErrors.city = "city length exceeded.";
+        }
     };
     const validateAddress = (newErrors) => {
+        const maxLength = 255;
+
+        if(address.length >= maxLength){
+            newErrors.address = "address length exceeded.";
+        }
     };
     const validateForm = () => {
         const newErrors = {};
@@ -106,8 +127,15 @@ function RegisterForm(props) {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if(!validateForm())
+        if(isSubmitting){
             return;
+        }
+        setIsSubmitting(true);
+
+        if(!validateForm()){
+            setIsSubmitting(false);
+            return;
+        }
 
         try {
             const response = await fetch(props.apiRegisterEndpoint, {
@@ -128,7 +156,7 @@ function RegisterForm(props) {
                 }),
             });
 
-            if (response.status_code >= 200 && response.status_code < 300) {
+            if (response.status >= 200 && response.status < 300) {
                 const responseData = await response.json();
                 console.log(responseData);
                 navigate("/login");
@@ -146,6 +174,8 @@ function RegisterForm(props) {
             }
         } catch (error) {
             console.error('Error submitting form:', error);
+        } finally {
+            setIsSubmitting(false);
         }
     };
     const togglePasswordVisibility = () => {
@@ -156,7 +186,7 @@ function RegisterForm(props) {
     };
     return (
         <div className='RegisterForm'>
-            <form onSubmit={handleSubmit} autoComplete="off">
+            <form className='form-container' onSubmit={handleSubmit} autoComplete="off">
                 <div>
                     <label htmlFor='email'>Email</label>
                     <label className="required-asterix">*</label>
@@ -185,15 +215,17 @@ function RegisterForm(props) {
                     <label htmlFor='password'>Password</label>
                     <label className="required-asterix">*</label>
                     <br />
-                    <input id="password"
-                        type={showPassword ? 'text' : 'password'}
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        placeholder="enter strong password"
-                    />
-                    <button type="button" onClick={togglePasswordVisibility}>
-                        {showPassword ? 'Hide' : 'Show'}
-                    </button>
+                    <div className='password-container'>
+                        <input id="password"
+                            type={showPassword ? 'text' : 'password'}
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            placeholder="enter strong password"
+                        />
+                        <button className='toggle-password' type="button" onClick={togglePasswordVisibility}>
+                            {showPassword ? 'Hide' : 'Show'}
+                        </button>   
+                    </div>
                     {errors.password && <div className='error-message'><span>{errors.password}</span></div>}
                 </div>
                 <div>
@@ -219,6 +251,9 @@ function RegisterForm(props) {
                         placeholder="enter your lastname"
                     />
                     {errors.lastName && <div className='error-message'><span>{errors.lastName}</span></div>}
+                </div>
+                <div>
+                    <hr />
                 </div>
                 <div>
                     <label htmlFor='phoneNumber'>Phone number</label>
@@ -264,9 +299,11 @@ function RegisterForm(props) {
                     />
                     {errors.address && <div className='error-message'><span>{errors.address}</span></div>}
                 </div> 
-                <div>
+                <div className='button-container'>
                     <button type='button' onClick={navigateToLogin}>Sign in</button>
-                    <button type='submit'>Sign up</button>
+                    <button className='success-btn' type='submit' disabled={isSubmitting}>
+                        {isSubmitting ? 'Signing up...' : 'Sign up'}
+                    </button>
                 </div>
             </form>
         </div>

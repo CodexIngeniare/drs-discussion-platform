@@ -1,36 +1,30 @@
-@import '../index/variables.css';
+@import '../index/global_variables.css';
 
-.LoginForm div{
-    padding: 5px;
-    margin-bottom: 5px;
-}
-.LoginForm label{
-    font-size: 22px;
-}
-.LoginForm input{
-    font-size: 18px;
-    padding: 7px;
-    width: 300px;
-}
-.LoginForm button{
-    font-size: 20px;
-}
+    .LoginForm label{
+        font-size: 24px;
+    }
+    .LoginForm input{
+        font-size: 18px;
+        width: 400px;
+    }
+    .LoginForm button{
+        font-size: 20px;
+    }
 .error-message{
     font-size: 14px;
-    margin: 0px;
-    padding: 0px;
+}
+.form-container{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;  /* Space between form elements */
 }
 .button-container{
     display: flex;
     justify-content: space-between;
+    margin-top: 10px;
     gap: 20px;
 }
-.button-container button {
-    flex: 1;
-    text-align: center;
-}
-.signIn{
-    border-width: 3px;
-    font-weight: bold;
-    background-color: rgb(29, 10, 134);
-}
+    .button-container button {
+        flex: 1;
+        text-align: center;
+    }
