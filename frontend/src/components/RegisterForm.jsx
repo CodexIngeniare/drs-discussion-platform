@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import '../styles/register/RegisterForm.css';
 
 function RegisterForm(props) {
     const navigate = useNavigate();
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const [errors, setErrors] = useState({});
 
@@ -10,9 +12,9 @@ function RegisterForm(props) {
     const [email, setEmail] = useState("");
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const [firstName, setFirstName] = useState("");
-    const [lastName, setLastName] = useState("");
-    const [phoneNumber, setPhoneNumber] = useState("");
+    const [first_name, setFirstName] = useState("");
+    const [last_name, setLastName] = useState("");
+    const [phone_number, setPhoneNumber] = useState("");
     const [country, setCountry] = useState("");
     const [city, setCity] = useState("");
     const [address, setAddress] = useState("");
@@ -20,22 +22,26 @@ function RegisterForm(props) {
     // form data validation functions
     const validateEmail = (newErrors) => {
         if (!email) {
-            newErrors.email = "email is required.";
+            newErrors.email = "Email is required.";
         } else if (!/\S+@\S+\.\S+/.test(email)) {
-            newErrors.email = "please enter a valid email.";
+            newErrors.email = "Please enter a valid email.";
         }
         // email max length?
     };
     const validateUsername = (newErrors) => {
+        const maxLength = 50;
+
         if (!username) {
-            newErrors.username = "username is required.";
+            newErrors.username = "Username is required.";
+        } else if(username.length >= maxLength){
+            newErrors.username = "Username length exceeded.";
         }
         // username min/max length?
         // username allowed characters?
     };
     const validatePassword = (newErrors) => {
         if (!password) {
-            newErrors.password = "password is required.";
+            newErrors.password = "Password is required.";
         }
         // password min/max length?
         // password must contain specific characters?
@@ -44,43 +50,58 @@ function RegisterForm(props) {
         const nameRegex = /^[A-Za-z]+$/;
         const maxLength = 100;
 
-        if(!firstName){
-            newErrors.firstName = "firstname is required.";
-        } else if(!nameRegex.test(firstName)){
-            newErrors.firstName = "name can contain only letters.";
-        } else if(firstName.length >= maxLength){
-            newErrors.firstName = "name length exceeded.";
+        if(!first_name){
+            newErrors.first_name = "First name is required.";
+        } else if(!nameRegex.test(first_name)){
+            newErrors.first_name = "First name can contain only letters.";
+        } else if(first_name.length >= maxLength){
+            newErrors.first_name = "First name length exceeded.";
         }
     };
     const validateLastName = (newErrors) => {
         const nameRegex = /^[A-Za-z]+$/;
         const maxLength = 100;
 
-        if(!lastName){
-            newErrors.lastName = "lastname is required.";
-        } else if(!nameRegex.test(lastName)){
-            newErrors.lastName = "lastname can contain only letters.";
-        } else if(lastName.length >= maxLength){
-            newErrors.lastName = "lastname length exceeded.";
+        if(!last_name){
+            newErrors.last_name = "Last name is required.";
+        } else if(!nameRegex.test(last_name)){
+            newErrors.last_name = "Last name can contain only letters.";
+        } else if(last_name.length >= maxLength){
+            newErrors.last_name = "Last name length exceeded.";
         }
     };
     const validatePhoneNumber = (newErrors) => {
         const phoneRegex = /^(?:\+?(\d{1,3}))?[-.\s]?(?:\(?(\d{1,4})\)?[-.\s]?)(\d{1,4})[-.\s]?(\d{1,4})$/;
-        if(phoneNumber === "")
+
+        if(phone_number === "")
             return;
 
-        if(!phoneRegex.test(phoneNumber)){
-            newErrors.phoneNumber = "phone number of wrong format";
+        if(!phoneRegex.test(phone_number)){
+            newErrors.phone_number = "Phone number of wrong format";
         }
     };
     const validateCountry = (newErrors) => {
+        const maxLength = 100;
+
         if(country === "kosovo" || country === "Kosovo"){
             newErrors.country = "Kosovo is Serbia.";
+        } else if(country.length >= maxLength){
+            newErrors.country = "Country input length exceeded.";
         }
     };
     const validateCity = (newErrors) => {
+        const maxLength = 100;
+
+        if(city.length >= maxLength){
+            newErrors.city = "City input length exceeded.";
+        }
     };
     const validateAddress = (newErrors) => {
+        const maxLength = 255;
+
+        if(address.length >= maxLength){
+            newErrors.address = "Address input length exceeded.";
+        }
     };
     const validateForm = () => {
         const newErrors = {};
@@ -102,11 +123,19 @@ function RegisterForm(props) {
 
         return false;
     };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if(!validateForm())
+        if(isSubmitting){
             return;
+        }
+        setIsSubmitting(true);
+
+        if(!validateForm()){
+            setIsSubmitting(false);
+            return;
+        }
 
         try {
             const response = await fetch(props.apiRegisterEndpoint, {
@@ -118,18 +147,19 @@ function RegisterForm(props) {
                     email,
                     password,
                     username,
-                    firstName,
-                    lastName,
-                    phoneNumber,
+                    first_name,
+                    last_name,
+                    phone_number,
                     country,
                     city,
                     address
                 }),
             });
 
-            if (response.status_code >= 200 && response.status_code < 300) {
+            if (response.status >= 200 && response.status < 300) {
                 const responseData = await response.json();
                 console.log(responseData);
+                navigate("/login");
             } else {
                 const errorData = await response.json();
                 if(errorData.email_error === "EMAIL_ALREADY_REGISTERED")
@@ -144,6 +174,8 @@ function RegisterForm(props) {
             }
         } catch (error) {
             console.error('Error submitting form:', error);
+        } finally {
+            setIsSubmitting(false);
         }
     };
     const togglePasswordVisibility = () => {
@@ -154,7 +186,7 @@ function RegisterForm(props) {
     };
     return (
         <div className='RegisterForm'>
-            <form onSubmit={handleSubmit}>
+            <form className='register-form-container' onSubmit={handleSubmit} autoComplete="off">
                 <div>
                     <label htmlFor='email'>Email</label>
                     <label className="required-asterix">*</label>
@@ -183,15 +215,17 @@ function RegisterForm(props) {
                     <label htmlFor='password'>Password</label>
                     <label className="required-asterix">*</label>
                     <br />
-                    <input id="password"
-                        type={showPassword ? 'text' : 'password'}
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        placeholder="enter strong password"
-                    />
-                    <button type="button" onClick={togglePasswordVisibility}>
-                        {showPassword ? 'Hide' : 'Show'}
-                    </button>
+                    <div className='register-password-container'>
+                        <input id="password"
+                            type={showPassword ? 'text' : 'password'}
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            placeholder="enter strong password"
+                        />
+                        <button className='register-toggle-password' type="button" onClick={togglePasswordVisibility}>
+                            {showPassword ? 'Hide' : 'Show'}
+                        </button>   
+                    </div>
                     {errors.password && <div className='error-message'><span>{errors.password}</span></div>}
                 </div>
                 <div>
@@ -200,11 +234,11 @@ function RegisterForm(props) {
                     <br />
                     <input id="firstName"
                         type="text"
-                        value={firstName}
+                        value={first_name}
                         onChange={(e) => setFirstName(e.target.value)}
-                        placeholder="enter your firstname"
+                        placeholder="enter your name"
                     />
-                    {errors.firstName && <div className='error-message'><span>{errors.firstName}</span></div>}
+                    {errors.first_name && <div className='error-message'><span>{errors.first_name}</span></div>}
                 </div>
                 <div>
                     <label htmlFor='lastName'>Last name</label>
@@ -212,22 +246,25 @@ function RegisterForm(props) {
                     <br />
                     <input id="lastName"
                         type="text"
-                        value={lastName}
+                        value={last_name}
                         onChange={(e) => setLastName(e.target.value)}
                         placeholder="enter your lastname"
                     />
-                    {errors.lastName && <div className='error-message'><span>{errors.lastName}</span></div>}
+                    {errors.last_name && <div className='error-message'><span>{errors.last_name}</span></div>}
+                </div>
+                <div>
+                    <hr />
                 </div>
                 <div>
                     <label htmlFor='phoneNumber'>Phone number</label>
                     <br />
                     <input id="phoneNumber"
                         type="text"
-                        value={phoneNumber}
+                        value={phone_number}
                         onChange={(e) => setPhoneNumber(e.target.value)}
                         placeholder="enter your phone number"
                     />
-                    {errors.phoneNumber && <div className='error-message'><span>{errors.phoneNumber}</span></div>}
+                    {errors.phone_number && <div className='error-message'><span>{errors.phone_number}</span></div>}
                 </div>
                 <div>
                     <label htmlFor='country'>Country</label>
@@ -263,8 +300,13 @@ function RegisterForm(props) {
                     {errors.address && <div className='error-message'><span>{errors.address}</span></div>}
                 </div> 
                 <div>
+                    <hr />
+                </div>
+                <div className='button-container'>
                     <button type='button' onClick={navigateToLogin}>Sign in</button>
-                    <button type='submit'>Sign up</button>
+                    <button className='success-btn' type='submit' disabled={isSubmitting}>
+                        {isSubmitting ? 'Signing up...' : 'Sign up'}
+                    </button>
                 </div>
             </form>
         </div>

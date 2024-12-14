@@ -1,0 +1,52 @@
+@import './global_variables.css';
+@import './global_custom.css';
+
+body{
+    font-family: var(--font-primary);
+    width: 100vw;
+    margin: 0%;
+    padding: 0%;
+    color: var(--text-clr);
+    background-color: var(--background-clr);
+}
+button {
+    font-family: var(--font-primary);
+    color: var(--text-clr);
+    background-color: var(--primary-clr);
+    border-color: var(--border-clr);
+    border-radius: 7px;
+    border-style: solid;
+    padding: 10px;
+    height: auto;
+    outline: none;
+    cursor: pointer;
+}
+    button:hover {
+        background-color: var(--hover-info-clr);
+    }
+hr{
+    color: var(--border-clr);
+}
+input{
+    font-family: var(--font-primary);
+    color: var(--text-clr);
+    background-color: var(--primary-clr);
+    border-color: var(--border-color);
+    border-radius: 7px;
+    border-style: solid;
+    outline: var(--border-clr);
+    padding: 10px;
+}
+    input:focus {
+        border-color: var(--info-clr);
+    }
+    input:hover {
+        background-color: #111111; 
+    }
+        input:hover::placeholder {
+            color: rgb(194, 194, 194);
+        }
+    input::placeholder {
+        color: rgb(156, 156, 156);
+        font-style: italic;
+    }

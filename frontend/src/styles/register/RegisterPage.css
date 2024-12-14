@@ -1,0 +1,43 @@
+@import '../index/global_variables.css';
+
+.RegisterPage{
+    width: 100vw;
+    height: 100vh;
+    display: grid;
+    grid-template-columns: auto 1fr;
+}
+.RegisterForm{
+    grid-area: 1 / 1 / 2 / 2;
+}
+
+.register-poster-container{
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+    align-items: center; /* Center items horizontally */
+    justify-content: center; /* Center items vertically */
+    height: 100vh; /* Adjust as needed */
+    text-align: center; /* Center text inside h1 */
+}
+    .register-poster-container img{
+        width: 350px;
+        animation: fadeIn 20s ease-in-out;
+    }
+    .register-poster-container h1{
+        opacity: 0;
+        animation: fadeIn 15s ease-in-out 7s forwards;
+        font-size: 64px;
+        font-family: var(--font-primary);
+        color: var(--text-clr);
+    }
+    .register-poster-container .you{
+        color: var(--warning-clr);
+    }
+
+@keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }

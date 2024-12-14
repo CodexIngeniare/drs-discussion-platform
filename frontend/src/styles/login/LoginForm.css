@@ -1,0 +1,45 @@
+@import '../index/global_variables.css';
+
+    .LoginForm label{
+        font-size: 24px;
+    }
+    .LoginForm input{
+        font-size: 18px;
+        width: 400px;
+    }
+    .LoginForm button{
+        font-size: 20px;
+    }
+.error-message{
+    font-size: 16px;
+}
+.login-form-container{
+    display: flex;
+    flex-direction: column;
+    gap: 20px; 
+}
+.button-container{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    gap: 20px;
+}
+    .button-container button {
+        flex: 1;
+        text-align: center;
+    }
+.login-password-container{
+    width: 100%;
+}
+    .login-password-container input {   
+        width: 330px;
+        border-top-right-radius: 0px;
+        border-bottom-right-radius: 0px;
+    }
+    .login-password-container .login-toggle-password {
+            
+        width: 70px;
+        font-size: 18px;
+        border-top-left-radius: 0px;
+        border-bottom-left-radius: 0px;
+    }
