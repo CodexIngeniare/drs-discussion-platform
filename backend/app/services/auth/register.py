@@ -1,5 +1,5 @@
 from app.services.database import is_email_registered, is_username_registered, register_new_user
-from werkzeug.security import generate_password_hash
+from app.services.auth.password_hasher import PasswordHasher
 from flask import jsonify
 
 
@@ -40,7 +40,7 @@ def register_user(form_data):
             "last_name": form_data["last_name"].strip(),
             "email": form_data["email"].strip(),
             "username": form_data["username"].strip(),
-            "password_hash": generate_password_hash(form_data['password'], method='pbkdf2:sha256'),  # Hesiraj lozinku
+            "password_hash": PasswordHasher.hash_password(form_data['password']),  # Hesiraj lozinku
             "phone_number": form_data.get("phone_number", "").strip(),
             "address": form_data.get("address", "").strip(),
             "city": form_data.get("city", "").strip(),

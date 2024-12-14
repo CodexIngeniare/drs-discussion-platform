@@ -1,6 +1,6 @@
 from app import db
 from app.models import RegisteredUser
-from werkzeug.security import check_password_hash
+from app.services.auth.password_hasher import PasswordHasher
 from threading import Thread
 from flask import jsonify
 import uuid
@@ -30,7 +30,7 @@ def login_user(email, password):
         if not user:
             return jsonify({"error_code": "EMAIL_NOT_REGISTERED", "message": "Email is not registered."}), 404
 
-        if not check_password_hash(user.password_hash, password):
+        if not PasswordHasher.verify_password(user.password_hash, password):
             return jsonify({"error_code": "INVALID_PASSWORD", "message": "Incorrect password."}), 401
 
         # Create token and store session
