@@ -11,12 +11,12 @@
         font-size: 20px;
     }
 .error-message{
-    font-size: 14px;
+    font-size: 16px;
 }
-.form-container{
+.login-form-container{
     display: flex;
     flex-direction: column;
-    gap: 20px;  /* Space between form elements */
+    gap: 20px; 
 }
 .button-container{
     display: flex;
@@ -27,4 +27,19 @@
     .button-container button {
         flex: 1;
         text-align: center;
+    }
+.login-password-container{
+    width: 100%;
+}
+    .login-password-container input {   
+        width: 330px;
+        border-top-right-radius: 0px;
+        border-bottom-right-radius: 0px;
+    }
+    .login-password-container .login-toggle-password {
+            
+        width: 70px;
+        font-size: 18px;
+        border-top-left-radius: 0px;
+        border-bottom-left-radius: 0px;
     }

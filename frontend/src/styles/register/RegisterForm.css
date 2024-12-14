@@ -16,14 +16,17 @@
     .RegisterForm button{
         font-size: 18px;
         width: 100px;
-}
+    }
+    .RegisterForm hr{
+        margin: 15px 0px;
+    }
 .error-message{
-    font-size: 14px;
+    font-size: 16px;
 }
-.form-container{
+.register-form-container{
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: 10px;
 }
 .button-container{
     display: flex;
@@ -34,17 +37,17 @@
     flex: 1;
     text-align: center;
 }
-.password-container{
+.register-password-container{
     width: 100%;
 }
-    .password-container input {
+    .register-password-container input {
         width: 330px;
         border-top-right-radius: 0px;
         border-bottom-right-radius: 0px;
     }
-    .password-container .toggle-password {
-        font-size: 16px;
+    .register-password-container .register-toggle-password {
         width: 70px;
+        font-size: 16px;
         border-top-left-radius: 0px;
         border-bottom-left-radius: 0px;
     }

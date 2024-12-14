@@ -5,9 +5,11 @@ import '../styles/login/LoginForm.css';
 function LoginForm(props) {
     const navigate = useNavigate();
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
+    const [errors, setErrors] = useState({});
+
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [errors, setErrors] = useState({});
 
     const validateEmail = (newErrors) => {
         if (!email) {
@@ -81,10 +83,13 @@ function LoginForm(props) {
     const navigateToRegistration = () => {
         navigate("/register");
     };
+    const togglePasswordVisibility = () => {
+        setShowPassword(!showPassword);
+    };
 
     return (
         <div className="LoginForm">
-            <form className='form-container' onSubmit={handleSubmit}>
+            <form className='login-form-container' onSubmit={handleSubmit}>
                 <div>
                     <label htmlFor='email'>Email</label>
                     <br />
@@ -99,12 +104,17 @@ function LoginForm(props) {
                 <div>
                     <label htmlFor='password'>Password</label>
                     <br />
-                    <input id='password'
-                        type='password'
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        placeholder='enter your password'
-                    />
+                    <div className='login-password-container'>
+                        <input id='password'
+                            type={showPassword ? 'text' : 'password'}
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            placeholder='enter your password'
+                        />
+                        <button className='login-toggle-password' type="button" onClick={togglePasswordVisibility}>
+                            {showPassword ? 'Hide' : 'Show'}
+                        </button>
+                    </div>
                     {errors.password && <div className='error-message'><span>{errors.password}</span></div>}
                 </div>   
                 <div className='button-container'>
