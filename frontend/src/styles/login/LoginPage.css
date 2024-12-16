@@ -9,6 +9,7 @@
 }
 .LoginForm{
     grid-area: 2 / 2 / 3 / 3;
+    width: 400px;
 }
 .sign-up-container{
     grid-area: 3 / 2 / 4 / 3;

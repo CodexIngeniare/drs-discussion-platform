@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+//import { useNavigate } from 'react-router-dom';
 import * as validationUtils from '../utils/UserDataValidations.js';
 import '../styles/register/RegisterForm.css';
 
 function RegisterForm(props) {
-    const navigate = useNavigate();
+    //const navigate = useNavigate();
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const [errors, setErrors] = useState({});
@@ -43,7 +43,7 @@ function RegisterForm(props) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
+        
         if(isSubmitting){
             return;
         }
@@ -74,7 +74,7 @@ function RegisterForm(props) {
             });
 
             if (response.status >= 200 && response.status < 300) {
-                navigate("/login");
+                props.setIsRegistered(true);
             } else {
                 const errorData = await response.json();
                 if(errorData.email_error === "EMAIL_ALREADY_REGISTERED")
@@ -100,8 +100,10 @@ function RegisterForm(props) {
         <div className='RegisterForm'>
             <form className='register-form-container' onSubmit={handleSubmit} autoComplete="off">
                 <div>
-                    <label htmlFor='email'>Email</label>
-                    <label className="required-asterix">*</label>
+                    <label htmlFor='email'>
+                        Email
+                        <label className="required-asterix">*</label>
+                    </label>
                     <br />
                     <input id="email"
                         type="text"
@@ -112,8 +114,10 @@ function RegisterForm(props) {
                     {errors.email && <div className='error-message'><span>{errors.email}</span></div>}
                 </div>
                 <div>
-                    <label htmlFor='username'>Username</label>
-                    <label className="required-asterix">*</label>
+                    <label htmlFor='username'>
+                        Username
+                        <label className="required-asterix">*</label>
+                    </label>
                     <br />
                     <input id="username"
                         type="text"
@@ -124,10 +128,12 @@ function RegisterForm(props) {
                     {errors.username && <div className='error-message'><span>{errors.username}</span></div>}
                 </div>
                 <div>
-                    <label htmlFor='password'>Password</label>
-                    <label className="required-asterix">*</label>
+                    <label htmlFor='password'>
+                        Password
+                        <label className="required-asterix">*</label>
+                    </label>
                     <br />
-                    <div className='register-password-container'>
+                    <div className='register-password'>
                         <input id="password"
                             type={showPassword ? 'text' : 'password'}
                             value={password}
@@ -141,8 +147,10 @@ function RegisterForm(props) {
                     {errors.password && <div className='error-message'><span>{errors.password}</span></div>}
                 </div>
                 <div>
-                    <label htmlFor='firstName'>First name</label>
-                    <label className="required-asterix">*</label>
+                    <label htmlFor='firstName'>
+                        First name
+                        <label className="required-asterix">*</label>
+                    </label>
                     <br />
                     <input id="firstName"
                         type="text"
@@ -153,8 +161,10 @@ function RegisterForm(props) {
                     {errors.first_name && <div className='error-message'><span>{errors.first_name}</span></div>}
                 </div>
                 <div>
-                    <label htmlFor='lastName'>Last name</label>
-                    <label className="required-asterix">*</label>
+                    <label htmlFor='lastName'>
+                        Last name
+                        <label className="required-asterix">*</label>
+                    </label>
                     <br />
                     <input id="lastName"
                         type="text"
@@ -214,7 +224,7 @@ function RegisterForm(props) {
                 <div>
                     <hr />
                 </div>
-                <div className='button-container'>
+                <div>
                     <button className='success-btn' type='submit' disabled={isSubmitting}>
                         {isSubmitting ? 'Signing up...' : 'Sign up'}
                     </button>

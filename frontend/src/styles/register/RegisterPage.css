@@ -2,23 +2,45 @@
 
 .RegisterPage{
     width: 100vw;
+    height: 100vh;
     display: grid;
     grid-template-columns: auto 1fr;
 }
 .registration-section{
     grid-area: 1 / 1 / 2 / 2;
-    padding: 30px 70px 30px 70px;
+    width: 400px;
+    padding: 30px 70px 100px 70px;
     border-right: solid;
     background-color: var(--secondary-clr);
+    overflow-y: auto;
 }
+    .registration-section .registration-header h1{
+        text-align: center;
+        font-size: 32px;
+        margin: 0px;
+    }
+    .registration-section .registration-header hr{
+        margin-bottom: 20px;
+    }
     .registration-section .sign-in-link{
         color: var(--info-clr);
     }
-        .registration-section .sign-in-link{
-            color: var(--info-clr);
-        }
-
-
+.successful-registration{
+    grid-area: 1 / 1 / 2 / 2;
+    width: 400px;
+    padding: 30px 70px 100px 70px;
+    border-right: solid;
+    background-color: var(--secondary-clr);
+}
+    .successful-registration .registration-header h1{
+        text-align: center;
+        font-size: 30px;
+        color: var(--hover-success-clr);
+        margin: 0px;
+    }
+    .successful-registration p{
+        font-size: 20px;
+    }
 
 .register-poster-container{
     display: flex;
@@ -28,6 +50,7 @@
     height: 100vh;
     text-align: center;
     animation: slideUp 4s ease-in-out;
+    overflow-y: hidden;
 }
     .register-poster-container img{
         width: 350px;
@@ -37,6 +60,7 @@
         opacity: 0;
         animation: fadeIn 5s ease-in-out 3s forwards;
         font-size: 64px;
+        margin: 0px;
         font-family: var(--font-primary);
         color: var(--text-clr);
     }

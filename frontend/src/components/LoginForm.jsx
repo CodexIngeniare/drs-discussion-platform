@@ -90,7 +90,7 @@ function LoginForm(props) {
                 <div>
                     <label htmlFor='password'>Password</label>
                     <br />
-                    <div className='login-password-container'>
+                    <div className='login-password'>
                         <input id='password'
                             type={showPassword ? 'text' : 'password'}
                             value={password}
@@ -103,7 +103,7 @@ function LoginForm(props) {
                     </div>
                     {errors.password && <div className='error-message'><span>{errors.password}</span></div>}
                 </div>   
-                <div className='button-container'>
+                <div>
                     <button className='success-btn' type='submit' disabled={isSubmitting}>
                         {isSubmitting ? 'Signing in...' : 'Sign in'}
                     </button>
