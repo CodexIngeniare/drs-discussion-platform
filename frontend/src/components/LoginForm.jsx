@@ -80,9 +80,6 @@ function LoginForm(props) {
             setIsSubmitting(false);
         }
     };
-    const navigateToRegistration = () => {
-        navigate("/register");
-    };
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
     };
@@ -118,7 +115,6 @@ function LoginForm(props) {
                     {errors.password && <div className='error-message'><span>{errors.password}</span></div>}
                 </div>   
                 <div className='button-container'>
-                    <button type='button' onClick={navigateToRegistration}>Sign up</button>
                     <button className='success-btn' type='submit' disabled={isSubmitting}>
                         {isSubmitting ? 'Signing in...' : 'Sign in'}
                     </button>

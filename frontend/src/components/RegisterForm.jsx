@@ -157,8 +157,6 @@ function RegisterForm(props) {
             });
 
             if (response.status >= 200 && response.status < 300) {
-                const responseData = await response.json();
-                console.log(responseData);
                 navigate("/login");
             } else {
                 const errorData = await response.json();
@@ -180,9 +178,6 @@ function RegisterForm(props) {
     };
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
-    };
-    const navigateToLogin = () => {
-        navigate("/login");
     };
     return (
         <div className='RegisterForm'>
@@ -303,7 +298,6 @@ function RegisterForm(props) {
                     <hr />
                 </div>
                 <div className='button-container'>
-                    <button type='button' onClick={navigateToLogin}>Sign in</button>
                     <button className='success-btn' type='submit' disabled={isSubmitting}>
                         {isSubmitting ? 'Signing up...' : 'Sign up'}
                     </button>

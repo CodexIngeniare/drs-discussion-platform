@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import LoginForm from '../components/LoginForm';
 import '../styles/login/LoginPage.css';
 
@@ -5,6 +6,13 @@ function LoginPage() {
   return (
     <div className='LoginPage'>
         <LoginForm apiLoginEndpoint='http://127.0.0.1:5000/login'/>
+        <div className='sign-up-container'>
+          <p>
+            Not yet registered?
+            &nbsp;
+            <Link to='/register' className='sign-up-link'>Sign up now!</Link>
+          </p>
+        </div>
     </div>
   );
 }

@@ -2,29 +2,40 @@
 
 .RegisterPage{
     width: 100vw;
-    height: 100vh;
     display: grid;
     grid-template-columns: auto 1fr;
 }
-.RegisterForm{
+.registration-section{
     grid-area: 1 / 1 / 2 / 2;
+    padding: 30px 70px 30px 70px;
+    border-right: solid;
+    background-color: var(--secondary-clr);
 }
+    .registration-section .sign-in-link{
+        color: var(--info-clr);
+    }
+        .registration-section .sign-in-link{
+            color: var(--info-clr);
+        }
+
+
 
 .register-poster-container{
     display: flex;
-    flex-direction: column; /* Stack items vertically */
-    align-items: center; /* Center items horizontally */
-    justify-content: center; /* Center items vertically */
-    height: 100vh; /* Adjust as needed */
-    text-align: center; /* Center text inside h1 */
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    text-align: center;
+    animation: slideUp 4s ease-in-out;
 }
     .register-poster-container img{
         width: 350px;
-        animation: fadeIn 20s ease-in-out;
+        animation: fadeIn 10s ease-in-out;
     }
     .register-poster-container h1{
         opacity: 0;
-        animation: fadeIn 15s ease-in-out 7s forwards;
+        animation: fadeIn 5s ease-in-out 3s forwards;
         font-size: 64px;
         font-family: var(--font-primary);
         color: var(--text-clr);
@@ -40,4 +51,12 @@
     to {
       opacity: 1;
     }
-  }
+}
+@keyframes slideUp {
+    from {
+        transform: translateY(70px);
+    }
+    to {
+        transform: translateY(0);
+    }
+}

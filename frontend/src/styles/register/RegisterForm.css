@@ -1,9 +1,6 @@
 @import '../index/global_variables.css';
 
 .RegisterForm{
-    padding: 20px 70px 0px 70px;
-    border-right: solid;
-    background-color: var(--secondary-clr);
 }
     .RegisterForm label{
         font-size: 20px;

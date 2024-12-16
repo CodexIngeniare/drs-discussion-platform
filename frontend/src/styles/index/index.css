@@ -8,6 +8,7 @@ body{
     padding: 0%;
     color: var(--text-clr);
     background-color: var(--background-clr);
+    overflow-x: hidden;
 }
 button {
     font-family: var(--font-primary);
