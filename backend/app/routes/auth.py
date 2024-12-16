@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 from app.services.auth.register import register_user
-from app.services.auth.login import login_user
+from app.services.auth.login import login_user, get_user_data
 from app.services.auth.logout import logout_user
 
 auth_bp = Blueprint('auth_bp', __name__)
@@ -77,3 +77,28 @@ def register():
             "error": "SERVER_ERROR",
             "message": f"Došlo je do greške: {str(e)}"
         }),500
+    
+
+@auth_bp.route('/user_data', methods=['GET'])
+def user_data():
+    """
+    Dohvata podatke o korisniku na osnovu tokena.
+    """
+    try:
+        # Dobijanje tokena iz hedera Authorization
+        user_token = request.headers.get('Authorization')
+        if not user_token:
+            return jsonify({"error_code": "MISSING_TOKEN", "message": "Token is required."}), 400
+
+        # Poziv funkcije za dohvat podataka
+        response, status_code = get_user_data(user_token)
+        return response, status_code
+
+    except Exception as e:
+        return jsonify({"error_code": "SERVER_ERROR", "message": str(e)}), 500
+
+
+
+
+
+

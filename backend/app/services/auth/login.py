@@ -6,8 +6,48 @@ from flask import jsonify
 import uuid
 from . import active_sessions
 from app.services.database import log_user_login, get_user_by_email
+from app.services.auth.SessionHandler import SessionHandler
 
-# Dictionary to manage sessions
+# Inicijalizacija globalnog upravljača sesijama
+session_handler = SessionHandler()
+
+def get_user_data(user_token):
+    """
+    Dobavlja korisnikove podatke na osnovu tokena.
+    """
+    try:
+        # Provera validnosti tokena
+        session_data = session_handler.get_session(user_token)
+        if not session_data:
+            return jsonify({"error_code": "UNAUTHORIZED", "message": "Invalid or expired token."}), 401
+
+        # Dohvatanje email-a iz sesije
+        email = session_data["email"]
+
+        # Dobavljanje korisnikovih podataka iz baze
+        user = get_user_by_email(email)
+        if not user:
+            return jsonify({"error_code": "USER_NOT_FOUND", "message": "User not found."}), 404
+
+        # Kreiranje odgovora sa korisničkim podacima
+        user_data = {
+            "id": user.id,
+            "first_name": user.first_name,
+            "last_name": user.last_name,
+            "email": user.email,
+            "username": user.username,
+            "phone_number": user.phone_number,
+            "address": user.address,
+            "city": user.city,
+            "state": user.state,
+            "country": user.country,
+            "last_logged_in": user.last_logged_in,
+            "is_admin": bool(user.is_admin)
+        }
+        return jsonify({"user": user_data}), 200
+
+    except Exception as e:
+        return jsonify({"error_code": "SERVER_ERROR", "message": str(e)}), 500
 
 
 def notify_admin(user):
@@ -33,22 +73,17 @@ def login_user(email, password):
         if not PasswordHasher.verify_password(user.password_hash, password):
             return jsonify({"error_code": "INVALID_PASSWORD", "message": "Incorrect password."}), 401
 
-        # Create token and store session
-        token = str(uuid.uuid4())
-        active_sessions[token] = {
-            "email": user.email,
-            "permissions": "admin" if user.is_admin else "user"
-        }
+        # Kreiranje sesije
+        token = session_handler.create_session(email, user.is_admin)
+        if isinstance(token, tuple):  # Ako je greška (već ulogovan)
+            return token
 
-        # Notify admin if first login
-        if not user.last_logged_in:
-            thread = Thread(target=notify_admin, args=(user,))
-            thread.start()
-
+        # Logovanje korisnika u bazi
         log_user_login(email)
 
-        return jsonify({"token": token}), 200
+        # Vraćanje tokena i poruke o uspehu
+        return jsonify({"message": "Login successful", "token": token}), 200
 
     except Exception as e:
-        # Обрада грешака унутар функције
         return jsonify({"error_code": "SERVER_ERROR", "message": str(e)}), 500
+
