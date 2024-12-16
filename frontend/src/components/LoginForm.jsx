@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { isEmailValid, isLoginPasswordValid } from '../utils/UserDataValidations.js';
 import '../styles/login/LoginForm.css';
 
 function LoginForm(props) {
@@ -11,23 +12,11 @@ function LoginForm(props) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-    const validateEmail = (newErrors) => {
-        if (!email) {
-            newErrors.email = "Email is required.";
-        } else if (!/\S+@\S+\.\S+/.test(email)) {
-            newErrors.email = "Please enter a valid email.";
-        }
-    };
-    const validatePassword = (newErrors) => {
-        if (!password) {
-            newErrors.password = "Password is required.";
-        }
-    };
     const validateForm = () => {
         const newErrors = {};
 
-        validateEmail(newErrors);
-        validatePassword(newErrors);
+        isEmailValid(email, newErrors);
+        isLoginPasswordValid(password, newErrors);
 
         setErrors(newErrors);
 

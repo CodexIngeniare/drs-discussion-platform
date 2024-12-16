@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import * as validationUtils from '../utils/UserDataValidations.js';
 import '../styles/register/RegisterForm.css';
 
 function RegisterForm(props) {
@@ -19,102 +20,18 @@ function RegisterForm(props) {
     const [city, setCity] = useState("");
     const [address, setAddress] = useState("");
 
-    // form data validation functions
-    const validateEmail = (newErrors) => {
-        if (!email) {
-            newErrors.email = "Email is required.";
-        } else if (!/\S+@\S+\.\S+/.test(email)) {
-            newErrors.email = "Please enter a valid email.";
-        }
-        // email max length?
-    };
-    const validateUsername = (newErrors) => {
-        const maxLength = 50;
-
-        if (!username) {
-            newErrors.username = "Username is required.";
-        } else if(username.length >= maxLength){
-            newErrors.username = "Username length exceeded.";
-        }
-        // username min/max length?
-        // username allowed characters?
-    };
-    const validatePassword = (newErrors) => {
-        if (!password) {
-            newErrors.password = "Password is required.";
-        }
-        // password min/max length?
-        // password must contain specific characters?
-    };
-    const validateFirstName = (newErrors) => {
-        const nameRegex = /^[A-Za-z]+$/;
-        const maxLength = 100;
-
-        if(!first_name){
-            newErrors.first_name = "First name is required.";
-        } else if(!nameRegex.test(first_name)){
-            newErrors.first_name = "First name can contain only letters.";
-        } else if(first_name.length >= maxLength){
-            newErrors.first_name = "First name length exceeded.";
-        }
-    };
-    const validateLastName = (newErrors) => {
-        const nameRegex = /^[A-Za-z]+$/;
-        const maxLength = 100;
-
-        if(!last_name){
-            newErrors.last_name = "Last name is required.";
-        } else if(!nameRegex.test(last_name)){
-            newErrors.last_name = "Last name can contain only letters.";
-        } else if(last_name.length >= maxLength){
-            newErrors.last_name = "Last name length exceeded.";
-        }
-    };
-    const validatePhoneNumber = (newErrors) => {
-        const phoneRegex = /^(?:\+?(\d{1,3}))?[-.\s]?(?:\(?(\d{1,4})\)?[-.\s]?)(\d{1,4})[-.\s]?(\d{1,4})$/;
-
-        if(phone_number === "")
-            return;
-
-        if(!phoneRegex.test(phone_number)){
-            newErrors.phone_number = "Phone number of wrong format";
-        }
-    };
-    const validateCountry = (newErrors) => {
-        const maxLength = 100;
-
-        if(country === "kosovo" || country === "Kosovo"){
-            newErrors.country = "Kosovo is Serbia.";
-        } else if(country.length >= maxLength){
-            newErrors.country = "Country input length exceeded.";
-        }
-    };
-    const validateCity = (newErrors) => {
-        const maxLength = 100;
-
-        if(city.length >= maxLength){
-            newErrors.city = "City input length exceeded.";
-        }
-    };
-    const validateAddress = (newErrors) => {
-        const maxLength = 255;
-
-        if(address.length >= maxLength){
-            newErrors.address = "Address input length exceeded.";
-        }
-    };
     const validateForm = () => {
         const newErrors = {};
 
-        validateEmail(newErrors);
-        validateUsername(newErrors);
-        validatePassword(newErrors);
-        validateFirstName(newErrors);
-        validateLastName(newErrors);
-        validatePhoneNumber(newErrors);
-        validateCountry(newErrors);
-        validateCity(newErrors);
-        validateAddress(newErrors);
+        validationUtils.isEmailValid(email, newErrors);
+        validationUtils.isUsernameValid(username, newErrors);
+        validationUtils.isRegisterPasswordValid(password, newErrors);
+        validationUtils.isFirstNameValid(first_name, newErrors);
+        validationUtils.isLastNameValid(last_name, newErrors);
+        validationUtils.isPhoneNumberValid(phone_number, newErrors);
+        validationUtils.isCountryValid(country, newErrors);
+        validationUtils.isCityValid(city, newErrors);
+        validationUtils.isAddressValid(address, newErrors);
 
         setErrors(newErrors);
 
