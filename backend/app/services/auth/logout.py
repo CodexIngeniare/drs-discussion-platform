@@ -2,13 +2,15 @@ from flask import jsonify
 from app.services.auth.login import active_sessions
 from app.services.auth.SessionHandler import SessionHandler
 
+session_handler = SessionHandler()
+
 def logout_user(token):
     """
     Handles user logout.
     - Removes the session corresponding to the token.
     """
     try:
-        if SessionHandler.logout(token):  # Ispravljen poziv
+        if session_handler.logout(token):  # Ispravljen poziv
             return jsonify({"message": "Successfully logged out."}), 200
         else:
             return jsonify({"error_code": "INVALID_TOKEN", "message": "Token not found or already invalidated."}), 404
