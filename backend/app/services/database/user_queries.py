@@ -174,4 +174,15 @@ def update_user_data(email, form_data):
         db.session.rollback()
         print(f"Greška: {str(e)}")
         return {"status": "error", "message": "Greška prilikom ažuriranja podataka"}
-
+    
+def get_admin_emails():
+    """
+    Dohvata listu email-ova svih admina.
+    """
+    try:
+        # Dohvata sve korisnike koji su admini
+        admin_emails = [user.email for user in RegisteredUser.query.filter_by(is_admin=True).all()]
+        return admin_emails
+    except SQLAlchemyError as e:
+        print(f"Greška: {str(e)}")
+        return []
