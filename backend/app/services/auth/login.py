@@ -4,12 +4,9 @@ from app.services.auth.password_hasher import PasswordHasher
 from threading import Thread
 from flask import jsonify
 import uuid
-from . import active_sessions
 from app.services.database import log_user_login, get_user_by_email
-from app.services.auth.SessionHandler import SessionHandler
+from app.services.auth import session_handler
 
-# Inicijalizacija globalnog upravljača sesijama
-session_handler = SessionHandler()
 
 def get_user_data(user_token):
     """
