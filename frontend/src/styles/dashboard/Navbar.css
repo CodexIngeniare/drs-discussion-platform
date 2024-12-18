@@ -1,0 +1,17 @@
+
+.Navbar{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 30px;
+}
+    .Navbar .view-btns{
+        display: flex;
+        align-items: center;
+        gap: 20px;
+    }
+    .Navbar button{
+        font-size: 18px;
+        border: 0px;
+        padding: 7px;
+    }

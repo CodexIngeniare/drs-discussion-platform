@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-//import { useNavigate } from 'react-router-dom';
 import * as validationUtils from '../utils/UserDataValidations.js';
 import '../styles/register/RegisterForm.css';
 
