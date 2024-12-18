@@ -1,4 +1,9 @@
-from .register import register_user
+from .register import register_user,validate_form_data
 from .password_hasher import PasswordHasher
+from .SessionHandler import SessionHandler
 
-active_sessions = {}
+
+session_handler = SessionHandler()
+
+
+
