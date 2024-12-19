@@ -1,5 +1,6 @@
 import { Routes, Route, Navigate} from 'react-router-dom';
-import Navbar from '../components/Navbar';
+import Navbar from '../components/dashboard/Navbar';
+import SettingsView from '../components/dashboard/settings/SettingsView';
 import '../styles/dashboard/DashboardPage.css';
 
 function DashboardPage() {
@@ -13,7 +14,7 @@ function DashboardPage() {
           <Routes>
             <Route index element={<Navigate to="admin" />} />
             <Route path="/admin/*" element={<label>ADMINISTRATION VIEW</label>}/>
-            <Route path="/settings/*" element={<label>SETTINGS VIEW</label>}/>
+            <Route path="/settings/*" element={<SettingsView />}/>
             <Route path="/discussions/*" element={<label>DISCUSSIONS VIEW</label>}/>
           </Routes>
         </main>

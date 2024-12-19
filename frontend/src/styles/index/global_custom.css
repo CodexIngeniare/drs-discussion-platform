@@ -6,8 +6,14 @@
     .success-btn:hover{
         background-color: var(--hover-success-clr);
     }
+.caution-btn{
+        background-color: var(--caution-clr);
+    }
+    .caution-btn:hover{
+        background-color: var(--hover-caution-clr);
+    }
 .error-message {
-    color: var(--caution-clr);
+    color: var(--error-clr);
     font-style: italic;
 }
 .required-asterix {

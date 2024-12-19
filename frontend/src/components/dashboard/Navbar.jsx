@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import '../styles/dashboard/Navbar.css';
+import '../../styles/dashboard/Navbar.css';
 
 function Navbar() {
     const navigate = useNavigate();
@@ -18,6 +18,7 @@ function Navbar() {
         <div className="Navbar">
             <div className="view-btns">
                 <button onClick={toAdminView}>Administration</button>
+                <label>|</label>
                 <button onClick={toDiscussionsView}>Discussions</button>
             </div>
             <div className='account-btns'>

@@ -5,17 +5,16 @@
     grid-template-columns: 1fr;
     grid-template-rows: auto 1fr auto;
 }
-
-.header-section{
-    grid-area: 1 / 1 / 1 / 3;
-    background-color: black;
-    border-bottom: solid;
-}
-.main-section{
-    grid-area: 2 / 1 / 2 / 2;
-}
-.footer-section{
-    grid-area: 3 / 1 / 3 / 3;
-    background-color: black;
-    border-top: solid;
-}
+    .DashboardPage .header-section{
+        grid-area: 1 / 1 / 1 / 3;
+        background-color: black;
+        border-bottom: solid;
+    }
+    .DashboardPage .main-section{
+        grid-area: 2 / 1 / 2 / 2;
+    }
+    .DashboardPage .footer-section{
+        grid-area: 3 / 1 / 3 / 3;
+        background-color: black;
+        border-top: solid;
+    }
