@@ -1,0 +1,47 @@
+@import '../index/global_variables.css';
+
+.PersonalInfoSettings{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    border: solid;
+    border-width: 1px;
+    border-radius: 20px;
+    padding: 50px;
+    background-color: var(--secondary-clr);
+}
+    .PersonalInfoSettings .settings-title{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+    .PersonalInfoSettings .settings-title label{
+        text-align: center;
+        font-size: 32px;
+    }
+    .PersonalInfoSettings .settings-title hr{
+        width: 100%;
+    }
+    .PersonalInfoSettings .input-field{
+        display: flex;
+    }
+        .PersonalInfoSettings .input-field label{
+            background-color: black;
+            width: 140px;
+            border: solid;
+            border-width: 2px;
+            border-right: none;
+            border-top-left-radius: 7px;
+            border-bottom-left-radius: 7px;
+            padding: 10px;
+            font-size: 18px;
+        }
+        .PersonalInfoSettings .input-field input{
+            flex: 1;
+            font-size: 18px;
+            border-width: 2px;
+            border-right-width: 1px;
+            border-top-left-radius: 0px;
+            border-bottom-left-radius: 0px;
+        }

@@ -1,6 +1,7 @@
 import { Routes, Route, Navigate} from 'react-router-dom';
 import SettingsSidebar from './SettingsSidebar.jsx';
 import AccountSettings from './AccountSettings.jsx';
+import PersonalInfoSettings from './PersonalInfoSettings.jsx';
 import '../../../styles/dashboard/SettingsView.css';
 
 function SettingsView() {
@@ -13,7 +14,7 @@ function SettingsView() {
             <Routes>
                 <Route index element={<Navigate to="account" />} />
                 <Route path="/account/*" element={<AccountSettings />}/>
-                <Route path="/personal/*" element={<label>PERSONAL</label>}/>
+                <Route path="/personal/*" element={<PersonalInfoSettings />}/>
           </Routes>
         </main>
         <div className='settings-free-section'></div>
