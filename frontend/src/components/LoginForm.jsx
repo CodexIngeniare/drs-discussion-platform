@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { isEmailValid, isLoginPasswordValid } from '../utils/UserDataValidations.js';
-import { login } from '../utils/api_calls/AccountAPICalls.js';
+import { login, GetUserData } from '../utils/api_calls/AccountAPICalls.js';
 import '../styles/login/LoginForm.css';
 
 function LoginForm(props) {
@@ -26,7 +26,7 @@ function LoginForm(props) {
 
         return false;
     };
-    const handleLogin = async (e) => {
+    const handleLogin = async () => {
         const loginResult = await login(email, password, props.LoginEndpoint);
 
         if (loginResult.success) {
@@ -49,6 +49,27 @@ function LoginForm(props) {
             return false;
         }
     }
+    const handleGetUserData = async () => {
+        const token = sessionStorage.getItem("token");
+        const result = await GetUserData(token, props.UserDataEndpoint);
+
+        if (result.success) {
+            const userData = result.data;
+            sessionStorage.setItem("user", JSON.stringify(userData));
+            console.log(userData);
+            return true;
+        } else {
+            const error_code = result.error.error_code;
+            switch(error_code) {
+                case "INVALID_TOKEN":
+                    console.log("invalid token");
+                    break;
+                default:
+                    break;
+            }
+            return false;
+        }
+    }
     const handleSubmit = async (e) => {
         e.preventDefault();
         
@@ -62,6 +83,10 @@ function LoginForm(props) {
             return;
         }
         if(!handleLogin()){
+            setIsSubmitting(false);
+            return;
+        }
+        if(!handleGetUserData()){
             setIsSubmitting(false);
             return;
         }

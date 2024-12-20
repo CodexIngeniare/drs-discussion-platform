@@ -5,7 +5,7 @@ import '../styles/login/LoginPage.css';
 function LoginPage() {
   return (
     <div className='LoginPage'>
-        <LoginForm LoginEndpoint='http://127.0.0.1:5000/login'/>
+        <LoginForm LoginEndpoint='http://127.0.0.1:5000/login' UserDataEndpoint='http://127.0.0.1:5000/user_data'/>
         <div className='sign-up-container'>
           <p>
             Not yet registered?
