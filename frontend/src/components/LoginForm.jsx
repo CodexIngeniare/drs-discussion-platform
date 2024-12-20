@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { isEmailValid, isLoginPasswordValid } from '../utils/UserDataValidations.js';
+import { login } from '../utils/api_calls/AccountAPICalls.js';
 import '../styles/login/LoginForm.css';
 
 function LoginForm(props) {
@@ -25,6 +26,29 @@ function LoginForm(props) {
 
         return false;
     };
+    const handleLogin = async (e) => {
+        const loginResult = await login(email, password, props.LoginEndpoint);
+
+        if (loginResult.success) {
+            const token = loginResult.data.token;
+            sessionStorage.setItem("token", token);
+            console.log(token);
+            return true
+        } else {
+            const error_code = loginResult.error.error_code;
+            switch(error_code) {
+                case "EMAIL_NOT_REGISTERED":
+                    setErrors({"email": "email is not registered."});
+                    break;
+                case "INVALID_PASSWORD":
+                    setErrors({"password": "incorrect password."});
+                    break;
+                default:
+                    break;
+            }
+            return false;
+        }
+    }
     const handleSubmit = async (e) => {
         e.preventDefault();
         
@@ -37,37 +61,12 @@ function LoginForm(props) {
             setIsSubmitting(false);
             return;
         }
-        try {
-            const response = await fetch(props.apiLoginEndpoint, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ email, password }),
-            });
-
-            if (response.ok) {
-                    const responseData = await response.json();
-                    const token = responseData.token;
-                    sessionStorage.setItem("token", token);
-                    navigate("/dashboard");
-            } else {
-                const errorData = await response.json();
-                if(errorData.error_code === "EMAIL_NOT_REGISTERED")
-                {
-                    setErrors({"email": "email is not registered."});
-                }
-                if(errorData.error_code === "INVALID_PASSWORD")
-                    {
-                        setErrors({"password": "incorrect password."});
-                    }
-                console.log(errorData);
-            }
-        } catch (error) {
-            console.error('Error submitting form:', error);
-        } finally {
+        if(!handleLogin()){
             setIsSubmitting(false);
+            return;
         }
+        setIsSubmitting(false);
+        navigate('/dashboard');
     };
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
