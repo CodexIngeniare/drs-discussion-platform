@@ -13,21 +13,14 @@ def login():
     Returns a token on success or an error message on failure.
     """
     try:
-        # Читање података из захтева
         data = request.get_json()
-
-        # Валидација улазних података
         if not data or 'email' not in data or 'password' not in data:
             return jsonify({"error_code": "INVALID_REQUEST", "message": "Email and password are required."}), 400
 
-        # Позив функције за логовање корисника
-        response, status_code = login_user(data['email'], data['password'])
-
-        # Враћање одговора од `login_user`
+        response, status_code = login_user(data['email'], data['password'], data['id'])
         return response, status_code
 
     except Exception as e:
-        # Враћање грешке у случају изузетка
         return jsonify({"error": "SERVER_ERROR", "message": str(e)}), 500
 
 

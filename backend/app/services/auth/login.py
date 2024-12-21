@@ -4,12 +4,9 @@ from werkzeug.security import check_password_hash
 from threading import Thread
 from flask import jsonify
 import uuid
-from . import active_sessions
 from app.services.database import log_user_login, get_user_by_email
-from app.services.auth.SessionHandler import SessionHandler
+from app.services.auth import session_handler
 
-# Inicijalizacija globalnog upravljača sesijama
-session_handler = SessionHandler()
 
 def get_user_data(user_token):
     """
@@ -57,7 +54,7 @@ def notify_admin(user):
     """
     print(f"Admin notified about first-time login for {user.email}")
 
-def login_user(email, password):
+def login_user(email, password, id):
     """
     Handles user login.
     - Checks user existence
@@ -74,7 +71,7 @@ def login_user(email, password):
             return jsonify({"error_code": "INVALID_PASSWORD", "message": "Incorrect password."}), 401
 
         # Kreiranje sesije
-        token = session_handler.create_session(email, user.is_admin)
+        token = session_handler.create_session(email, id ,user.is_admin)
         if isinstance(token, tuple):  # Ako je greška (već ulogovan)
             return token
 

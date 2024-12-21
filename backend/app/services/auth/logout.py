@@ -1,8 +1,6 @@
 from flask import jsonify
-from app.services.auth.login import active_sessions
-from app.services.auth.SessionHandler import SessionHandler
+from app.services.auth import session_handler
 
-session_handler = SessionHandler()
 
 def logout_user(token):
     """

@@ -1,4 +1,4 @@
-# services/auth/session_handler.py
+# services/auth/SessionHandler.py
 import uuid
 from flask import jsonify
 
@@ -7,7 +7,7 @@ class SessionHandler:
         # Rečnik za čuvanje aktivnih sesija
         self.active_sessions = {}
 
-    def create_session(self, email, is_admin):
+    def create_session(self, email, id, is_admin):
         """
         Kreira novu sesiju za korisnika.
         - Proverava da li je korisnik već ulogovan.
@@ -21,9 +21,10 @@ class SessionHandler:
         # Generisanje novog tokena
         token = str(uuid.uuid4())
 
-        # Čuvanje sesije
+        # Čuvanje sesije sa user_id
         self.active_sessions[token] = {
             "email": email,
+            "id": id,  # Dodali smo user_id
             "permissions": "admin" if is_admin else "user"
         }
 
