@@ -111,6 +111,10 @@ def update_user_data_route():
         user_token = request.headers.get('Authorization')
         if not user_token:
             return jsonify({"error_code": "MISSING_TOKEN", "message": "Token is required."}), 400
+        
+         
+        if user_token.startswith("Bearer "):
+           user_token = user_token[len("Bearer "):]
 
         # Proveri validnost tokena
         session_data = session_handler.get_session(user_token)

@@ -107,7 +107,7 @@ def validate_form_data(form_data, current_email, current_username, user):
                 return False, {"status": "error", "message": "Old password and new password are required."}
 
             # Provera da li stara lozinka odgovara
-            if not PasswordHasher.verify_password(old_password, user.password_hash):
+            if not PasswordHasher.verify_password(user.password_hash, old_password):
                 return False, {"status": "error", "message": "Old password is incorrect."}
 
             # Hesiranje nove lozinke

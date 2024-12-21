@@ -28,4 +28,8 @@ def create_app():
     from app.routes.db_test import db_bp  # Uvozimo db_bp koji sadrži testne rute za bazu
     app.register_blueprint(db_bp)
 
+    from app.routes import admin_bp
+    app.register_blueprint(admin_bp)
+
+
     return app
