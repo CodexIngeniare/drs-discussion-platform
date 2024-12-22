@@ -9,7 +9,8 @@ from .user_queries import (
     is_username_registered,
     register_new_user,
     update_user_data,
-    get_admin_emails
+    get_admin_emails,
+    remove_pending_user
 )
 
 
