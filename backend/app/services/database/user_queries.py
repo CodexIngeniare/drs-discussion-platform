@@ -30,6 +30,27 @@ def approve_user(user_id):
         print(f"Greška: {str(e)}")
         return None
 
+
+def remove_pending_user(user_id):
+    """
+    Uklanja korisnika iz tabele PendingUsers na osnovu ID-a.
+
+    :param user_id: ID korisnika koji se uklanja.
+    :return: Objekat korisnika ako je uspešno uklonjen, None inače.
+    """
+    try:
+        # Pretpostavimo da koristimo ORM poput SQLAlchemy
+        user = PendingUser.query.filter_by(id=user_id).first()
+        if not user:
+            return None
+        db.session.delete(user)
+        db.session.commit()
+        return user
+    except Exception as e:
+        db.session.rollback()
+        raise e
+
+
 def get_all_pending_users():
     """ Dohvata sve korisnike koji čekaju odobrenje """
     try:
