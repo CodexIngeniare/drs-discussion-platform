@@ -2,36 +2,15 @@ from app.models import RegisteredUser
 
 dummy_rusers = [
     RegisteredUser(
-    id = 0,
-    first_name = 'Ad',
-    last_name = 'Min',
+    first_name = 'Nikola',
+    last_name = 'Petrovic',
     email = 'nikola.rapidfire@gmail.com',
-    username = 'Ad-min',
-    password_hash = 'NekiHash',
+    username = 'CodexIngeniare',
+    password_hash = '332d0d385c22af74dded9899c4d29dcb$1abd2d61505e650fa1809c9e4b5c2af19246fc4b6ee637ac4af4bcb4b90043c6',
+    phone_number = '0651234567',
+    country = 'Serbia',
+    city = 'Novi Sad',
+    address = 'Neka adresa 123',
     is_admin = True,
     ),
-    RegisteredUser(
-    id = 1,
-    first_name = 'Defan',
-    last_name = 'Sangubic',
-    email = 'def.san@gmail.com',
-    username = 'DefanSangubic',
-    password_hash = 'NekiHash',
-    ),
-    RegisteredUser(
-    id = 2,
-    first_name = 'Maresh',
-    last_name = 'Jugovic',
-    email = 'juzni.vetar.fan@gmail.com',
-    username = 'MareshJug',
-    password_hash = 'NekiHash',
-    ),
-    RegisteredUser(
-    id = 3,
-    first_name = 'Pazar',
-    last_name = 'Lopovic',
-    email = 'razal@gmail.com',
-    username = 'PazLopov',
-    password_hash = 'NekiHash',
-    )
 ]
