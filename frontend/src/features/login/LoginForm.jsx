@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { isEmailValid, isLoginPasswordValid } from '../utils/UserDataValidations.js';
-import { login, GetUserData } from '../utils/api_calls/AccountAPICalls.js';
-import '../styles/login/LoginForm.css';
+import { isEmailValid, isLoginPasswordValid } from '../../utils/UserDataValidations.js';
+import { login, GetUserData } from '../../utils/api_calls/AccountAPICalls.js';
+import './LoginForm.css';
 
 function LoginForm(props) {
     const navigate = useNavigate();

@@ -1,4 +1,4 @@
-@import '../index/global_variables.css';
+@import '../../assets/styles/global_variables.css';
 
 .register-form-container{
     display: flex;

@@ -1,14 +1,12 @@
 import React, { useState } from 'react';
-import * as validationUtils from '../utils/UserDataValidations.js';
-import '../styles/register/RegisterForm.css';
+import * as validationUtils from '../../utils/UserDataValidations.js';
+import './RegisterForm.css';
 
 function RegisterForm(props) {
-    //const navigate = useNavigate();
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const [errors, setErrors] = useState({});
 
-    // user form data
     const [email, setEmail] = useState("");
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -39,7 +37,6 @@ function RegisterForm(props) {
 
         return false;
     };
-
     const handleSubmit = async (e) => {
         e.preventDefault();
         
