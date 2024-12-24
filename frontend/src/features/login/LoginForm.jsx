@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { isEmailValid, isLoginPasswordValid } from '../../utils/UserDataValidations.js';
-import { GetUserData } from '../../utils/api_calls/AccountAPICalls.js';
 import useLogin from './hooks/useLogin.js'
+import useFetchUserData from './hooks/useFetchUserData.js';
 import './LoginForm.css';
 
 function LoginForm(props) {
     const navigate = useNavigate();
     const { isSubmitting, loginErrors, handleLogin } = useLogin(props.LoginEndpoint);
+    const { fetchUserData } = useFetchUserData(props.UserDataEndpoint);
 
     const [showPassword, setShowPassword] = useState(false);
     const [errors, setErrors] = useState({});
@@ -28,27 +29,6 @@ function LoginForm(props) {
 
         return false;
     };
-    const handleGetUserData = async () => {
-        const token = sessionStorage.getItem("token");
-        const result = await GetUserData(token, props.UserDataEndpoint);
-
-        if (result.success) {
-            const userData = result.data;
-            sessionStorage.setItem("user", JSON.stringify(userData));
-            console.log(userData);
-            return true;
-        } else {
-            const error_code = result.error.error_code;
-            switch(error_code) {
-                case "INVALID_TOKEN":
-                    console.log("invalid token");
-                    break;
-                default:
-                    break;
-            }
-            return false;
-        }
-    }
     const handleSubmit = async (e) => {
         e.preventDefault();
         
@@ -58,13 +38,12 @@ function LoginForm(props) {
         if (!validateForm()) {
             return;
         }
-        if(!(await handleLogin(email, password))){
-            return;
+        if(await handleLogin(email, password)){
+            const token = sessionStorage.getItem("token");
+            if(await fetchUserData(token)){
+                navigate('/dashboard');
+            }
         }
-        if(!handleGetUserData()){
-            return;
-        }
-        navigate('/dashboard');
     };
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
