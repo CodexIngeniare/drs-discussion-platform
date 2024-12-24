@@ -9,6 +9,8 @@ flask-sqlalchemy = "*"
 flask-migrate = "*"
 mysqlclient = "*"
 flask-cors = "*"
+flask-socketio = "*"
+eventlet = "*"
 
 [dev-packages]
 

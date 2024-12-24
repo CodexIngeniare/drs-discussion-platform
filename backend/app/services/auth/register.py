@@ -1,6 +1,7 @@
 from app.services.database import is_email_registered, is_username_registered, register_new_user
 from app.services.auth.password_hasher import PasswordHasher
 from flask import jsonify
+from app.services.admin.extensions import socketio
 
 
 def register_user(form_data):
@@ -54,6 +55,9 @@ def register_user(form_data):
         # Provera da li je registracija uspela
         if result is None:
             return jsonify({"server_error": "REGISTRATION_FAILED"}), 400
+        
+        # Emitovanje novog korisnika prema svim adminima
+        socketio.emit('new_pending_user', user_data, namespace='/admin', broadcast=True)
 
         # Uspešna registracija
         return '', 201  # Vraća samo status 201 bez dodatnih podataka

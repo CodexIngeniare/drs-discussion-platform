@@ -3,6 +3,7 @@ from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 
+
 db = SQLAlchemy()
 migrate = Migrate()
 
@@ -36,5 +37,7 @@ def create_app():
     from app.routes import admin_bp
     app.register_blueprint(admin_bp)
 
+    from app.services.admin.extensions import socketio
+    socketio.init_app(app, cors_allowed_origins="*")
 
     return app
