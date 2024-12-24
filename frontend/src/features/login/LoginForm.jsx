@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { isEmailValid, isLoginPasswordValid } from '../../utils/UserDataValidations.js';
-import { login, GetUserData } from '../../utils/api_calls/AccountAPICalls.js';
+import { GetUserData } from '../../utils/api_calls/AccountAPICalls.js';
+import useLogin from './hooks/useLogin.js'
 import './LoginForm.css';
 
 function LoginForm(props) {
     const navigate = useNavigate();
-    const [isSubmitting, setIsSubmitting] = useState(false);
+    const { isSubmitting, loginErrors, handleLogin } = useLogin(props.LoginEndpoint);
+
     const [showPassword, setShowPassword] = useState(false);
     const [errors, setErrors] = useState({});
 
@@ -26,29 +28,6 @@ function LoginForm(props) {
 
         return false;
     };
-    const handleLogin = async () => {
-        const loginResult = await login(email, password, props.LoginEndpoint);
-
-        if (loginResult.success) {
-            const token = loginResult.data.token;
-            sessionStorage.setItem("token", token);
-            console.log(token);
-            return true
-        } else {
-            const error_code = loginResult.error.error_code;
-            switch(error_code) {
-                case "EMAIL_NOT_REGISTERED":
-                    setErrors({"email": "email is not registered."});
-                    break;
-                case "INVALID_PASSWORD":
-                    setErrors({"password": "incorrect password."});
-                    break;
-                default:
-                    break;
-            }
-            return false;
-        }
-    }
     const handleGetUserData = async () => {
         const token = sessionStorage.getItem("token");
         const result = await GetUserData(token, props.UserDataEndpoint);
@@ -76,21 +55,15 @@ function LoginForm(props) {
         if (isSubmitting){
             return;
         }
-        setIsSubmitting(true);
-
         if (!validateForm()) {
-            setIsSubmitting(false);
             return;
         }
-        if(!handleLogin()){
-            setIsSubmitting(false);
+        if(!(await handleLogin(email, password))){
             return;
         }
         if(!handleGetUserData()){
-            setIsSubmitting(false);
             return;
         }
-        setIsSubmitting(false);
         navigate('/dashboard');
     };
     const togglePasswordVisibility = () => {
@@ -110,6 +83,7 @@ function LoginForm(props) {
                         placeholder='enter your email address'
                     />
                     {errors.email && <div className='error-message'><span>{errors.email}</span></div>}
+                    {loginErrors.email && <div className='error-message'><span>{loginErrors.email}</span></div>}
                 </div>
                 <div>
                     <label htmlFor='password'>Password</label>
@@ -126,6 +100,7 @@ function LoginForm(props) {
                         </button>
                     </div>
                     {errors.password && <div className='error-message'><span>{errors.password}</span></div>}
+                    {loginErrors.password && <div className='error-message'><span>{loginErrors.password}</span></div>}
                 </div>   
                 <div>
                     <button className='success-btn' type='submit' disabled={isSubmitting}>
