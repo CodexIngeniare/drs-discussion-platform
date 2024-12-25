@@ -21,7 +21,15 @@ const useFetchAccountData = (accountDataEndpoint) => {
                 return true;
             } else {
                 const errorData = await response.json();
-                setFetchErrors(errorData);
+                const error_code = errorData.error_code;
+                switch(error_code){
+                    case "UNAUTHORIZED":
+                        setFetchErrors({ "token": "Invalid or expired token." });
+                        console.error("Error fetching user data: ", fetchErrors);
+                        break;
+                    default:
+                        break;
+                }
                 setIsFetching(false);
                 return false;
             }

@@ -31,6 +31,9 @@ const useAuthenticateUser = (authenticateEndpoint) => {
                     case "INVALID_PASSWORD":
                         setAuthErrors({ "password": "Incorrect password." });
                         break;
+                    case "ALREADY_LOGGED_IN":
+                        setAuthErrors({ "email": "User already logged in." });
+                        break;
                     default:
                         break;
                 }
