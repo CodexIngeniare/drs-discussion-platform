@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import useAuthenticateUser from './hooks/useAuthenticateUser.js';
+import useFetchAccountData from './hooks/useFetchAccountData.js';
 import { isEmailValid, isLoginPasswordValid } from '../../utils/UserDataValidations.js';
-import useLogin from './hooks/useLogin.js'
-import useFetchUserData from './hooks/useFetchUserData.js';
 import './LoginForm.css';
 
 function LoginForm(props) {
     const navigate = useNavigate();
-    const { isSubmitting, loginErrors, handleLogin } = useLogin(props.LoginEndpoint);
-    const { fetchUserData } = useFetchUserData(props.UserDataEndpoint);
+    const { isAuthenticating, authErrors, handleAuthentication } = useAuthenticateUser(props.LoginEndpoint);
+    const { isFetching, fetchErrors, fetchAccountData } = useFetchAccountData(props.UserDataEndpoint);
 
     const [showPassword, setShowPassword] = useState(false);
     const [errors, setErrors] = useState({});
@@ -32,16 +32,20 @@ function LoginForm(props) {
     const handleSubmit = async (e) => {
         e.preventDefault();
         
-        if (isSubmitting){
+        if (isAuthenticating || isFetching) {
             return;
         }
         if (!validateForm()) {
             return;
         }
-        if(await handleLogin(email, password)){
+        if (await handleAuthentication(email, password)) {
             const token = sessionStorage.getItem("token");
-            if(await fetchUserData(token)){
+            
+            if (await fetchAccountData(token)) {
                 navigate('/dashboard');
+            }
+            else {
+                console.error("Error fetching user data: ", fetchErrors);
             }
         }
     };
@@ -62,7 +66,7 @@ function LoginForm(props) {
                         placeholder='enter your email address'
                     />
                     {errors.email && <div className='error-message'><span>{errors.email}</span></div>}
-                    {loginErrors.email && <div className='error-message'><span>{loginErrors.email}</span></div>}
+                    {authErrors.email && <div className='error-message'><span>{authErrors.email}</span></div>}
                 </div>
                 <div>
                     <label htmlFor='password'>Password</label>
@@ -79,11 +83,11 @@ function LoginForm(props) {
                         </button>
                     </div>
                     {errors.password && <div className='error-message'><span>{errors.password}</span></div>}
-                    {loginErrors.password && <div className='error-message'><span>{loginErrors.password}</span></div>}
+                    {authErrors.password && <div className='error-message'><span>{authErrors.password}</span></div>}
                 </div>   
                 <div>
-                    <button className='success-btn' type='submit' disabled={isSubmitting}>
-                        {isSubmitting ? 'Signing in...' : 'Sign in'}
+                    <button className='success-btn' type='submit' disabled={isAuthenticating || isFetching}>
+                        {isAuthenticating || isFetching ? 'Signing in...' : 'Sign in'}
                     </button>
                 </div>
             </form>
