@@ -4,6 +4,7 @@ from app.services.admin import EmailSender
 from app.services.auth import session_handler
 from app.services.admin.extensions import socketio  
 from flask_socketio import emit, disconnect
+import json
 
 
 # Definicija Blueprint-a za admin rute
@@ -137,80 +138,49 @@ def disapprove_user_route():
     
 
 
-# WebSocket događaji
+
+
 @socketio.on('connect', namespace='/admin')
 def handle_admin_connect():
-    """
-    Kada se admin poveže na WebSocket namespace '/admin',
-    proveravamo da li ima administratorske privilegije i šaljemo pending korisnike.
-    """
     try:
+        
         # Dohvati token iz query parametra ili zaglavlja
         user_token = request.args.get('token') or request.headers.get('Authorization')
         if not user_token:
-            emit('error', {"error_code": "MISSING_TOKEN", "message": "Token is required."})
+            emit('error', {"error_code": 400, "message": "Token is required."})  # MISSING_TOKEN
             disconnect()
             return
 
         # Obradi "Bearer" prefiks ako postoji
         if user_token.startswith("Bearer "):
             user_token = user_token[len("Bearer "):]
-
+         
         # Validiraj token i proveri administratorske privilegije
         session_data = session_handler.get_session(user_token)
+
         if not session_data:
-            emit('error', {"error_code": "UNAUTHORIZED", "message": "Invalid or expired token."})
+            emit('error', {"error_code": 401, "message": "Invalid or expired token."})  # UNAUTHORIZED
             disconnect()
             return
 
         email = session_data.get("email")
         permissions = session_data.get("permissions")
         if not email or permissions != "admin":
-            emit('error', {"error_code": "FORBIDDEN", "message": "Admin privileges required."})
+            emit('error', {"error_code": 403, "message": "Admin privileges required."})  # FORBIDDEN
             disconnect()
             return
 
         # Ako je admin validan, šaljemo listu pending korisnika
         pending_users_data = get_all_pending_users()
         emit('pending_users', pending_users_data)
+        
 
     except Exception as e:
-        emit('error', {"error_code": "SERVER_ERROR", "message": str(e)})
+        emit('error', {"error_code": 500, "message": f"Server error: {str(e)}"})  # SERVER_ERROR
         disconnect()
 
-@socketio.on('new_pending_user', namespace='/admin')
-def handle_new_pending_user(data):
-    """
-    Emituje novog pending korisnika svim povezanim adminima, samo ako je pozvan od strane admina.
-    """
-    try:
-        # Dohvati token iz query parametra ili zaglavlja
-        user_token = request.args.get('token') or request.headers.get('Authorization')
-        if not user_token:
-            emit('error', {"error_code": "MISSING_TOKEN", "message": "Token is required."})
-            disconnect()
-            return
 
-        # Obradi "Bearer" prefiks ako postoji
-        if user_token.startswith("Bearer "):
-            user_token = user_token[len("Bearer "):]
+@socketio.on_error_default
+def default_error_handler(e):
+    print(f"SocketIO greška:{e}")
 
-        # Validiraj token i proveri administratorske privilegije
-        session_data = session_handler.get_session(user_token)
-        if not session_data:
-            emit('error', {"error_code": "UNAUTHORIZED", "message": "Invalid or expired token."})
-            disconnect()
-            return
-
-        permissions = session_data.get("permissions")
-        if permissions != "admin":
-            emit('error', {"error_code": "FORBIDDEN", "message": "Admin privileges required."})
-            disconnect()
-            return
-
-        # Emitujemo novog pending korisnika svim adminima
-        emit('pending_users', data, broadcast=True)
-
-    except Exception as e:
-        emit('error', {"error_code": "SERVER_ERROR", "message": str(e)})
-        disconnect()

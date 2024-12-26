@@ -54,7 +54,8 @@ def remove_pending_user(user_id):
 def get_all_pending_users():
     """ Dohvata sve korisnike koji čekaju odobrenje """
     try:
-        return PendingUser.query.all()
+        pending_users =  PendingUser.query.all()
+        return [user.to_dict() for user in pending_users]
     except SQLAlchemyError as e:
         print(f"Greška: {str(e)}")
         return None

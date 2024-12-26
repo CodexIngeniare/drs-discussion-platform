@@ -2,6 +2,7 @@ from app.services.database import is_email_registered, is_username_registered, r
 from app.services.auth.password_hasher import PasswordHasher
 from flask import jsonify
 from app.services.admin.extensions import socketio
+from app.models import PendingUser
 
 
 def register_user(form_data):
@@ -56,15 +57,26 @@ def register_user(form_data):
         if result is None:
             return jsonify({"server_error": "REGISTRATION_FAILED"}), 400
         
-        # Emitovanje novog korisnika prema svim adminima
-        socketio.emit('new_pending_user', user_data, namespace='/admin', broadcast=True)
-
+        
+       
+        # Emitovanje novog korisnika prema svim adminima asinhrono
+        socketio.start_background_task(target=emit_new_user, user_data=user_data)
+       
         # Uspešna registracija
         return '', 201  # Vraća samo status 201 bez dodatnih podataka
 
     except Exception as e:
         return jsonify({"server_error": "REGISTRATION_FAILED"}),400
     
+def emit_new_user(user_data):
+    """
+    Emituje podatke o novom korisniku svim adminima.
+    """
+    if isinstance(user_data, PendingUser):    
+        user_data = user_data.to_dict()  # Konvertovanje u serializabilan format
+    socketio.emit('new_pending_user', user_data, namespace='/admin', to=None)
+
+
 
 
 def validate_form_data(form_data, current_email, current_username, user):
