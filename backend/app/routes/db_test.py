@@ -8,7 +8,34 @@ from app.services.database import (
     log_user_login,
     is_email_registered,
     register_new_user,
-    update_user_data  # Dodali smo novu funkciju
+    update_user_data  
+)
+
+from app.services.database import (
+    create_topic,
+    update_topic,
+    delete_topic,
+    get_all_topics,
+    get_topic_by_id
+)
+
+from app.services.database import (
+    create_discussion,
+    update_discussion,
+    delete_discussion,
+    get_all_discussions,
+    get_discussion_by_id
+)
+
+from app.services.database import (
+    create_comment,
+    delete_comment,
+    get_all_comments,
+    get_comment_by_id
+)
+
+from app.services.database import(
+    like_or_dislike
 )
 
 db_bp = Blueprint('db_bp', __name__)
@@ -199,6 +226,395 @@ def db_get_all_admin_emails():
 
         # Vraćamo listu email adresa
         return {"admin_emails": admin_emails}, 200
+    except Exception as e:
+        return {
+            "status": "error",
+            "message": str(e)
+        }, 500
+    
+
+    # Kreiranje nove teme
+@db_bp.route('/db/topic/create', methods=['POST'])
+def db_create_topic():
+    try:
+        form_data = request.get_json()
+        name = form_data.get("name")
+        description = form_data.get("description")
+
+        if not name:
+            raise ValueError("Naziv teme je obavezan.")
+
+        topic = create_topic(name=name, description=description)
+
+        if not topic:
+            raise Exception("Došlo je do greške prilikom kreiranja teme.")
+
+        return {
+            "status": "success",
+            "topic": {
+                "id": topic.id,
+                "name": topic.name,
+                "description": topic.description
+            }
+        }, 200
+    except Exception as e:
+        return {
+            "status": "error",
+            "message": str(e)
+        }, 500
+
+# Ažuriranje postojeće teme
+@db_bp.route('/db/topic/update/<int:topic_id>', methods=['POST'])
+def db_update_topic(topic_id):
+    try:
+        form_data = request.get_json()
+        name = form_data.get("name")
+        description = form_data.get("description")
+
+        topic = update_topic(topic_id=topic_id, name=name, description=description)
+
+        if not topic:
+            raise Exception(f"Tema sa ID {topic_id} nije pronađena ili nije mogla biti ažurirana.")
+
+        return {
+            "status": "success",
+            "topic": {
+                "id": topic.id,
+                "name": topic.name,
+                "description": topic.description
+            }
+        }, 200
+    except Exception as e:
+        return {
+            "status": "error",
+            "message": str(e)
+        }, 500
+
+# Brisanje teme
+@db_bp.route('/db/topic/delete/<int:topic_id>', methods=['POST'])
+def db_delete_topic(topic_id):
+    try:
+        form_data = request.get_json()
+        default_topic_id = form_data.get("default_topic_id")
+
+        if not default_topic_id:
+            raise ValueError("Default topic ID je obavezan.")
+
+        success = delete_topic(topic_id=topic_id, default_topic_id=default_topic_id)
+
+        if not success:
+            raise Exception(f"Tema sa ID {topic_id} nije pronađena ili nije mogla biti obrisana.")
+
+        return {
+            "status": "success",
+            "message": f"Tema sa ID {topic_id} je uspešno obrisana."
+        }, 200
+    except Exception as e:
+        return {
+            "status": "error",
+            "message": str(e)
+        }, 500
+
+# Dohvatanje svih tema
+@db_bp.route('/db/topic/get_all', methods=['GET'])
+def db_get_all_topics():
+    try:
+        topics = get_all_topics()
+
+        if topics is None:
+            raise Exception("Došlo je do greške prilikom dohvatanja svih tema.")
+
+        return {
+            "status": "success",
+            "topics": [
+                {
+                    "id": topic.id,
+                    "name": topic.name,
+                    "description": topic.description
+                } for topic in topics
+            ]
+        }, 200
+    except Exception as e:
+        return {
+            "status": "error",
+            "message": str(e)
+        }, 500
+
+# Dohvatanje teme po ID-u
+@db_bp.route('/db/topic/get/<int:topic_id>', methods=['GET'])
+def db_get_topic_by_id(topic_id):
+    try:
+        topic = get_topic_by_id(topic_id)
+
+        if not topic:
+            return {
+                "status": "success",
+                "topic": None
+            }, 200
+
+        return {
+            "status": "success",
+            "topic": {
+                "id": topic.id,
+                "name": topic.name,
+                "description": topic.description
+            }
+        }, 200
+    except Exception as e:
+        return {
+            "status": "error",
+            "message": str(e)
+        }, 500
+    
+    # Kreiranje nove diskusije
+@db_bp.route('/db/discussion/create', methods=['POST'])
+def db_create_discussion():
+    try:
+        form_data = request.get_json()
+
+        title = form_data.get("title")
+        content = form_data.get("content")
+        user_id = form_data.get("user_id")
+        topic_id = form_data.get("topic_id")
+
+        if not title or not content or not user_id or not topic_id:
+            raise ValueError("Svi podaci (title, content, user_id, topic_id) su obavezni.")
+
+        discussion = create_discussion(title=title, content=content, user_id=user_id, topic_id=topic_id)
+
+        if not discussion:
+            raise Exception("Došlo je do greške prilikom kreiranja diskusije.")
+
+        return {
+            "status": "success",
+            "message": f"Diskusija '{discussion.title}' je uspešno kreirana."
+        }, 200
+    except Exception as e:
+        return {
+            "status": "error",
+            "message": str(e)
+        }, 500
+
+
+# Ažuriranje diskusije
+@db_bp.route('/db/discussion/update/<int:discussion_id>', methods=['POST'])
+def db_update_discussion(discussion_id):
+    try:
+        form_data = request.get_json()
+
+        title = form_data.get("title")
+        content = form_data.get("content")
+        topic_id = form_data.get("topic_id")
+
+        discussion = update_discussion(discussion_id=discussion_id, title=title, content=content, topic_id=topic_id)
+
+        if not discussion:
+            raise Exception(f"Diskusija sa ID {discussion_id} nije pronađena ili došlo je do greške prilikom ažuriranja.")
+
+        return {
+            "status": "success",
+            "message": f"Diskusija sa ID {discussion_id} je uspešno ažurirana."
+        }, 200
+    except Exception as e:
+        return {
+            "status": "error",
+            "message": str(e)
+        }, 500
+
+
+# Brisanje diskusije
+@db_bp.route('/db/discussion/delete/<int:discussion_id>', methods=['POST'])
+def db_delete_discussion(discussion_id):
+    try:
+        success = delete_discussion(discussion_id=discussion_id)
+
+        if not success:
+            raise Exception(f"Diskusija sa ID {discussion_id} nije pronađena ili došlo je do greške prilikom brisanja.")
+
+        return {
+            "status": "success",
+            "message": f"Diskusija sa ID {discussion_id} je uspešno obrisana, uključujući sve komentare."
+        }, 200
+    except Exception as e:
+        return {
+            "status": "error",
+            "message": str(e)
+        }, 500
+
+
+# Dohvat svih diskusija
+@db_bp.route('/db/discussions', methods=['GET'])
+def db_get_all_discussions():
+    try:
+        discussions = get_all_discussions()
+
+        if not discussions:
+            raise Exception("Nema diskusija u bazi.")
+
+        return {
+            "status": "success",
+            "discussions": [{"id": d.id, "title": d.title} for d in discussions]
+        }, 200
+    except Exception as e:
+        return {
+            "status": "error",
+            "message": str(e)
+        }, 500
+
+
+# Dohvat diskusije po ID-u
+@db_bp.route('/db/discussion/<int:discussion_id>', methods=['GET'])
+def db_get_discussion_by_id(discussion_id):
+    try:
+        discussion = get_discussion_by_id(discussion_id)
+
+        if not discussion:
+            raise Exception(f"Diskusija sa ID {discussion_id} nije pronađena.")
+
+        return {
+            "status": "success",
+            "discussion": {
+                "id": discussion.id,
+                "title": discussion.title,
+                "content": discussion.content
+            }
+        }, 200
+    except Exception as e:
+        return {
+            "status": "error",
+            "message": str(e)
+        }, 500
+
+
+@db_bp.route('/db/comment', methods=['POST'])
+def db_create_comment():
+    try:
+        form_data = request.get_json()
+        content = form_data.get('content')
+        user_id = form_data.get('user_id')
+        discussion_id = form_data.get('discussion_id')
+
+        if not content or not user_id or not discussion_id:
+            raise ValueError("Svi podaci (content, user_id, discussion_id) su obavezni.")
+
+        new_comment = create_comment(content=content, user_id=user_id, discussion_id=discussion_id)
+
+        if not new_comment:
+            raise Exception("Greška pri kreiranju komentara.")
+
+        return {
+            "status": "success",
+            "message": "Komentar je uspešno kreiran.",
+            "comment": {
+                "id": new_comment.id,
+                "content": new_comment.content,
+                "user_id": new_comment.user_id,
+                "discussion_id": new_comment.discussion_id
+            }
+        }, 200
+    except Exception as e:
+        return {
+            "status": "error",
+            "message": str(e)
+        }, 500
+    
+
+@db_bp.route('/db/comment/delete/<int:comment_id>', methods=['POST'])
+def db_delete_comment(comment_id):
+    try:
+        success = delete_comment(comment_id)
+
+        if not success:
+            raise Exception(f"Komentar sa ID {comment_id} nije pronađen ili nije mogao biti obrisan.")
+
+        return {
+            "status": "success",
+            "message": f"Komentar sa ID {comment_id} je uspešno obrisan."
+        }, 200
+    except Exception as e:
+        return {
+            "status": "error",
+            "message": str(e)
+        }, 500
+    
+
+@db_bp.route('/db/comments', methods=['GET'])
+def db_get_all_comments():
+    try:
+        comments = get_all_comments()
+
+        if not comments:
+            raise Exception("Nema komentara u bazi.")
+
+        comments_list = [{
+            "id": comment.id,
+            "content": comment.content,
+            "user_id": comment.user_id,
+            "discussion_id": comment.discussion_id
+        } for comment in comments]
+
+        return {
+            "status": "success",
+            "comments": comments_list
+        }, 200
+    except Exception as e:
+        return {
+            "status": "error",
+            "message": str(e)
+        }, 500
+
+    
+
+@db_bp.route('/db/comment/<int:comment_id>', methods=['GET'])
+def db_get_comment_by_id(comment_id):
+    try:
+        comment = get_comment_by_id(comment_id)
+
+        if not comment:
+            raise Exception(f"Komentar sa ID {comment_id} nije pronađen.")
+
+        return {
+            "status": "success",
+            "comment": {
+                "id": comment.id,
+                "content": comment.content,
+                "user_id": comment.user_id,
+                "discussion_id": comment.discussion_id
+            }
+        }, 200
+    except Exception as e:
+        return {
+            "status": "error",
+            "message": str(e)
+        }, 500
+    
+@db_bp.route('/db/like_or_dislike', methods=['POST'])
+def db_like_or_dislike():
+    try:
+        # Uzimanje podataka iz tela zahteva
+        form_data = request.get_json()
+        user_id = form_data.get("user_id")
+        discussion_id = form_data.get("discussion_id")
+        is_like = form_data.get("is_like")
+
+        if user_id is None or discussion_id is None or is_like is None:
+            raise ValueError("Svi podaci (user_id, discussion_id, is_like) su obavezni.")
+
+        # Poziv funkcije za lajkovanje ili dislajkovanje
+        like = like_or_dislike(discussion_id, user_id, is_like)
+
+        if not like:
+            raise Exception("Došlo je do greške prilikom lajkovanja/dislajkovanja.")
+
+        return {
+            "status": "success",
+            "message": "Lajk/dislajk je uspešno postavljen.",
+            "like": {
+                "user_id": like.user_id,
+                "discussion_id": like.discussion_id,
+                "is_like": like.is_like
+            }
+        }, 200
     except Exception as e:
         return {
             "status": "error",

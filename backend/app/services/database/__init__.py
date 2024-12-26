@@ -13,4 +13,31 @@ from .user_queries import (
     remove_pending_user
 )
 
+from .topic_queries import (
+    create_topic,
+    update_topic,
+    delete_topic,
+    get_all_topics,
+    get_topic_by_id
+)
+
+from .discussions_queries import (
+    create_discussion,
+    update_discussion,
+    delete_discussion,
+    get_all_discussions,
+    get_discussion_by_id
+)
+
+from .comments_queries import (
+    create_comment,
+    delete_comment,
+    get_all_comments,
+    get_comment_by_id
+)
+
+from .likes_queries import(
+    like_or_dislike
+)
+
 
