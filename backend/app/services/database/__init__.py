@@ -33,7 +33,8 @@ from .comments_queries import (
     create_comment,
     delete_comment,
     get_all_comments,
-    get_comment_by_id
+    get_comment_by_id,
+    get_comments_by_discussion_id
 )
 
 from .likes_queries import(

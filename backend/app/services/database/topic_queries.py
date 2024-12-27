@@ -37,23 +37,46 @@ def update_topic(topic_id, name=None, description=None):
         return None
 
 
-def delete_topic(topic_id, default_topic_id):
-
+def get_default_topic():
     try:
-        topic = Topic.query.get(topic_id)
-        if not topic:
+       
+        default_topic = Topic.query.filter_by(description="default").first()
+        return default_topic
+    except SQLAlchemyError as e:
+        print(f"Greška prilikom dohvatanja default teme: {str(e)}")
+        return None
+
+
+def delete_topic(topic_id):
+    try:
+        
+        default_topic = get_default_topic()
+
+        if not default_topic:
+            print("Default topic nije pronađen!")
             return False
 
-        # Ažuriraj diskusije koje koriste ovu temu
-        Discussion.query.filter_by(topic_id=topic_id).update({"topic_id": default_topic_id})
+      
+        if topic_id == default_topic.id:
+            print("Ne može se obrisati default topic.")
+            return False
 
-        # Obriši temu
+       
+        topic = Topic.query.get(topic_id)
+        if not topic:
+            print("Tema nije pronađena!")
+            return False
+
+        
+        Discussion.query.filter_by(topic_id=topic_id).update({"topic_id": default_topic.id})
+
+     
         db.session.delete(topic)
         db.session.commit()
         return True
     except SQLAlchemyError as e:
         db.session.rollback()
-        print(f"Greška: {str(e)}")
+        print(f"Greška prilikom brisanja teme: {str(e)}")
         return False
 
 

@@ -31,7 +31,8 @@ from app.services.database import (
     create_comment,
     delete_comment,
     get_all_comments,
-    get_comment_by_id
+    get_comment_by_id,
+    get_comments_by_discussion_id
 )
 
 from app.services.database import(
@@ -290,25 +291,22 @@ def db_update_topic(topic_id):
             "message": str(e)
         }, 500
 
-# Brisanje teme
 @db_bp.route('/db/topic/delete/<int:topic_id>', methods=['POST'])
 def db_delete_topic(topic_id):
     try:
-        form_data = request.get_json()
-        default_topic_id = form_data.get("default_topic_id")
+       
+        success = delete_topic(topic_id)
 
-        if not default_topic_id:
-            raise ValueError("Default topic ID je obavezan.")
-
-        success = delete_topic(topic_id=topic_id, default_topic_id=default_topic_id)
-
-        if not success:
-            raise Exception(f"Tema sa ID {topic_id} nije pronađena ili nije mogla biti obrisana.")
-
-        return {
-            "status": "success",
-            "message": f"Tema sa ID {topic_id} je uspešno obrisana."
-        }, 200
+        if success:
+            return {
+                "status": "success",
+                "message": "Tema je uspešno obrisana."
+            }, 200
+        else:
+            return {
+                "status": "error",
+                "message": "Došlo je do greške prilikom brisanja teme."
+            }, 400
     except Exception as e:
         return {
             "status": "error",
@@ -620,3 +618,25 @@ def db_like_or_dislike():
             "status": "error",
             "message": str(e)
         }, 500
+    
+@db_bp.route('/db/discussion/comments/<int:discussion_id>', methods=['GET'])
+def db_get_comments_by_discussion(discussion_id):
+    try:
+        comments = get_comments_by_discussion_id(discussion_id)
+
+        if not comments:
+            return {
+                "status": "success",
+                "comments": None  
+            }, 200
+
+        return {
+            "status": "success",
+            "comments": comments  
+        }, 200
+    except Exception as e:
+        return {
+            "status": "error",
+            "message": str(e)
+        }, 500
+    
