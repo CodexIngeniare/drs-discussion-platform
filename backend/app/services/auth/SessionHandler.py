@@ -7,7 +7,7 @@ class SessionHandler:
         # Rečnik za čuvanje aktivnih sesija
         self.active_sessions = {}
 
-    def create_session(self, email, is_admin):
+    def create_session(self, user_id, email, is_admin):
         """
         Kreira novu sesiju za korisnika.
         - Proverava da li je korisnik već ulogovan.
@@ -23,6 +23,7 @@ class SessionHandler:
 
         # Čuvanje sesije
         self.active_sessions[token] = {
+            "user_id": user_id,
             "email": email,
             "permissions": "admin" if is_admin else "user"
         }

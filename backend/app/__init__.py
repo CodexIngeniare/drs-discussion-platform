@@ -42,5 +42,9 @@ def create_app():
     from app.services.admin.extensions import socketio
     socketio.init_app(app, cors_allowed_origins="*")
 
+    from app.routes import discussion_bp
+    app.register_blueprint(discussion_bp)
+
+    
 
     return app
