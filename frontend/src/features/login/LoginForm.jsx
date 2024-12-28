@@ -40,7 +40,7 @@ function LoginForm(props) {
         }
         if (await handleAuthentication(email, password)) {
             const token = sessionStorage.getItem("token");
-
+            
             if (await fetchAccountData(token)) {
                 navigate('/dashboard');
             }
