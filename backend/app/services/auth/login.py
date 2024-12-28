@@ -71,7 +71,7 @@ def login_user(email, password):
             return jsonify({"error_code": "INVALID_PASSWORD", "message": "Incorrect password."}), 401
 
         # Kreiranje sesije
-        token = session_handler.create_session(email, user.is_admin)
+        token = session_handler.create_session(user.id ,email, user.is_admin)
         if isinstance(token, tuple):  # Ako je greška (već ulogovan)
             return token
 
