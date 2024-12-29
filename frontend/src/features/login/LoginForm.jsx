@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import AuthContext from '../../context/AuthContext.js';
 import useAuthenticateUser from './hooks/useAuthenticateUser.js';
 import useFetchAccountData from './hooks/useFetchAccountData.js';
 import useInputField from '../../hooks/useInputField.js';
@@ -7,6 +8,7 @@ import { validateEmail, validateLoginPassword } from '../../utils/UserDataValida
 import './LoginForm.css';
 
 function LoginForm(props) {
+    const { loadContextFromSession } = useContext(AuthContext);
     const navigate = useNavigate();
 
     const emailField = useInputField('', false, validateEmail);
@@ -47,8 +49,9 @@ function LoginForm(props) {
         }
         if (await handleAuthentication(emailField.value, passwordField.value)) {
             const token = sessionStorage.getItem("token");
-            
+
             if (await fetchAccountData(token)) {
+                loadContextFromSession();
                 navigate('/dashboard');
             }
             else {

@@ -15,6 +15,10 @@ export const AuthProvider = ( { children }) => {
     const [address, setAddress] = useState("");
 
     useEffect(() => {
+        loadContextFromSession();
+    }, []);
+    const loadContextFromSession = () => {
+        console.log("Loading Context from Session storage");
         const storedToken = sessionStorage.getItem("token");
         const storedUserData = sessionStorage.getItem("user");
 
@@ -39,7 +43,7 @@ export const AuthProvider = ( { children }) => {
                 console.error("Error parsing stored user data: ", error);
             }
         }
-    }, []);
+    };
 
     return (
         <AuthContext.Provider value={{
@@ -52,7 +56,8 @@ export const AuthProvider = ( { children }) => {
             phoneNumber, setPhoneNumber,
             country, setCountry,
             city, setCity,
-            address, setAddress
+            address, setAddress,
+            loadContextFromSession,
             }}>
             {children}
         </AuthContext.Provider>

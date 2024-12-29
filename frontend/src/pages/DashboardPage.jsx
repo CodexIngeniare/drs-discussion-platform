@@ -4,7 +4,7 @@ import SettingsView from '../features/settings/SettingsView';
 import "./DashboardPage.css";
 
 function DashboardPage() {
-
+  
   return (
     <div className="DashboardPage">
         <header className="header-section">
