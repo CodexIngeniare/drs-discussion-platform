@@ -1,33 +1,40 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useAuthenticateUser from './hooks/useAuthenticateUser.js';
 import useFetchAccountData from './hooks/useFetchAccountData.js';
-import { isEmailValid, isLoginPasswordValid } from '../../utils/UserDataValidations.js';
+import useInputField from '../../hooks/useInputField.js';
+import { validateEmail, validateLoginPassword } from '../../utils/UserDataValidations.js';
 import './LoginForm.css';
 
 function LoginForm(props) {
     const navigate = useNavigate();
+
+    const emailField = useInputField('', false, validateEmail);
+    const passwordField = useInputField('', false, validateLoginPassword);
+
     const { isAuthenticating, authErrors, handleAuthentication } = useAuthenticateUser(props.LoginEndpoint);
     const { isFetching, fetchErrors, fetchAccountData } = useFetchAccountData(props.UserDataEndpoint);
 
     const [showPassword, setShowPassword] = useState(false);
-    const [errors, setErrors] = useState({});
 
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+    useEffect(() => {
+        emailField.setError(authErrors.email);
+        passwordField.setError(authErrors.password);
+    }, [authErrors]);
 
     const validateForm = () => {
-        const newErrors = {};
+        let valid = true;
 
-        isEmailValid(email, newErrors);
-        isLoginPasswordValid(password, newErrors);
+        emailField.validate();
+        passwordField.validate();
 
-        setErrors(newErrors);
-
-        if(Object.keys(newErrors).length === 0)
-            return true;
-
-        return false;
+        if (!emailField.isValid) {
+            valid = false;
+        }
+        if (!passwordField.isValid) {
+            valid = false;
+        }
+        return valid;
     };
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -38,7 +45,7 @@ function LoginForm(props) {
         if (!validateForm()) {
             return;
         }
-        if (await handleAuthentication(email, password)) {
+        if (await handleAuthentication(emailField.value, passwordField.value)) {
             const token = sessionStorage.getItem("token");
             
             if (await fetchAccountData(token)) {
@@ -61,12 +68,11 @@ function LoginForm(props) {
                     <br />
                     <input id='email'
                         type='text'
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+                        value={emailField.value}
+                        onChange={(e) => emailField.handleChange(e.target.value)}
                         placeholder='enter your email address'
                     />
-                    {errors.email && <div className='error-message'><span>{errors.email}</span></div>}
-                    {authErrors.email && <div className='error-message'><span>{authErrors.email}</span></div>}
+                    {emailField.error && <div className='error-message'><span>{emailField.error}</span></div>}
                 </div>
                 <div>
                     <label htmlFor='password'>Password</label>
@@ -74,16 +80,15 @@ function LoginForm(props) {
                     <div className='login-password'>
                         <input id='password'
                             type={showPassword ? 'text' : 'password'}
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
+                            value={passwordField.value}
+                            onChange={(e) => passwordField.handleChange(e.target.value)}
                             placeholder='enter your password'
                         />
                         <button className='login-toggle-password' type="button" onClick={togglePasswordVisibility}>
                             {showPassword ? 'Hide' : 'Show'}
                         </button>
                     </div>
-                    {errors.password && <div className='error-message'><span>{errors.password}</span></div>}
-                    {authErrors.password && <div className='error-message'><span>{authErrors.password}</span></div>}
+                    {passwordField.error && <div className='error-message'><span>{passwordField.error}</span></div>}
                 </div>   
                 <div>
                     <button className='success-btn' type='submit' disabled={isAuthenticating || isFetching}>

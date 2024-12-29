@@ -11,12 +11,36 @@ export function isEmailValid(email, outErrors = {}){
     }
     return true;
 };
+export function validateEmail(email){
+    const emailRegex = /\S+@\S+\.\S+/;
+    let isValid = true;
+    let errorMessage = "";
+
+    if (!email || email === '') {
+        isValid = false;
+        errorMessage = "Email is required.";
+    } else if (!emailRegex.test(email)) {
+        isValid = false;
+        errorMessage = "Please enter a valid email.";
+    }
+    return { isValid, errorMessage };
+};
 export function isLoginPasswordValid(password, outErrors = {}){
     if (!password) {
         outErrors.password = "Password is required.";
         return false;
     }
     return true;
+};
+export function validateLoginPassword(password){
+    let isValid = true;
+    let errorMessage = "";
+
+    if (!password) {
+        isValid = false;
+        errorMessage = "Password is required.";
+    }
+    return { isValid, errorMessage };
 };
 export function isRegisterPasswordValid(password, outErrors = {}){
     if (!password) {
