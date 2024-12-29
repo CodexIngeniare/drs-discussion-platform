@@ -23,18 +23,21 @@ export const AuthProvider = ( { children }) => {
         }
 
         if(storedUserData){
-            const userData = JSON.parse(storedUserData).user;
+            try{
+                const userData = JSON.parse(storedUserData).user;
 
-            console.log(userData);
-            setUserRole(userData.is_admin === "true" ? "admin" : "user");
-            setUsername(userData.username);
-            setEmail(userData.email);
-            setFirstname(userData.first_name);
-            setLastName(userData.last_name);
-            setPhoneNumber(userData.phone_number);
-            setCountry(userData.country);
-            setCity(userData.city);
-            setAddress(userData.address);
+                setUserRole(userData.is_admin === "true" ? "admin" : "user");
+                setUsername(userData.username);
+                setEmail(userData.email);
+                setFirstname(userData.first_name);
+                setLastName(userData.last_name);
+                setPhoneNumber(userData.phone_number);
+                setCountry(userData.country);
+                setCity(userData.city);
+                setAddress(userData.address);
+            } catch (error){
+                console.error("Error parsing stored user data: ", error);
+            }
         }
     }, []);
 

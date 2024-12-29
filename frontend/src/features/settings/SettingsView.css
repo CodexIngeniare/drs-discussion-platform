@@ -1,0 +1,16 @@
+
+.SettingsView {
+    height: 100%;
+    display: grid;
+    grid-template-columns: 1fr 6fr 1fr;
+}
+    .SettingsView .left-sidebar-section{
+        grid-column: 1 / 2;
+        background-color: black;
+        border-right: solid;
+    }
+    .SettingsView .right-sidebar-section{
+        grid-column: 3 / 4;
+        background-color: black;
+        border-left: solid;
+    }

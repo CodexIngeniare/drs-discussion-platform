@@ -1,0 +1,12 @@
+@import "../../assets/styles/global_variables.css";
+
+.NavLink{
+    color: var(--text-clr);
+    text-decoration: none;
+}
+    .NavLink:hover{
+        text-decoration: underline;
+    }
+    .NavLink:active{
+        color: var(--hover-info-clr);
+    }

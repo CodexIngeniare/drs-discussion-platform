@@ -1,0 +1,22 @@
+
+.Sidebar {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-sizing: border-box;
+    height: 100%;
+    width: 100%;
+    padding: 20px;
+}
+    .Sidebar .top-section{
+        display: flex;
+        flex-direction: column;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+    .Sidebar .bottom-section {
+    }
+    .Sidebar hr{
+        width: 100%;
+    }
