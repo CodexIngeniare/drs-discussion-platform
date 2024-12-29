@@ -22,3 +22,16 @@ class Discussion(db.Model):
 
     def __repr__(self):
         return f"<Discussion {self.title}>"
+ 
+    
+    # Dodajemo to_dict metodu koja će konvertovati objekat u rečnik
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "title": self.title,
+            "content": self.content,
+            "topic_id": self.topic_id,
+            "user_id": self.user_id,
+            "created_at": self.created_at.isoformat(),
+            "updated_at": self.updated_at.isoformat()
+        }

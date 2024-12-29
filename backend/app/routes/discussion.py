@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify
 from app.services.discussion import create_discussion_service, update_discussion_service, delete_discussion_service
 from app.services.auth import session_handler
+from app.services.database.discussions_queries import get_all_discussions
 
 discussion_bp = Blueprint('discussion', __name__)
 
@@ -142,6 +143,31 @@ def delete_discussion():
             is_admin=is_admin
         )
         return jsonify(response), status_code
+
+    except Exception as e:
+        return jsonify({"error_code": "SERVER_ERROR", "message":str(e)}),500 
+    
+
+@discussion_bp.route('/get_all_discussions', methods=['GET'])
+def get_all_discussions_route():
+    """
+    Vraća sve diskusije u JSON formatu.
+    """
+    try:
+        # Pozivanje servisne funkcije za dobijanje svih diskusija
+        discussions = get_all_discussions()
+
+        if not discussions:
+            return jsonify({"error_code": "SERVER_ERROR", "message": "No discussions found."}), 500
+
+        # Pretvaranje diskusija u listu reči za JSON odgovor
+        discussions_list = [discussion.to_dict() for discussion in discussions]
+
+        # Uspešan odgovor sa listom svih diskusija
+        return jsonify({
+            "message": "Discussions retrieved successfully",
+            "discussions": discussions_list
+        }), 200
 
     except Exception as e:
         return jsonify({"error_code": "SERVER_ERROR", "message":str(e)}),500
