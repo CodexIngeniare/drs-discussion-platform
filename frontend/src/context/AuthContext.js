@@ -7,7 +7,7 @@ export const AuthProvider = ( { children }) => {
     const [userRole, setUserRole] = useState("user");
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
-    const [firstName, setFirstname] = useState("");
+    const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [phoneNumber, setPhoneNumber] = useState("");
     const [country, setCountry] = useState("");
@@ -29,7 +29,7 @@ export const AuthProvider = ( { children }) => {
                 setUserRole(userData.is_admin === "true" ? "admin" : "user");
                 setUsername(userData.username);
                 setEmail(userData.email);
-                setFirstname(userData.first_name);
+                setFirstName(userData.first_name);
                 setLastName(userData.last_name);
                 setPhoneNumber(userData.phone_number);
                 setCountry(userData.country);
@@ -47,7 +47,7 @@ export const AuthProvider = ( { children }) => {
             userRole, setUserRole,
             username, setUsername,
             email, setEmail,
-            firstName, setFirstname,
+            firstName, setFirstName,
             lastName, setLastName,
             phoneNumber, setPhoneNumber,
             country, setCountry,

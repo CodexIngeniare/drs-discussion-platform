@@ -2,6 +2,7 @@ import { Routes, Route, Navigate} from 'react-router-dom';
 import Sidebar from '../../layouts/Sidebar.jsx'
 import NavLink from '../../components/ui/NavLink.jsx'
 import './SettingsView.css';
+import LogoutButton from '../logout/LogoutButton.jsx';
 
 function SettingsView() {
 
@@ -15,7 +16,7 @@ function SettingsView() {
               <hr />
             </Sidebar.Top>
             <Sidebar.Bottom>
-              <h1>BOTTOM</h1>
+              <LogoutButton />
             </Sidebar.Bottom>
           </Sidebar>
         </aside>
