@@ -6,36 +6,6 @@
     gap: 20px; 
     width: 100%;
 }
-    .LoginForm div{
-        display: flex;
-        flex-direction: column;
-        justify-content: stretch;
-    }
-    .LoginForm .error-message{
-        font-size: 16px;
-    }
-    .LoginForm label{
-        font-size: 24px;
-    }
-    .LoginForm input{
-        font-size: 18px;
-    }
-    .LoginForm button{
+    .LoginForm .success-btn{
         font-size: 20px;
     }
-    .LoginForm .login-password{
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-    }
-        .LoginForm input {   
-            flex-grow: 1;     
-            border-top-right-radius: 0px;
-            border-bottom-right-radius: 0px;
-        }
-        .LoginForm .login-toggle-password {
-            width: 70px;
-            font-size: 18px;
-            border-top-left-radius: 0px;
-            border-bottom-left-radius: 0px;
-        }

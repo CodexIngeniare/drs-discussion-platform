@@ -1,6 +1,7 @@
 import { useState } from 'react';
+import './PasswordInput.css';
 
-function TextInput ({ label, value, error, placeholder, handleChange }) {
+function PasswordInput ({ label, value, error, placeholder, handleChange }) {
     const [showPassword, setShowPassword] = useState(false);
 
     const togglePasswordVisibility = () => {
@@ -8,24 +9,26 @@ function TextInput ({ label, value, error, placeholder, handleChange }) {
     };
 
     return (
-        <div>
-            <div>
-                <label>{label}</label>
+        <div className='PasswordInput'>
+            <div className='PasswordInput__label-container'>
+                <label className='PasswordInput__label'>
+                    {label}
+                </label>
             </div>
-            <div className='login-password'>
-                <input id='password'
+            <div className='PasswordInput__input-container'>
+                <input className='PasswordInput__input'
                     type={showPassword ? 'text' : 'password'}
                     value={value}
                     onChange={(e) => handleChange(e.target.value)}
                     placeholder={placeholder}
                 />
-                <button className='login-toggle-password' type="button" onClick={togglePasswordVisibility}>
+                <button className='PasswordInput__toggle-button' type="button" onClick={togglePasswordVisibility}>
                     {showPassword ? 'Hide' : 'Show'}
                 </button>
             </div>
-            {error && <div className='error-message'><span>{error}</span></div>}
+            {error && <div className='PasswordInput__error-message'><span>{error}</span></div>}
         </div> 
     );
 }
 
-export default TextInput;
+export default PasswordInput;
