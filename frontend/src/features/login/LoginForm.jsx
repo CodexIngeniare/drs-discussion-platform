@@ -1,12 +1,10 @@
 import React, { useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import AuthContext from '../../context/AuthContext.js';
-import useAuthenticateUser from './hooks/useAuthenticateUser.js';
-import useFetchAccountData from './hooks/useFetchAccountData.js';
-import useInputField from '../../hooks/useInputField.js';
-import TextInput from '../../components/form/TextInput.jsx';
-import PasswordInput from '../../components/form/PasswordInput.jsx';
-import { validateEmail, validateLoginPassword } from '../../utils/UserDataValidations.js';
+import { AuthContext } from '../../context';
+import { useAuthenticateUser, useFetchAccountData } from './hooks';
+import { useInputField } from '../../hooks';
+import { TextInput, PasswordInput } from '../../components';
+import { validateEmail, validateLoginPassword } from '../../utils';
 import './LoginForm.css';
 
 function LoginForm(props) {

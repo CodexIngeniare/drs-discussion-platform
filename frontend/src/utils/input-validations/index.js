@@ -1,0 +1,12 @@
+export { validateEmail } from './UserDataValidations.js';
+export { validateLoginPassword } from './UserDataValidations.js';
+export { isEmailValid } from './UserDataValidations.js';
+export { isLoginPasswordValid } from './UserDataValidations.js';
+export { isRegisterPasswordValid } from './UserDataValidations.js';
+export { isUsernameValid } from './UserDataValidations.js';
+export { isFirstNameValid } from './UserDataValidations.js';
+export { isLastNameValid } from './UserDataValidations.js';
+export { isPhoneNumberValid } from './UserDataValidations.js';
+export { isCountryValid } from './UserDataValidations.js';
+export { isCityValid } from './UserDataValidations.js';
+export { isAddressValid } from './UserDataValidations.js';

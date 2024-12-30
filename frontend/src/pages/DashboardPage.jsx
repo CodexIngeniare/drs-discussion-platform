@@ -1,10 +1,9 @@
 import { Routes, Route, Navigate} from 'react-router-dom';
-import Navbar from '../layouts/Navbar';
-import SettingsView from '../features/settings/SettingsView';
+import { SettingsView } from '../features/settings';
+import { Navbar } from '../layouts';
 import "./DashboardPage.css";
 
 function DashboardPage() {
-  
   return (
     <div className="DashboardPage">
         <header className="header-section">

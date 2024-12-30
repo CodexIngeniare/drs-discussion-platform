@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import RegisterForm from '../features/register/RegisterForm.jsx';
+import { RegisterForm } from '../features/register';
 import PosterImage from '../assets/images/IWYFDORG.png';
 import './RegisterPage.css';
 

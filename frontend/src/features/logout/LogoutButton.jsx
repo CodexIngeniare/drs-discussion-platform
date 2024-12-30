@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import AuthContext from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import useLogoutUser from './hooks/useLogoutUser';
+import { useLogoutUser } from './hooks';
 import './LogoutButton.css';
 
 function LogoutButton() {

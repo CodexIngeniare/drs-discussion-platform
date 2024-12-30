@@ -1,8 +1,8 @@
 import { Routes, Route, Navigate} from 'react-router-dom';
-import Sidebar from '../../layouts/Sidebar.jsx'
-import NavLink from '../../components/ui/NavLink.jsx'
+import { Sidebar } from '../../layouts'
+import { NavLink } from '../../components'
+import { LogoutButton } from '../logout';
 import './SettingsView.css';
-import LogoutButton from '../logout/LogoutButton.jsx';
 
 function SettingsView() {
 
@@ -13,7 +13,7 @@ function SettingsView() {
             <Sidebar.Top>
               <NavLink label="Account Settings" link="/dashboard/settings/account"/>
               <NavLink label="Personal Settings" link="/dashboard/settings/personal"/>
-              <hr />
+              <hr/>
             </Sidebar.Top>
             <Sidebar.Bottom>
               <LogoutButton />

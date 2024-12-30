@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import LoginForm from '../features/login/LoginForm.jsx';
+import { LoginForm } from '../features/login';
 import './LoginPage.css';
 
 function LoginPage() {
