@@ -3,3 +3,4 @@ from .db_test import db_bp
 from .auth import auth_bp
 from .admin import admin_bp
 from .discussion import discussion_bp
+from .comment import comment_bp 
