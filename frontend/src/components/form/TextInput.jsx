@@ -1,19 +1,5 @@
-import React, { useState } from 'react';
 
-function TextInput ({ label, value, setValue, validateInput }) {
-    const [localError, setLocalError] = useState("");
-
-    const handleChange = (e) => {
-        setValue(e.target.value);    
-    };
-    const handleValidation = () => {
-        const newError = validateInput(value);
-        if (!newError) {
-        }
-        setLocalError(newError);
-        console.log("newError: ", newError);
-    };
-
+function TextInput ({ label, value, error, placeholder, handleChange }) {
     return (
       <div className="TextInput">
           <div>
@@ -23,9 +9,9 @@ function TextInput ({ label, value, setValue, validateInput }) {
               type='text'
               value={value}
               onChange={(e) => handleChange(e.target.value)}
-              onBlur={handleValidation}
+              placeholder={placeholder}
           />
-          {localError && <span className='error-message'>{localError}</span>}
+          {error && <span className='error-message'>{error}</span>}
       </div>
     );
 }

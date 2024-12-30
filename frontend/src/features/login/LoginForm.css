@@ -1,39 +1,39 @@
 @import '../../assets/styles/global_variables.css';
 
-.login-form-container{
+.LoginForm{
     display: flex;
     flex-direction: column;
     gap: 20px; 
     width: 100%;
 }
-    .login-form-container div{
+    .LoginForm div{
         display: flex;
         flex-direction: column;
         justify-content: stretch;
     }
-    .login-form-container .error-message{
+    .LoginForm .error-message{
         font-size: 16px;
     }
-    .login-form-container label{
+    .LoginForm label{
         font-size: 24px;
     }
-    .login-form-container input{
+    .LoginForm input{
         font-size: 18px;
     }
-    .login-form-container button{
+    .LoginForm button{
         font-size: 20px;
     }
-    .login-form-container .login-password{
+    .LoginForm .login-password{
         display: flex;
         flex-direction: row;
         align-items: center;
     }
-        .login-password input {   
+        .LoginForm input {   
             flex-grow: 1;     
             border-top-right-radius: 0px;
             border-bottom-right-radius: 0px;
         }
-        .login-password .login-toggle-password {
+        .LoginForm .login-toggle-password {
             width: 70px;
             font-size: 18px;
             border-top-left-radius: 0px;
