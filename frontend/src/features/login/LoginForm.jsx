@@ -11,8 +11,8 @@ function LoginForm(props) {
     const { loadContextFromSession } = useContext(AuthContext);
     const navigate = useNavigate();
 
-    const emailField = useInputField('', false, validateEmail);
-    const passwordField = useInputField('', false, validateLoginPassword);
+    const emailField = useInputField('', false, validateEmail, true);
+    const passwordField = useInputField('', false, validateLoginPassword, true);
 
     const { isAuthenticating, authErrors, handleAuthentication } = useAuthenticateUser(props.LoginEndpoint);
     const { isFetching, fetchErrors, fetchAccountData } = useFetchAccountData(props.UserDataEndpoint);

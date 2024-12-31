@@ -1,45 +1,26 @@
 
-export function isEmailValid(email, outErrors = {}){
-    const emailRegex = /\S+@\S+\.\S+/
-
-    if (!email || email === '') {
-        outErrors.email = "Email is required.";
-        return false;
-    } else if (!emailRegex.test(email)) {
-        outErrors.email = "Please enter a valid email.";
-        return false;
-    }
-    return true;
-};
 export function validateEmail(email){
     const emailRegex = /\S+@\S+\.\S+/;
     let isValid = true;
     let errorMessage = "";
 
-    if (!email || email === '') {
+    /*if (!email || email === '') {
         isValid = false;
         errorMessage = "Email is required.";
-    } else if (!emailRegex.test(email)) {
+    } else*/ if (!emailRegex.test(email)) {
         isValid = false;
         errorMessage = "Please enter a valid email.";
     }
     return { isValid, errorMessage };
 };
-export function isLoginPasswordValid(password, outErrors = {}){
-    if (!password) {
-        outErrors.password = "Password is required.";
-        return false;
-    }
-    return true;
-};
 export function validateLoginPassword(password){
     let isValid = true;
     let errorMessage = "";
 
-    if (!password) {
+    /*if (!password) {
         isValid = false;
         errorMessage = "Password is required.";
-    }
+    }*/
     return { isValid, errorMessage };
 };
 export function isRegisterPasswordValid(password, outErrors = {}){
@@ -49,90 +30,108 @@ export function isRegisterPasswordValid(password, outErrors = {}){
     }
     return true;
 };
-export function isUsernameValid(username, outErrors = {}){
+export function validateUsername(username){
     const maxLength = 50;
+    let isValid = true;
+    let errorMessage = "";
 
-    if (!username) {
-        outErrors.username = "Username is required.";
-        return false;
-    } else if(username.length >= maxLength){
-        outErrors.username = "Username length exceeded.";
-        return false;
+    /*if (!username) {
+        isValid = false;
+        errorMessage = "Username is required.";
+    } else*/ if(username.length >= maxLength){
+        isValid = false;
+        errorMessage = "Username length exceeded.";
     }
     // username min/max length?
     // username allowed characters?
-    return true;
+    return { isValid, errorMessage };
 };
-export function isFirstNameValid(first_name, outErrors = {}){
+export function validateFirstName(firstName){
     const nameRegex = /^[A-Za-z]+$/;
     const maxLength = 100;
+    let isValid = true;
+    let errorMessage = "";
 
-    if(!first_name){
-        outErrors.first_name = "First name is required.";
-        return false;
-    } else if(!nameRegex.test(first_name)){
-        outErrors.first_name = "First name can contain only letters & 1 word.";
-        return false;
-    } else if(first_name.length >= maxLength){
-        outErrors.first_name = "First name length exceeded.";
-        return false;
+    if(!firstName){
+        isValid = false;
+        errorMessage = "First name is required.";
+    } else if(!nameRegex.test(firstName)){
+        isValid = false;
+        errorMessage = "First name can contain only letters & 1 word.";
+    } else if(firstName.length >= maxLength){
+        isValid = false;
+        errorMessage = "First name length exceeded.";
     }
-    return true;
+    return { isValid, errorMessage};
 };
-export function isLastNameValid(last_name, outErrors = {}){
+export function validateLastName(lastName){
     const nameRegex = /^[A-Za-z]+$/;
     const maxLength = 100;
+    let isValid = true;
+    let errorMessage = "";
 
-    if(!last_name){
-        outErrors.last_name = "Last name is required.";
-        return false;
-    } else if(!nameRegex.test(last_name)){
-        outErrors.last_name = "Last name can contain only letters & 1 word.";
-        return false;
-    } else if(last_name.length >= maxLength){
-        outErrors.last_name = "Last name length exceeded.";
-        return false;
+    if(!lastName){
+        isValid = false;
+        errorMessage = "Last name is required.";
+    } else if(!nameRegex.test(lastName)){
+        isValid = false;
+        errorMessage = "Last name can contain only letters & 1 word.";
+    } else if(lastName.length >= maxLength){
+        isValid = false;
+        errorMessage = "Last name length exceeded.";
     }
-    return true;
+    return { isValid, errorMessage };
 };
-export function isPhoneNumberValid(phone_number, outErrors){
+export function validatePhoneNumber(phoneNumber){
     const phoneRegex = /^(?:\+?(\d{1,3}))?[-.\s]?(?:\(?(\d{1,4})\)?[-.\s]?)(\d{1,4})[-.\s]?(\d{1,4})$/;
+    let isValid = true;
+    let errorMessage = "";
 
-    if(phone_number === "")
-        return true;
-
-    if(!phoneRegex.test(phone_number)){
-        outErrors.phone_number = "Phone number of wrong format.";
+    if(phoneNumber === ""){
+        isValid = true;
+        errorMessage = "";
+        return { isValid, errorMessage };
     }
-    return true;
+
+    if(!phoneRegex.test(phoneNumber)){
+        isValid = false;
+        errorMessage = "Phone number of wrong format.";
+    }
+    return { isValid, errorMessage };
 };
-export function isCountryValid(country, outErrors){
+export function validateCountry(country){
     const maxLength = 100;
+    let isValid = true;
+    let errorMessage = "";
 
     if(country === "kosovo" || country === "Kosovo"){
-        outErrors.country = "Kosovo is Serbia.";
-        return false;
+        isValid = false;
+        errorMessage = "Kosovo is Serbia.";
     } else if(country.length >= maxLength){
-        outErrors.country = "Country input length exceeded.";
-        return false;
+        isValid = false;
+        errorMessage = "Country input length exceeded.";
     }
-    return true;
+    return { isValid, errorMessage };
 };
-export function isCityValid(city, outErrors){
+export function validateCity(city){
     const maxLength = 100;
+    let isValid = true;
+    let errorMessage = "";
 
     if(city.length >= maxLength){
-        outErrors.city = "City input length exceeded.";
-        return false;
+        isValid = false;
+        errorMessage = "City input length exceeded.";
     }
-    return true;
+    return { isValid, errorMessage };
 };
-export function isAddressValid(address, outErrors){
-        const maxLength = 255;
+export function validateAddress(address){
+    const maxLength = 255;
+    let isValid = true;
+    let errorMessage = "";
 
-        if(address.length >= maxLength){
-            outErrors.address = "Address input length exceeded.";
-            return false;
-        }
-        return true;
+    if(address.length >= maxLength){
+        isValid = false;
+        errorMessage = "Address input length exceeded.";
+    }
+    return { isValid, errorMessage };
 };

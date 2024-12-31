@@ -1,0 +1,11 @@
+
+.PersonalInfo{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 40px 400px;
+}
+.PersonalInfo__title{
+    text-align: center;
+    margin: 0px;
+}

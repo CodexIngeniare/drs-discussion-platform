@@ -2,6 +2,7 @@ import { Routes, Route, Navigate} from 'react-router-dom';
 import { Sidebar } from '../../layouts'
 import { NavLink } from '../../components'
 import { LogoutButton } from '../logout';
+import { AccountSettings, PersonalInfo } from './components';
 import './SettingsView.css';
 
 function SettingsView() {
@@ -12,7 +13,7 @@ function SettingsView() {
           <Sidebar>
             <Sidebar.Top>
               <NavLink label="Account Settings" link="/dashboard/settings/account"/>
-              <NavLink label="Personal Settings" link="/dashboard/settings/personal"/>
+              <NavLink label="Personal Info" link="/dashboard/settings/personal"/>
               <hr/>
             </Sidebar.Top>
             <Sidebar.Bottom>
@@ -23,11 +24,11 @@ function SettingsView() {
         <main>
           <Routes>
             <Route index element={<Navigate to="account" />} />
-            <Route path="/account/*" element={<label>ACCOUNT INFO</label>}/>
-            <Route path="/personal/*" element={<label>PERSONAL INFO</label>}/>
+            <Route path="/account/*" element={<AccountSettings/>}/>
+            <Route path="/personal/*" element={<PersonalInfo/>}/>
           </Routes>
         </main>
-        <aside className='right-sidebar-section'>Aside</aside>
+        {/*<aside className='right-sidebar-section'>Aside</aside>*/}
       </div>
     );
 }
