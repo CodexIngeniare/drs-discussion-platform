@@ -11,17 +11,17 @@ def create_app():
     CORS(app)  # Enable CORS for all routes
 
     # Konfiguracija baze
-    #app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:my-secret-pw@localhost:3307/docker_mysql_db'
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///:memory:' # NOTE: URI za dummy_db
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:my-secret-pw@localhost:3307/docker_mysql_db'
+    #app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///:memory:' # NOTE: URI za dummy_db
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
     # Inicijalizacija baze podataka i migracija
     db.init_app(app)
     migrate.init_app(app, db)
 
-    with app.app_context():    # NOTE: dummy_db
-        from app.services.dummy_db import initialize_dummy_db
-        initialize_dummy_db()
+    #with app.app_context():    # NOTE: dummy_db
+    #    from app.services.dummy_db import initialize_dummy_db
+    #    initialize_dummy_db()
 
     from app.routes import home_bp
     app.register_blueprint(home_bp)
