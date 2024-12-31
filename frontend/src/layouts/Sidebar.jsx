@@ -7,10 +7,10 @@ function Sidebar({ children }) {
 
     return (
       <aside className="Sidebar">
-        <div className="top-section">
+        <div className="Sidebar__top-section">
           {topChildren}
         </div>
-        <div className="bottom-section">
+        <div className="Sidebar__bottom-section">
           {bottomChildren}
         </div>
       </aside>

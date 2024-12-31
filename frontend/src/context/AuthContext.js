@@ -30,7 +30,7 @@ export const AuthProvider = ( { children }) => {
             try{
                 const userData = JSON.parse(storedUserData).user;
 
-                setUserRole(userData.is_admin === "true" ? "admin" : "user");
+                setUserRole(userData.is_admin === true ? "admin" : "user");
                 setUsername(userData.username);
                 setEmail(userData.email);
                 setFirstName(userData.first_name);

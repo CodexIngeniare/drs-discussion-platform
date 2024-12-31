@@ -8,14 +8,14 @@
     width: 100%;
     padding: 20px;
 }
-    .Sidebar .top-section{
+    .Sidebar__top-section{
         display: flex;
         flex-direction: column;
         display: flex;
         flex-direction: column;
         gap: 15px;
     }
-    .Sidebar .bottom-section {
+    .Sidebar__bottom-section {
     }
     .Sidebar hr{
         width: 100%;

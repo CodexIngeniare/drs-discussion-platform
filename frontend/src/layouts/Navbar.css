@@ -1,15 +1,19 @@
 
 .Navbar{
     display: flex;
+    flex-direction: row;
     justify-content: space-between;
     padding: 10px 30px 10px 30px;
 }
-    .Navbar button{
-        border: none;
-        padding: 5px;
-        font-size: 24px;
-    }
-    .Navbar .nav-buttons{
-        display: flex;
-        gap: 20px;
-    }
+.Navbar__left{
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+.Navbar__center{
+}
+.Navbar__right{
+}
+.Navbar .NavLink{
+    font-size: 24px;
+}

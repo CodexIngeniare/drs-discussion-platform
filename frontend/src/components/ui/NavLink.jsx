@@ -1,12 +1,18 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import './NavLink.css';
 
 function NavLink({ label, link }) {
+    const navigate = useNavigate();
+
+    const navigateTo = () => {
+        navigate(link);
+    };
+
     return (
-        <Link to={link} className="NavLink">
+        <label className='NavLink' onClick={navigateTo}>
             {label}
-        </Link>
+        </label>
     );
 }
 
