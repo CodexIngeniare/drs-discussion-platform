@@ -1,0 +1,10 @@
+@import "../../assets/styles/global_variables.css";
+
+.LogoutButton{
+    width: 100%;
+    font-size: 20px;
+    background-color: var(--caution-clr);
+}
+    .LogoutButton:hover{
+        background-color: var(--hover-caution-clr);
+    }

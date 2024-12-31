@@ -1,0 +1,20 @@
+
+.DashboardPage{
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    height: 100vh;
+}
+.DashboardPage__header-section{
+    grid-row: 1 / 2;
+    background-color: black;
+    border-bottom: solid;
+}
+.DashboardPage__main-section{
+    grid-row: 2 / 3;
+    height: 100%;
+}
+.DashboardPage__footer-section{
+    grid-row: 3 / 4;
+    background-color: black;
+    border-top: solid;
+}

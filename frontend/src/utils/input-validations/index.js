@@ -1,0 +1,9 @@
+export { validateEmail } from './UserDataValidations.js';
+export { validateLoginPassword } from './UserDataValidations.js';
+export { validateUsername } from './UserDataValidations.js';
+export { validateFirstName } from './UserDataValidations.js';
+export { validateLastName } from './UserDataValidations.js';
+export { validatePhoneNumber } from './UserDataValidations.js';
+export { validateCountry } from './UserDataValidations.js';
+export { validateCity } from './UserDataValidations.js';
+export { validateAddress } from './UserDataValidations.js';

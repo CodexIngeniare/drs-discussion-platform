@@ -1,0 +1,21 @@
+@import './global_variables.css';
+
+.success-btn{
+    background-color: var(--success-clr);
+}
+    .success-btn:hover{
+        background-color: var(--hover-success-clr);
+    }
+.caution-btn{
+        background-color: var(--caution-clr);
+    }
+    .caution-btn:hover{
+        background-color: var(--hover-caution-clr);
+    }
+.error-message {
+    color: var(--error-clr);
+    font-style: italic;
+}
+.required-asterix {
+    color: var(--warning-clr);
+}

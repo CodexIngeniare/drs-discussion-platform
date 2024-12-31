@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import RegisterForm from '../components/RegisterForm';
-import PosterImage from '../images/IWYFDORG.png';
-import '../styles/register/RegisterPage.css';
+import { RegisterForm } from '../features/register';
+import PosterImage from '../assets/images/IWYFDORG.png';
+import './RegisterPage.css';
 
 function RegisterPage() {
   const [isRegistered, setIsRegistered] = useState(false);

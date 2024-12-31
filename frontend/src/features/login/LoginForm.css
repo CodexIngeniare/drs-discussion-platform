@@ -1,0 +1,11 @@
+@import '../../assets/styles/global_variables.css';
+
+.LoginForm{
+    display: flex;
+    flex-direction: column;
+    gap: 20px; 
+    width: 100%;
+}
+    .LoginForm .success-btn{
+        font-size: 20px;
+    }
