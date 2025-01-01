@@ -1,5 +1,6 @@
 export { validateEmail } from './UserDataValidations.js';
 export { validateLoginPassword } from './UserDataValidations.js';
+export { validateRegisterPassword } from './UserDataValidations.js';
 export { validateUsername } from './UserDataValidations.js';
 export { validateFirstName } from './UserDataValidations.js';
 export { validateLastName } from './UserDataValidations.js';

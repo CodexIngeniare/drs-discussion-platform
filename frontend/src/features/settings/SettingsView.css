@@ -8,9 +8,11 @@
         grid-column: 1 / 2;
         background-color: black;
         border-right: solid;
+        border-width: 1px;
     }
     .SettingsView .right-sidebar-section{
         grid-column: 3 / 4;
         background-color: black;
         border-left: solid;
+        border-width: 1px;
     }
