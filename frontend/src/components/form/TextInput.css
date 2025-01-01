@@ -3,8 +3,10 @@
 .TextInput{
     --base-font-size: 18px;
     --text-clr: var(--text-clr);
-    --label-clr: var(--text-clr);
-    --label-font-size: calc(var(--base-font-size) * 1.33);
+    --name-label-clr: var(--text-clr);
+    --name-label-font-size: calc(var(--base-font-size) * 1.33);
+    --required-label-clr: var(--warning-clr);
+    --required-label-font-size: calc(var(--base-font-size) * 1.33);
     --input-clr: var(--text-clr);
     --input-font-size: var(--base-font-size);
     --input-border-clr: var(--border-clr);
@@ -24,9 +26,13 @@
     display: flex;
     flex-direction: row;
 }
-.TextInput__label{
-    color: var(--label-clr);
-    font-size: var(--label-font-size);
+.TextInput__name-label{
+    color: var(--name-label-clr);
+    font-size: var(--name-label-font-size);
+}
+.TextInput__required-label{
+    color: var(--required-label-clr);
+    font-size: var(--required-label-font-size);
 }
 .TextInput__input{
     color: var(--input-clr);

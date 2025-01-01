@@ -1,7 +1,8 @@
 import React, { useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context';
-import { useAuthenticateUser, useFetchAccountData } from './hooks';
+import { useAuthenticateUser } from './hooks';
+import { useFetchAccountData } from '../../hooks';
 import { useInputField } from '../../hooks';
 import { TextInput, PasswordInput } from '../../components';
 import { validateEmail, validateLoginPassword } from '../../utils';

@@ -23,12 +23,11 @@ export function validateLoginPassword(password){
     }*/
     return { isValid, errorMessage };
 };
-export function isRegisterPasswordValid(password, outErrors = {}){
-    if (!password) {
-        outErrors.password = "Password is required.";
-        return false;
-    }
-    return true;
+export function validateRegisterPassword(password){
+    let isValid = true;
+    let errorMessage = "";
+
+    return { isValid, errorMessage };
 };
 export function validateUsername(username){
     const maxLength = 50;

@@ -1,12 +1,13 @@
 import './TextInput.css';
 
-function TextInput ({ label, value, error, placeholder, handleChange }) {
+function TextInput ({ label, value, error, placeholder, required = false, handleChange = () => {} }) {
     return (
       <div className="TextInput">
           <div className="TextInput__label-container">
-            <label className="TextInput__label">
+            <label className="TextInput__name-label">
                 {label}
             </label>
+            {required && <label className="TextInput__required-label">*</label>}
           </div>
           <input className="TextInput__input"
               type='text'

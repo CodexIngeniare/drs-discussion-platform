@@ -6,8 +6,6 @@ function Navbar({ children }) {
     const centerChildren = React.Children.toArray(children).filter(child => child.type === Navbar.Center);
     const rightChildren = React.Children.toArray(children).filter(child => child.type === Navbar.Right);
 
-    console.log(leftChildren);
-
     return (
       <div className="Navbar">
           <div className='Navbar__left'>
