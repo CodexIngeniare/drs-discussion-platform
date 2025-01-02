@@ -1,0 +1,24 @@
+
+.UserListItem{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    border: solid;
+    border-width: 1px;
+    border-radius: 7px;
+    padding: 15px;
+    box-sizing: border-box;
+    gap: 20px;
+}
+    .UserListItem:hover{
+        background-color: #242424;
+    }
+.UserListItem__id-container{
+    width: 100px;
+}
+.UserListItem__info-container{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+}

@@ -1,6 +1,6 @@
 import './TextInput.css';
 
-function TextInput ({ label, value, error, placeholder, required = false, handleChange = () => {} }) {
+function TextInput ({ label, value, error, placeholder, required = false, handleChange = () => {}, disabled = false }) {
     return (
       <div className="TextInput">
           <div className="TextInput__label-container">
@@ -14,6 +14,7 @@ function TextInput ({ label, value, error, placeholder, required = false, handle
               value={value}
               onChange={(e) => handleChange(e.target.value)}
               placeholder={placeholder}
+              disabled={disabled}
           />
           {error && <span className='TextInput__error-message'>{error}</span>}
       </div>

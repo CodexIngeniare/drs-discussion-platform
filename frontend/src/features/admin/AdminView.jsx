@@ -1,16 +1,22 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Routes, Route, Navigate} from 'react-router-dom';
 import { Sidebar } from '../../layouts'
 import { NavLink } from '../../components'
 import { usePendingUsersWebSocket } from './hooks';
 import './AdminView.css';
 
+import { UserList } from './components';
+
 function AdminView() {
     const { pendingUsers } = usePendingUsersWebSocket("http://127.0.0.1:5000/admin");
+    const [selectedUser, setSelectedUser] = useState(null);
 
     useEffect(() => {
       console.log('Pending Users:', pendingUsers);
     }, [pendingUsers]);
+    useEffect(() => {
+      console.log('Selected User:', selectedUser);
+    }, [selectedUser]);
 
     return (
       <div className="AdminView">
@@ -23,14 +29,14 @@ function AdminView() {
             </Sidebar.Top>
           </Sidebar>
         </aside>
-        <main>
+        <main className='AdminView__user-list-section'>
           <Routes>
             <Route index element={<Navigate to="pending-users" />} />
-            <Route path="/pending-users/*" element={<label>Pending Users</label>}/>
+            <Route path="/pending-users/*" element={<UserList users={pendingUsers} setSelectedUser={setSelectedUser}/>}/>
             <Route path="/registered-users/*" element={<label>Registered Users</label>}/>
           </Routes>
         </main>
-        <aside className='AdminView__right-sidebar-section'>User Display</aside>
+        <aside className='AdminView__user-detail-section'>User Display</aside>
       </div>
     );
 }

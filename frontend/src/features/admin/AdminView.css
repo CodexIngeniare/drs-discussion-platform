@@ -1,4 +1,8 @@
-
+html, body {
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+}
 .AdminView {
     height: 100%;
     display: grid;
@@ -10,7 +14,14 @@
         border-right: solid;
         border-width: 1px;
     }
-    .AdminView__right-sidebar-section{
+    .AdminView__user-list-section{
+        grid-column: 2 / 3;
+        padding: 20px 20px 200px 20px;
+        overflow-y: scroll;
+        box-sizing: border-box;
+        max-height: 100vh;
+    }
+    .AdminView__user-detail-section{
         grid-column: 3 / 4;
         border-left: solid;
         border-width: 1px;
