@@ -1,0 +1,30 @@
+@import "../../../../assets/styles/global_variables.css";
+
+.UserApprovalForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+  width: 100%;
+}
+.UserApprovalForm__actions{
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+}
+.UserApprovalForm__reject-button{
+    background-color: var(--caution-clr);
+    font-size: 24px;
+    width: 180px;
+}
+    .UserApprovalForm__reject-button:hover{
+        background-color: var(--hover-caution-clr);
+    }
+.UserApprovalForm__approve-button{
+    background-color: var(--success-clr);
+    font-size: 24px;
+    width: 180px;
+}
+    .UserApprovalForm__approve-button:hover{
+        background-color: var(--hover-success-clr);
+    }

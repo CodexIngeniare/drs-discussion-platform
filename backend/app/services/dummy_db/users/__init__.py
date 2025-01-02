@@ -1,1 +1,2 @@
-from .users_data import dummy_rusers
+from .registered_users import dummy_registered_users
+from .pending_users import dummy_pending_users

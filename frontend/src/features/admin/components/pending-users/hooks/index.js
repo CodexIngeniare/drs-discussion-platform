@@ -1,0 +1,1 @@
+export { default as useRegistrationApproval } from './useRegistrationApproval.js';

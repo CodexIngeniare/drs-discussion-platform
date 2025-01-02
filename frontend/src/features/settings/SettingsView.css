@@ -4,13 +4,13 @@
     display: grid;
     grid-template-columns: 1fr 6fr 1fr;
 }
-    .SettingsView .left-sidebar-section{
+    .SettingsView__left-sidebar-section{
         grid-column: 1 / 2;
         background-color: black;
         border-right: solid;
         border-width: 1px;
     }
-    .SettingsView .right-sidebar-section{
+    .SettingsView__right-sidebar-section{
         grid-column: 3 / 4;
         background-color: black;
         border-left: solid;
