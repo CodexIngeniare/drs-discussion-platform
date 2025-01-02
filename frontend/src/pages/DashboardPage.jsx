@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import AuthContext from '../context/AuthContext';
 import { Routes, Route, Navigate} from 'react-router-dom';
 import { SettingsView } from '../features/settings';
+import { AdminView } from '../features/admin';
 import { Navbar } from '../layouts';
 import { NavLink } from '../components/ui';
 import "./DashboardPage.css";
@@ -25,7 +26,7 @@ function DashboardPage() {
         <main className="DashboardPage__main-section">
           <Routes>
             <Route index element={<Navigate to="discussions" />} />
-            <Route path="/admin/*" element={<label>ADMINISTRATION VIEW</label>}/>
+            <Route path="/admin/*" element={<AdminView />}/>
             <Route path="/settings/*" element={<SettingsView />}/>
             <Route path="/discussions/*" element={<label>DISCUSSIONS VIEW</label>}/>
           </Routes>

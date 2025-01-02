@@ -1,6 +1,6 @@
 from app.models import RegisteredUser
 
-dummy_rusers = [
+dummy_registered_users = [
     RegisteredUser(
     first_name = 'Nikola',
     last_name = 'Petrovic',
@@ -22,6 +22,18 @@ dummy_rusers = [
     phone_number = '0651234567',
     country = 'Serbia',
     city = 'Sremska Mitrovica',
+    address = 'Neka adresa 123',
+    is_admin = False,
+    ),
+    RegisteredUser(
+    first_name = 'Tikola',
+    last_name = 'Nesla',
+    email = 'tikola.nesla@gmail.com',
+    username = 'LudKoStruja',
+    password_hash = '332d0d385c22af74dded9899c4d29dcb$1abd2d61505e650fa1809c9e4b5c2af19246fc4b6ee637ac4af4bcb4b90043c6',
+    phone_number = '0651234567',
+    country = 'Serbia',
+    city = 'Dobanovci',
     address = 'Neka adresa 123',
     is_admin = False,
     ),

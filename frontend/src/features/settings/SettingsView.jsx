@@ -9,7 +9,7 @@ function SettingsView() {
 
     return (
       <div className="SettingsView">
-        <aside className='left-sidebar-section'>
+        <aside className='SettingsView__left-sidebar-section'>
           <Sidebar>
             <Sidebar.Top>
               <NavLink label="Account Settings" link="/dashboard/settings/account"/>
@@ -28,7 +28,7 @@ function SettingsView() {
             <Route path="/personal/*" element={<PersonalInfo/>}/>
           </Routes>
         </main>
-        {/*<aside className='right-sidebar-section'>Aside</aside>*/}
+        {/*<aside className='SettingsView__right-sidebar-section'>Aside</aside>*/}
       </div>
     );
 }
