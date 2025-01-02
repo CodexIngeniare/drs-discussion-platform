@@ -11,7 +11,7 @@ function UserListItem({ user, onClick }) {
     return (
         <div className='UserListItem' onClick={handleOnClick}>
             <div className='UserListItem__id-container'>
-                <TextInput label="ID" value={user.id} disabled={true}/>
+                <TextInput label="ID" value={user.id} disabled={true} placeholder="no ID"/>
             </div>
             <div>
                 <VerticalLine />

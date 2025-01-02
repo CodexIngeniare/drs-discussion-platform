@@ -19,7 +19,11 @@ def approve_user(user_id):
             last_name=user.last_name,
             email=user.email,
             username=user.username,
-            password_hash=user.password_hash  # Koristi password_hash
+            password_hash=user.password_hash,  # Koristi password_hash
+            phone_number=user.phone_number,
+            country=user.country,
+            city=user.city,
+            address=user.address
         )
         db.session.add(new_user)
         db.session.delete(user)  # Obriši korisnika iz `pending_users`

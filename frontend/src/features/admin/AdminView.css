@@ -23,7 +23,7 @@ html, body {
     }
     .AdminView__user-detail-section{
         grid-column: 3 / 4;
-        border-left: solid;
+        /*border-left: solid;*/
         border-width: 1px;
         padding: 20px 100px;
     }

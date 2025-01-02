@@ -2,6 +2,17 @@ from app.models import PendingUser
 
 dummy_pending_users = [
     PendingUser(
+    first_name = 'Jofrey',
+    last_name = 'Baratheon',
+    email = 'king.jofrey@gmail.com',
+    username = 'ImTheKing',
+    password_hash = '332d0d385c22af74dded9899c4d29dcb$1abd2d61505e650fa1809c9e4b5c2af19246fc4b6ee637ac4af4bcb4b90043c6',
+    phone_number = '0651234567',
+    country = 'The Seven Realms',
+    city = 'Kings Landing',
+    address = 'Red Keep',
+    ),
+    PendingUser(
     first_name = 'Kuk',
     last_name = 'Varadzica',
     email = 'kuk.varadzic@gmail.com',
@@ -21,6 +32,28 @@ dummy_pending_users = [
     phone_number = '0651234567',
     country = 'Roman Empire',
     city = 'Ostia',
+    address = 'Neka adresa 123',
+    ),
+    PendingUser(
+    first_name = 'Pladimir',
+    last_name = 'Vutin',
+    email = 'pladimir.vutin@gmail.com',
+    username = 'EmperorOfTheRussians',
+    password_hash = '332d0d385c22af74dded9899c4d29dcb$1abd2d61505e650fa1809c9e4b5c2af19246fc4b6ee637ac4af4bcb4b90043c6',
+    phone_number = '0651234567',
+    country = 'Russia',
+    city = 'Moscow',
+    address = 'Neka adresa 123',
+    ),
+    PendingUser(
+    first_name = 'Cidel',
+    last_name = 'Fastro',
+    email = 'cidel.fastro@gmail.com',
+    username = 'LaCasaDePapel',
+    password_hash = '332d0d385c22af74dded9899c4d29dcb$1abd2d61505e650fa1809c9e4b5c2af19246fc4b6ee637ac4af4bcb4b90043c6',
+    phone_number = '0651234567',
+    country = 'Cuba',
+    city = 'Kings Landing',
     address = 'Neka adresa 123',
     ),
 ]

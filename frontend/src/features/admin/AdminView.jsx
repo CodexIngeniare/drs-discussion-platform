@@ -1,23 +1,21 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Routes, Route, Navigate} from 'react-router-dom';
 import { Sidebar } from '../../layouts'
 import { NavLink } from '../../components'
 import { usePendingUsersWebSocket } from './hooks';
 import './AdminView.css';
 
-import { UserCard, UserList } from './components';
+import { UserList } from './components';
+import { UserApprovalForm } from './components'
 
 function AdminView() {
-    const { pendingUsers } = usePendingUsersWebSocket("http://127.0.0.1:5000/admin");
+    const { pendingUsers, removeUserFromPending } = usePendingUsersWebSocket("http://127.0.0.1:5000/admin");
     const [selectedUser, setSelectedUser] = useState(null);
 
-    useEffect(() => {
-      console.log('Pending Users:', pendingUsers);
-    }, [pendingUsers]);
-    useEffect(() => {
-      console.log('Selected User:', selectedUser);
-    }, [selectedUser]);
-
+    const removeSelectedUser = (userId) => {
+      removeUserFromPending(userId);
+      setSelectedUser(null);
+    };
     return (
       <div className="AdminView">
         <aside className='AdminView__left-sidebar-section'>
@@ -37,7 +35,12 @@ function AdminView() {
           </Routes>
         </main>
         <aside className='AdminView__user-detail-section'>
-          <UserCard user={selectedUser} />
+          <Routes>
+            <Route path="/pending-users/*" element={
+              selectedUser && <UserApprovalForm selectedUser={selectedUser} removeUserFromPending={removeSelectedUser} />
+            }/>
+            <Route path="/registered-users/*" element={<label>Selected Registered User</label>}/>
+          </Routes>
         </aside>
       </div>
     );

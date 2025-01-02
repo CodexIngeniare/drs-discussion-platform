@@ -17,6 +17,7 @@ function UserCard({ user }) {
                         label="ID"
                         value={user?.id}
                         disabled={true}
+                        placeholder='no ID'
                     />
                 </div>
                 <div>
@@ -49,21 +50,25 @@ function UserCard({ user }) {
                         label="Phone Number"
                         value={user?.phone_number}
                         disabled={true}
+                        placeholder='no phone number provided'
                     />
                     <TextInput
                         label="Country"
                         value={user?.country}
                         disabled={true}
+                        placeholder='no country provided'
                     />
                     <TextInput
                         label="City"
                         value={user?.city}
                         disabled={true}
+                        placeholder='no city provided'
                     />
                     <TextInput
                         label="Address"
                         value={user?.address}
                         disabled={true}
+                        placeholder='no address provided'
                     />
                 </div>
             </div>

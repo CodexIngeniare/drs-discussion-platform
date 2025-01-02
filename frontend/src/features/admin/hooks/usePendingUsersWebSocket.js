@@ -51,7 +51,11 @@ const usePendingUsersWebSocket = (url) => {
         };
     }, [isMounted, url, token]);
 
-    return { pendingUsers, isConnected, error };
+    const removeUserFromPending = (userId) => {
+        setPendingUsers((prevUsers) => prevUsers.filter(user => user.id !== userId));
+      };
+
+    return { pendingUsers, isConnected, error, removeUserFromPending };
 };
 
 export default usePendingUsersWebSocket;

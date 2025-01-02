@@ -35,10 +35,10 @@ export const AuthProvider = ( { children }) => {
                 setEmail(userData.email);
                 setFirstName(userData.first_name);
                 setLastName(userData.last_name);
-                setPhoneNumber(userData.phone_number);
-                setCountry(userData.country);
-                setCity(userData.city);
-                setAddress(userData.address);
+                setPhoneNumber(userData.phone_number === null ? "" : userData.phone_number);
+                setCountry(userData.country === null ? "" : userData.country);
+                setCity(userData.city === null ? "" : userData.city);
+                setAddress(userData.address === null ? "" : userData.address);
             } catch (error){
                 console.error("Error parsing stored user data: ", error);
             }
