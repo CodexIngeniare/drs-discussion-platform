@@ -37,6 +37,7 @@
 .TextInput__input{
     color: var(--input-clr);
     border-color: var(--input-border-clr);
+    border-width: 1px;
     border-radius: 7px;
     background-color: var(--input-background-clr);
     font-size: var(--input-font-size);

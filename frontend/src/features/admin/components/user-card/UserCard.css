@@ -1,0 +1,35 @@
+
+.UserCard{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.UserCard__title{
+    text-align: center;
+    margin: 0px;
+}
+.UserCard__title h1{
+    font-size: 32px;
+    margin: 0px;
+}
+.UserCard__account-info-container{
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+.UserCard__id-container{
+    display: flex;
+    flex-direction: column;
+    width: 100px;
+}
+.UserCard__full-name-container{
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+.UserCard__account-info{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+}
