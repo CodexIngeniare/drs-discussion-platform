@@ -1,9 +1,16 @@
+import { useEffect } from 'react';
 import { Routes, Route, Navigate} from 'react-router-dom';
 import { Sidebar } from '../../layouts'
 import { NavLink } from '../../components'
+import { usePendingUsersWebSocket } from './hooks';
 import './AdminView.css';
 
 function AdminView() {
+    const { pendingUsers } = usePendingUsersWebSocket("http://127.0.0.1:5000/admin");
+
+    useEffect(() => {
+      console.log('Pending Users:', pendingUsers);
+    }, [pendingUsers]);
 
     return (
       <div className="AdminView">
