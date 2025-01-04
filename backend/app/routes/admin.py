@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from app.services.database.user_queries import approve_user, remove_pending_user, get_all_pending_users
+from app.services.database.user_queries import approve_user, remove_pending_user, get_all_pending_users, get_all_registered_users
 from app.services.admin import EmailSender
 from app.services.auth import session_handler
 from app.services.admin.extensions import socketio  
@@ -184,3 +184,51 @@ def handle_admin_connect():
 def default_error_handler(e):
     print(f"SocketIO greška:{e}")
 
+
+@admin_bp.route('/registered_users', methods=['GET'])
+def get_registered_users():
+    """
+    Vraća listu svih registrovanih korisnika.
+    Proverava da li je zahtev poslao admin.
+    """
+    try:
+        # Dohvati token iz zaglavlja zahteva
+        user_token = request.headers.get('Authorization')
+        if not user_token:
+            return jsonify({"error_code": "MISSING_TOKEN", "message": "Token is required."}), 400
+
+        # Validacija tokena
+        if user_token.startswith("Bearer "):
+            user_token = user_token[len("Bearer "):]
+
+        session_data = session_handler.get_session(user_token)
+        if not session_data:
+            return jsonify({"error_code": "UNAUTHORIZED", "message": "Invalid or expired token."}), 401
+
+        # Provera administratorskih privilegija
+        email = session_data.get("email")
+        permissions = session_data.get("permissions")
+        if not email or permissions != "admin":
+            return jsonify({"error_code": "FORBIDDEN", "message": "Admin privileges required."}), 403
+
+        # Dohvatanje svih registrovanih korisnika
+        registered_users = get_all_registered_users()
+        if registered_users is None:
+            return jsonify({"error_code": "SERVER_ERROR", "message": "Failed to fetch registered users."}), 500
+
+        # Formatiranje rezultata
+        result = [
+            {
+                "id": user.id,
+                "email": user.email,
+                "username": user.username,
+                "first_name": user.first_name,
+                "last_name": user.last_name
+            }
+            for user in registered_users
+        ]
+
+        return jsonify({"registered_users": result}), 200
+
+    except Exception as e:
+        return jsonify({"error_code": "SERVER_ERROR", "message":str(e)}),500
