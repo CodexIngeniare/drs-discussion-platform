@@ -1,5 +1,5 @@
 import React from 'react';
-import { TextInput, VerticalLine } from '../../../../../components';
+import { TextInput, VerticalLine } from '../../../../../../../components';
 import './UserListItem.css';
 
 function UserListItem({ user, onClick }) {

@@ -1,0 +1,1 @@
+export { default as RegisteredUsersView } from './RegisteredUsersView.jsx';

@@ -1,3 +1,2 @@
-export { UserList } from './user-list';
-export { UserCard } from './user-card';
-export { UserApprovalForm } from './pending-users';
+export { PendingUsersView } from './users-view';
+export { RegisteredUsersView } from './users-view';

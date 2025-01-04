@@ -1,5 +1,5 @@
 import React from 'react';
-import { UserCard } from '../../components/user-card';
+import { UserCard } from '../../../components/user-card';
 import './UserApprovalForm.css';
 
 import { useRegistrationApproval } from './hooks';
