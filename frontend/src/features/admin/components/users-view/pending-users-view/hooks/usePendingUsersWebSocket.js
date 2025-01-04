@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useContext } from 'react';
-import { AuthContext } from '../../../context';
+import { AuthContext } from '../../../../../../context';
 import io from 'socket.io-client';
 
 const usePendingUsersWebSocket = (url) => {

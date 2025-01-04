@@ -1,6 +1,6 @@
 import React from 'react';
-import { TextInput } from '../../../../components/form';
-import { VerticalLine } from '../../../../components/common';
+import { TextInput } from '../../../../../../components/form';
+import { VerticalLine } from '../../../../../../components/common';
 import './UserCard.css';
 
 function UserCard({ user }) {
