@@ -3,6 +3,10 @@ from app.models.discussions import Discussion
 from app.models.comments import Comment  
 from sqlalchemy.exc import SQLAlchemyError
 
+from app.models.likes import Like
+from app.models.registered_users import RegisteredUser
+from app.models.topics import Topic
+
 def create_discussion(title, content, user_id, topic_id):
 
     try:
@@ -79,3 +83,47 @@ def get_discussion_by_id(discussion_id):
     except SQLAlchemyError as e:
         print(f"Greška: {str(e)}")
         return None
+
+def search_discussions(topic_id=None, discussion_title=None, author_username=None, author_email=None):
+    # Početni query za tabelu Discussion
+    query = db.session.query(Discussion)
+
+    # Filtriranje na osnovu prosleđenih parametara
+    if topic_id is not None:  # Proveravamo da li je parametar prosleđen
+        query = query.filter(Discussion.topic_id == topic_id)
+    if discussion_title:
+        query = query.filter(Discussion.title.ilike(f'%{discussion_title}%'))
+
+    # Ako se filtrira po korisniku, prvo dodajemo JOIN sa tabelom RegisteredUser
+    if author_username:
+        query = query.join(RegisteredUser, RegisteredUser.id == Discussion.user_id) \
+                     .filter(RegisteredUser.username.ilike(f'%{author_username}%'))
+    
+    if author_email:
+        query = query.join(RegisteredUser, RegisteredUser.id == Discussion.user_id) \
+                     .filter(RegisteredUser.email.ilike(f'%{author_email}%'))
+
+    # Dodavanje broja lajkova i naziva teme
+    query = query.outerjoin(Like, Like.discussion_id == Discussion.id) \
+                 .outerjoin(Topic, Topic.id == Discussion.topic_id) \
+                 .add_columns(db.func.count(Like.id).label('like_count'),
+                              Topic.name.label('topic_name')) \
+                 .group_by(Discussion.id, Topic.id)
+
+    # Sortiranje od najnovije do najstarije diskusije
+    query = query.order_by(Discussion.created_at.desc())
+
+    # Pozivanje .all() tek na kraju nakon što su svi JOIN-ovi i filtriranja završeni
+    discussions = query.all()
+
+    # Priprema rezultata
+    discussion_list = []
+    for discussion in discussions:
+        # Objekat Discussion
+        discussion_dict = discussion[0].to_dict()  
+        # Dodajemo broj lajkova, naziv teme
+        discussion_dict['like_count'] = discussion.like_count  
+        discussion_dict['topic_name'] = discussion.topic_name  
+        discussion_list.append(discussion_dict)
+
+    return discussion_list

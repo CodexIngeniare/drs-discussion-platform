@@ -10,7 +10,8 @@ from .user_queries import (
     register_new_user,
     update_user_data,
     get_admin_emails,
-    remove_pending_user
+    remove_pending_user,
+    get_user_by_username
 )
 
 from .topic_queries import (
@@ -26,7 +27,8 @@ from .discussions_queries import (
     update_discussion,
     delete_discussion,
     get_all_discussions,
-    get_discussion_by_id
+    get_discussion_by_id,
+    search_discussions
 )
 
 from .comments_queries import (

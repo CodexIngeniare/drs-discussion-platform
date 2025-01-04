@@ -212,3 +212,14 @@ def get_admin_emails():
     except SQLAlchemyError as e:
         print(f"Greška: {str(e)}")
         return []
+    
+def get_user_by_username(username):
+
+    try:
+        # Dohvati korisnika na osnovu korisničkog imena
+        user = RegisteredUser.query.filter_by(username=username).first()
+        return user
+    except SQLAlchemyError as e:
+        # Ako dođe do greške, vrati None i ispiši grešku
+        print(f"Greška: {str(e)}")
+        return None
