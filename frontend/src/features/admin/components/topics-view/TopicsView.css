@@ -1,0 +1,11 @@
+
+.TopicsView{
+    display: grid;
+    grid-template-columns: 3fr 2fr;
+}
+.TopicsView__list-section{
+    grid-column: 1 / 2;
+}
+.TopicsView__details-section{
+    grid-column: 2 / 3;
+}
