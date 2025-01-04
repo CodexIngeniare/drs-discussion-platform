@@ -8,7 +8,8 @@ from app.services.database import (
     log_user_login,
     is_email_registered,
     register_new_user,
-    update_user_data  
+    update_user_data,
+    get_user_by_username  
 )
 
 from app.services.database import (
@@ -24,7 +25,8 @@ from app.services.database import (
     update_discussion,
     delete_discussion,
     get_all_discussions,
-    get_discussion_by_id
+    get_discussion_by_id,
+    search_discussions
 )
 
 from app.services.database import (
@@ -440,18 +442,21 @@ def db_delete_discussion(discussion_id):
         }, 500
 
 
-# Dohvat svih diskusija
 @db_bp.route('/db/discussions', methods=['GET'])
 def db_get_all_discussions():
     try:
         discussions = get_all_discussions()
 
         if not discussions:
-            raise Exception("Nema diskusija u bazi.")
+            return {
+                "status": "success",
+                "message": "Nema diskusija u bazi.",
+                "discussions": []
+            }, 200
 
         return {
             "status": "success",
-            "discussions": [{"id": d.id, "title": d.title} for d in discussions]
+            "discussions": discussions  
         }, 200
     except Exception as e:
         return {
@@ -640,3 +645,59 @@ def db_get_comments_by_discussion(discussion_id):
             "message": str(e)
         }, 500
     
+
+
+# Dohvatanje registrovanog korisnika po korisničkom imenu
+@db_bp.route('/db/get_user_by_username/<string:username>', methods=['GET'])
+def db_get_user_by_username(username):
+    try:
+        user = get_user_by_username(username)
+        if not user:
+            raise Exception(f"Korisnik sa korisničkim imenom '{username}' nije pronađen.")
+
+        return {
+            "id": user.id,
+            "username": user.username,
+            "email": user.email,
+            "first_name": user.first_name,
+            "last_name": user.last_name,
+            "last_logged_in": user.last_logged_in
+        }, 200
+    except Exception as e:
+        return {
+            "status": "error",
+            "message": str(e)
+        }, 500
+    
+@db_bp.route('/db/search_discussions', methods=['GET'])
+def db_search_discussions():
+    try:
+        # Uzimanje parametara iz query stringa
+        topic_id = request.args.get('topic_id', type=int)
+        discussion_title = request.args.get('discussion_title', type=str)
+        author_username = request.args.get('author_username', type=str)
+        author_email = request.args.get('author_email', type=str)
+
+        # Pozivanje funkcije za pretragu diskusija sa prosleđenim parametrima
+        discussions = search_discussions(topic_id, discussion_title, author_username, author_email)
+
+        # Ako nema diskusija
+        if not discussions:
+            return {
+                "status": "success",
+                "message": "Nema diskusija koje odgovaraju zadatim parametrima.",
+                "discussions": []
+            }, 200
+
+        # Vraćamo rezultat pretrage
+        return {
+            "status": "success",
+            "discussions": discussions
+        }, 200
+
+    except Exception as e:
+        # Obrada grešaka
+        return {
+            "status": "error",
+            "message": str(e)
+        }, 500
