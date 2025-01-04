@@ -1,0 +1,1 @@
+export { default as useFetchRegisteredUsers } from './/useFetchRegisteredUsers.js';

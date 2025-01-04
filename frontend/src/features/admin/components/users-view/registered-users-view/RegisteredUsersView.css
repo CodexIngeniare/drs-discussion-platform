@@ -1,0 +1,17 @@
+
+.RegisteredUsersView{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    height: 100%;
+}
+.RegisteredUsersView__user-list-section{
+    grid-column: 1 / 2;
+    padding: 20px 20px 200px 20px;
+    overflow-y: scroll;
+    box-sizing: border-box;
+    max-height: 100vh;
+}
+.RegisteredUsersView__user-detail-section{
+    grid-column: 2 / 3;
+    padding: 20px;
+}
