@@ -442,18 +442,21 @@ def db_delete_discussion(discussion_id):
         }, 500
 
 
-# Dohvat svih diskusija
 @db_bp.route('/db/discussions', methods=['GET'])
 def db_get_all_discussions():
     try:
         discussions = get_all_discussions()
 
         if not discussions:
-            raise Exception("Nema diskusija u bazi.")
+            return {
+                "status": "success",
+                "message": "Nema diskusija u bazi.",
+                "discussions": []
+            }, 200
 
         return {
             "status": "success",
-            "discussions": [{"id": d.id, "title": d.title} for d in discussions]
+            "discussions": discussions  
         }, 200
     except Exception as e:
         return {

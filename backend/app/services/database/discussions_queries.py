@@ -1,3 +1,4 @@
+from sqlalchemy import func
 from app import db
 from app.models.discussions import Discussion
 from app.models.comments import Comment  
@@ -68,9 +69,30 @@ def delete_discussion(discussion_id):
 
 
 def get_all_discussions():
-
     try:
-        return Discussion.query.all()
+        # Napravite upit koji uključuje broj lajkova i naziv teme
+        discussions = (
+            db.session.query(
+                Discussion,
+                func.count(Like.id).label('like_count'),
+                Topic.name.label('topic_name')
+            )
+            .outerjoin(Like, Like.discussion_id == Discussion.id)
+            .outerjoin(Topic, Topic.id == Discussion.topic_id)
+            .group_by(Discussion.id, Topic.id)
+            .order_by(Discussion.created_at.desc())
+            .all()
+        )
+
+        # Formatiranje rezultata
+        result = []
+        for discussion, like_count, topic_name in discussions:
+            discussion_dict = discussion.to_dict()  # Preuzimanje osnovnih polja iz modela
+            discussion_dict['like_count'] = like_count
+            discussion_dict['topic_name'] = topic_name or "Uncategorized"  # Dodavanje naziva teme
+            result.append(discussion_dict)
+
+        return result
     except SQLAlchemyError as e:
         print(f"Greška: {str(e)}")
         return None
