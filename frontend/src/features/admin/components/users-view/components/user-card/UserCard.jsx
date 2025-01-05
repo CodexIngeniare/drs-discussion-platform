@@ -3,7 +3,13 @@ import { TextInput } from '../../../../../../components/form';
 import { VerticalLine } from '../../../../../../components/common';
 import './UserCard.css';
 
+import { useEffect } from 'react';
+
 function UserCard({ user }) {
+
+    useEffect(() => {
+        console.log(user);
+      }, [user]);
 
     return (
         <div className='UserCard'>

@@ -223,7 +223,11 @@ def get_registered_users():
                 "email": user.email,
                 "username": user.username,
                 "first_name": user.first_name,
-                "last_name": user.last_name
+                "last_name": user.last_name,
+                "phone_number": user.phone_number,
+                "country": user.country,
+                "city": user.city,
+                "address": user.address
             }
             for user in registered_users
         ]

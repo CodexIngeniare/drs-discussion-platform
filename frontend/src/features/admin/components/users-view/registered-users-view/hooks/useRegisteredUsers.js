@@ -17,7 +17,7 @@ const useRegisteredUsers = (url) => {
             if(response.ok){
                 const data = await response.json();
                 console.log(data);
-                setRegisteredUsers(data);
+                setRegisteredUsers(data.registered_users);
                 return true;
             } else {
                 const errorData = await response.json();
