@@ -50,6 +50,11 @@ def create_app():
     
     from app.routes import topic_bp
     app.register_blueprint(topic_bp)
+
+    from app.routes import(tag_bp)
+    app.register_blueprint(tag_bp)
+
+    
     
 
     
