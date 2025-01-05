@@ -8,3 +8,5 @@ export { validatePhoneNumber } from './UserDataValidations.js';
 export { validateCountry } from './UserDataValidations.js';
 export { validateCity } from './UserDataValidations.js';
 export { validateAddress } from './UserDataValidations.js';
+export { validateTopicName } from './TopicValidations.js';
+export { validateTopicDescription } from './TopicValidations.js';

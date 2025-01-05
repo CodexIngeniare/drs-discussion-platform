@@ -1,0 +1,35 @@
+@import "../../../../../../assets/styles/global_variables.css";
+
+.NewTopicForm{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.NewTopicForm__header-container{
+    text-align: center;
+}
+.NewTopicForm__header-title{
+    font-size: 28px;
+    margin: 0px;
+}
+.NewTopicForm__input-container{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.NewTopicForm__buttons-container{
+    display: flex;
+    justify-content: space-between;
+}
+.NewTopicForm__cancel-button{
+    font-size: 24px;
+    width: 150px;
+}
+.NewTopicForm__create-button{
+    background-color: var(--success-clr);
+    font-size: 24px;
+    width: 150px;
+}
+    .NewTopicForm__create-button:hover{
+        background-color: var(--hover-success-clr);
+    }

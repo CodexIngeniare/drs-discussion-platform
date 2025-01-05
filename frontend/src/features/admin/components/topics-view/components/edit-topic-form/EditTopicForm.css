@@ -1,0 +1,56 @@
+@import "../../../../../../assets/styles/global_variables.css";
+
+.EditTopicForm{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.EditTopicForm__header-container{
+    text-align: center;
+}
+.EditTopicForm__header-title{
+    font-size: 28px;
+    margin: 0px;
+}
+.EditTopicForm__input-container{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.EditTopicForm__credentials{
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+.EditTopicForm__id{
+    width: 100px;
+}
+.EditTopicForm__buttons-container{
+    display: flex;
+    justify-content: space-between;
+}
+.EditTopicForm__cancel-button{
+    font-size: 24px;
+    width: 150px;
+}
+.EditTopicForm__update-delete-container{
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+.EditTopicForm__update-button{
+    background-color: var(--success-clr);
+    font-size: 24px;
+    width: 150px;
+}
+    .EditTopicForm__update-button:hover{
+        background-color: var(--hover-success-clr);
+    }
+.EditTopicForm__delete-button{
+    background-color: var(--caution-clr);
+    font-size: 24px;
+    width: 150px;
+}
+    .EditTopicForm__delete-button:hover{
+        background-color: var(--hover-caution-clr);
+    }

@@ -1,0 +1,23 @@
+
+.TopicListItem{
+    display: flex;
+    flex-direction: column;
+    border: solid;
+    border-width: 1px;
+    border-radius: 7px;
+    padding: 15px;
+    box-sizing: border-box;
+}
+    .TopicListItem:hover{
+        background-color: #242424;
+    }
+.TopicListItem__credentials-container{
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+.TopicListItem__id-container{
+    display: flex;
+    flex-direction: column;
+    width: 100px;
+}

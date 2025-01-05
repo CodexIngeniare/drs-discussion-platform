@@ -1,0 +1,65 @@
+@import "../../assets/styles/global_variables.css";
+
+.TextArea{
+    --base-font-size: 18px;
+    --text-clr: var(--text-clr);
+    --name-label-clr: var(--text-clr);
+    --name-label-font-size: calc(var(--base-font-size) * 1.33);
+    --required-label-clr: var(--warning-clr);
+    --required-label-font-size: calc(var(--base-font-size) * 1.33);
+    --input-clr: var(--text-clr);
+    --input-font-size: var(--base-font-size);
+    --input-border-clr: var(--border-clr);
+    --input-background-clr: black;
+    --input-background-hover-clr: #111111;
+    --input-focus-clr: var(--info-clr);
+    --input-placeholder-clr: rgb(156, 156, 156);
+    --input-placeholder-hover-clr: rgb(194, 194, 194);
+    --error-message-clr: var(--error-clr);
+    --error-message-font-size: calc(var(--base-font-size) * 0.88);
+
+    width: 100%;
+}
+.TextArea__label-container{
+    display: flex;
+    flex-direction: row;
+}
+.TextArea__name-label{
+    color: var(--name-label-clr);
+    font-size: var(--name-label-font-size);
+}
+.TextArea__required-label{
+    color: var(--required-label-clr);
+    font-size: var(--required-label-font-size);
+}
+.TextArea__input{
+    border: solid;
+    border-color: var(--input-border-clr);
+    border-width: 1px;
+    border-radius: 7px;
+    background-color: var(--input-background-clr);
+    box-sizing: border-box;
+    color: var(--input-clr);
+    width: 100%;
+    resize: none;
+    outline: none;
+    font-size: var(--input-font-size);
+    padding: 10px;
+}
+.TextArea__input:focus {
+    border-color: var(--input-focus-clr);
+}
+.TextArea__input:hover {
+    background-color: var(--input-background-hover-clr); 
+}
+.TextArea__input:hover::placeholder {
+        color: var(--input-placeholder-hover-clr);
+    }
+.TextArea__input::placeholder {
+    color: var(--input-placeholder-clr);
+    font-style: italic;
+}
+.TextArea__error-message{
+    color: var(--error-message-clr);
+    font-size: var(--error-message-font-size);
+}

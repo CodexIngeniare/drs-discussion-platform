@@ -1,0 +1,11 @@
+
+.TopicList{ 
+    overflow-y: scroll;
+    padding: 0px 20px 200px 0px;
+    box-sizing: border-box;
+}
+.TopicList__list-container{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
