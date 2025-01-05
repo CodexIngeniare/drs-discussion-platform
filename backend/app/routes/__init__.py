@@ -4,3 +4,4 @@ from .auth import auth_bp
 from .admin import admin_bp
 from .discussion import discussion_bp
 from .comment import comment_bp 
+from .topic import topic_bp

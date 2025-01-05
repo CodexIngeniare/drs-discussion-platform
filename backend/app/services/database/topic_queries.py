@@ -96,3 +96,32 @@ def get_topic_by_id(topic_id):
     except SQLAlchemyError as e:
         print(f"Greška: {str(e)}")
         return None
+
+def create_default_topic():
+    # Provera da li već postoji default tema
+    default_topic = Topic.query.filter_by(description="default").first()
+
+    if not default_topic:
+        try:
+            # Kreiranje default teme
+            default_topic = Topic(name="Default", description="default")
+            db.session.add(default_topic)
+            db.session.commit()
+            print("Default tema je uspešno kreirana.")
+            return default_topic
+        except Exception as e:
+            db.session.rollback()
+            print(f"Greška prilikom kreiranja default teme: {str(e)}")
+            return None
+    else:
+        print("Default tema već postoji.")
+        return default_topic
+    
+def get_topic_by_name(name):
+    try:
+        # Pretražuje tabelu da vidi da li postoji tema sa istim imenom
+        existing_topic = Topic.query.filter_by(name=name).first()
+        return existing_topic
+    except SQLAlchemyError as e:
+        print(f"Greška prilikom traženja teme: {str(e)}")
+        return None

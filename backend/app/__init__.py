@@ -48,6 +48,9 @@ def create_app():
     from app.routes import comment_bp
     app.register_blueprint(comment_bp)
     
+    from app.routes import topic_bp
+    app.register_blueprint(topic_bp)
+    
 
     
 

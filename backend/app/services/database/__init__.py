@@ -19,7 +19,9 @@ from .topic_queries import (
     update_topic,
     delete_topic,
     get_all_topics,
-    get_topic_by_id
+    get_topic_by_id,
+    create_default_topic,
+    get_topic_by_name
 )
 
 from .discussions_queries import (
