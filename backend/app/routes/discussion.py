@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify
 from app.services.discussion import create_discussion_service, update_discussion_service, delete_discussion_service
 from app.services.auth import session_handler
-from app.services.database.discussions_queries import get_all_discussions
+from app.services.database.discussions_queries import get_all_discussions, search_discussions
 
 discussion_bp = Blueprint('discussion', __name__)
 
@@ -168,6 +168,51 @@ def get_all_discussions_route():
             "message": "Discussions retrieved successfully",
             "discussions": discussions_list
         }), 200
+
+    except Exception as e:
+        return jsonify({"error_code": "SERVER_ERROR", "message":str(e)}),500
+    
+
+@discussion_bp.route('/search_discussions', methods=['GET'])
+def search_discussions_route():
+    """
+    Pretraga diskusija na osnovu različitih parametara: topic_id, discussion_title, author_username, author_email.
+    Uklanja pretragu za prazna polja.
+    """
+    try:
+        # Dohvatanje token-a iz zaglavlja zahteva
+        user_token = request.headers.get('Authorization')
+        if not user_token:
+            return jsonify({"error_code": "MISSING_TOKEN", "message": "Token is required."}), 400
+
+        # Obrada "Bearer" prefiksa ako postoji
+        if user_token.startswith("Bearer "):
+            user_token = user_token[len("Bearer "):]
+
+        # Validacija tokena
+        session_data = session_handler.get_session(user_token)
+        if not session_data:
+            return jsonify({"error_code": "UNAUTHORIZED", "message": "Invalid or expired token."}), 401
+
+        # Preuzimanje parametara iz upita
+        topic_id = request.args.get('topic_id', default=None)
+        discussion_title = request.args.get('discussion_title', default=None)
+        author_username = request.args.get('author_username', default=None)
+        author_email = request.args.get('author_email', default=None)
+
+        # Pozivanje funkcije search_discussions sa filtrima
+        discussions = search_discussions(
+            topic_id=topic_id if topic_id != "" else None,
+            discussion_title=discussion_title if discussion_title != "" else None,
+            author_username=author_username if author_username != "" else None,
+            author_email=author_email if author_email != "" else None
+        )
+
+        if not discussions:
+            return jsonify({"error_code": "NOT_FOUND", "message": "No discussions found."}), 404
+
+        # Uspešan odgovor sa diskusijama
+        return jsonify({"discussions": discussions}), 200
 
     except Exception as e:
         return jsonify({"error_code": "SERVER_ERROR", "message":str(e)}),500
