@@ -1,1 +1,1 @@
-export { default as useFetchRegisteredUsers } from './/useFetchRegisteredUsers.js';
+export { default as useRegisteredUsers } from './useRegisteredUsers.js';
