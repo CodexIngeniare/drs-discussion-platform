@@ -1,0 +1,1 @@
+export { default as DiscussionsView } from './DiscussionsView.jsx';
