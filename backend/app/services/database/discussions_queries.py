@@ -124,6 +124,7 @@ def search_discussions(topic_id=None, discussion_title=None, author_username=Non
     if author_email:
         query = query.join(RegisteredUser, RegisteredUser.id == Discussion.user_id) \
                      .filter(RegisteredUser.email.ilike(f'%{author_email}%'))
+ 
 
     # Dodavanje broja lajkova i naziva teme
     query = query.outerjoin(Like, Like.discussion_id == Discussion.id) \
