@@ -6,7 +6,7 @@ import './NewTopicForm.css';
 
 import { useTopics } from '../../hooks';
 
-function NewTopicForm ({ setIsCreating }) {
+function NewTopicForm ({ cancel }) {
     const { isCreating, creationErrors, createTopic } = useTopics();
     const name = useInputField("", false, validateTopicName, true);
     const description = useInputField("", false, validateTopicDescription, true);
@@ -35,11 +35,11 @@ function NewTopicForm ({ setIsCreating }) {
             return;
         }
         if(await createTopic(name.value, description.value)){
-            setIsCreating(false);
+            cancel();
         }
     }
     const handleCancel = () => {
-        setIsCreating(false);
+        cancel();
     }
 
     return (

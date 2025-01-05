@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useTopics } from './hooks';
 import { TopicList } from './components';
-import { NewTopicForm } from './components';
+import { NewTopicForm, EditTopicForm } from './components';
 import './TopicsView.css';
 
 function TopicsView() {
@@ -12,12 +12,14 @@ function TopicsView() {
   useEffect(() => {
     fetchTopics();
   }, []);
-  useEffect(() => {
-    fetchTopics();
-  }, [isCreatingNew]);
   const createNewTopic = () => {
     setSelectedTopic(null);
     setIsCreatingNew(true);
+  };
+  const cancel = () => {
+    setSelectedTopic(null);
+    setIsCreatingNew(false);
+    fetchTopics();
   };
 
   return (
@@ -31,8 +33,8 @@ function TopicsView() {
           <TopicList topics={topics} handleSelect={setSelectedTopic}/>
       </section>
       <section className='TopicsView__details-section'>
-        { selectedTopic && <label>{selectedTopic.name}</label>}
-        { isCreatingNew && <NewTopicForm setIsCreating={setIsCreatingNew}/>}
+        { selectedTopic && <EditTopicForm selectedTopic={selectedTopic} cancel={cancel}/>}
+        { (isCreatingNew && !selectedTopic) && <NewTopicForm cancel={cancel}/>}
       </section>
     </div>
   );
