@@ -1,10 +1,13 @@
+import { useState, useContext } from "react";
+import { AuthContext } from '../../../../../../context';
 
-const useFetchRegisteredUsers = (accountDataEndpoint) => {
+const useRegisteredUsers = (url) => {
+    const { token } = useContext(AuthContext);
+    const [registeredUsers, setRegisteredUsers] = useState([]);
 
     const fetchRegisteredUsers = async () => {
         try{  
-            const token = localStorage.getItem("token");
-            const response = await fetch(accountDataEndpoint, {
+            const response = await fetch(url, {
                 method: "GET",
                 headers: {
                     'Authorization': token,
@@ -14,6 +17,7 @@ const useFetchRegisteredUsers = (accountDataEndpoint) => {
             if(response.ok){
                 const data = await response.json();
                 console.log(data);
+                setRegisteredUsers(data.registered_users);
                 return true;
             } else {
                 const errorData = await response.json();
@@ -26,7 +30,7 @@ const useFetchRegisteredUsers = (accountDataEndpoint) => {
         }
     };
 
-    return { fetchRegisteredUsers };
+    return { registeredUsers, fetchRegisteredUsers };
 };
 
-export default useFetchRegisteredUsers;
+export default useRegisteredUsers;
