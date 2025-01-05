@@ -1,9 +1,13 @@
 import { TextInput, VerticalLine } from '../../../../../../../components';
 import './TopicListItem.css'
 
-function TopicListItem ( { topic }) {
+function TopicListItem ( { topic, handleSelect }) {
+    const onSelect = () => {
+        handleSelect(topic);
+    };
+
     return (
-        <div className="TopicListItem">
+        <div className="TopicListItem" onClick={onSelect}>
             <div className='TopicListItem__credentials-container'>
                 <div className='TopicListItem__id-container'>
                     <TextInput

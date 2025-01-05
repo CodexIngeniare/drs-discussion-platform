@@ -1,25 +1,25 @@
-//import { useState } from 'react';
+import { useState, useContext } from 'react';
+import { AuthContext } from '../../../../../context';
 
 const useTopics = (url) => {
-    //const [topics, setTopics] = useState([]);
-    const token = sessionStorage.getItem('token');
+    const [topics, setTopics] = useState([]);
+    const { token } = useContext(AuthContext);
 
     const fetchTopics = async () => {
         try{
             const response = await fetch(url, {
-                method: 'POST',
+                method: 'GET',
                 headers: {
+                    'Authorization': token,
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ token }),
             });
             if(response.ok){
                 const msg = await response.json();
-                console.log(msg);
+                setTopics(msg.topics);
                 return true;
             } else {
                 const error = await response.json();
-                console.log(error);
                 return false;
             }
         } catch(error){
@@ -27,7 +27,7 @@ const useTopics = (url) => {
         }
     };
 
-    return { /*topics,*/ fetchTopics };
+    return { topics, fetchTopics };
 };
 
 export default useTopics;
