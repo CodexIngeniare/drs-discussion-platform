@@ -1,9 +1,11 @@
 import { Routes, Route, Navigate} from 'react-router-dom';
 import { Sidebar } from '../../layouts';
 import { NavLink } from '../../components';
+import { FeedView } from './components';
 import './DiscussionsView.css';
 
 function DiscussionsView () {
+
     return (
         <div className='DiscussionsView'>
             <aside className='DiscussionsView__left-sidebar-section'>
@@ -18,7 +20,7 @@ function DiscussionsView () {
             <section className='DiscussionsView__main-section'>
                 <Routes>
                     <Route index element={<Navigate to="feed"/>} />
-                    <Route path="/feed/*" element={<label>feed</label>}/>
+                    <Route path="/feed/*" element={<FeedView/>}/>
                     <Route path="/new/*" element={<label>New Discussion</label>}/>
                 </Routes>
             </section>
