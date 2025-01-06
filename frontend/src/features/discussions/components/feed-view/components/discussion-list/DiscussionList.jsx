@@ -3,11 +3,9 @@ import './DiscussionList.css';
 
 function DiscussionList ({ discussions=[] }) {
     return (
-        <div>
+        <div className='DiscussionList'>
             {discussions.map((discussion, index) => (
-                <div>
-                    <DiscussionListItem discussion={discussion}/>
-                </div>
+                <DiscussionListItem discussion={discussion}/>
             ))}
         </div>
     );
