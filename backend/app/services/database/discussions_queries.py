@@ -68,7 +68,7 @@ def delete_discussion(discussion_id):
         return False
 
 
-def get_all_discussions():
+def get_all_discussions(user_id=None):
     try:
         # Napravite upit koji uključuje broj lajkova i naziv teme
         discussions = (
@@ -90,6 +90,12 @@ def get_all_discussions():
             discussion_dict = discussion.to_dict()  # Preuzimanje osnovnih polja iz modela
             discussion_dict['like_count'] = like_count
             discussion_dict['topic_name'] = topic_name or "Uncategorized"  # Dodavanje naziva teme
+
+            if user_id:
+                discussion_dict['vote_status'] = get_vote_status(user_id, discussion.id)
+            else:
+                discussion_dict['vote_status'] = "neutral"
+
             result.append(discussion_dict)
 
         return result
@@ -106,7 +112,7 @@ def get_discussion_by_id(discussion_id):
         print(f"Greška: {str(e)}")
         return None
 
-def search_discussions(topic_id=None, discussion_title=None, author_username=None, author_email=None):
+def search_discussions(user_id=None, topic_id=None, discussion_title=None, author_username=None, author_email=None):
     # Početni query za tabelu Discussion
     query = db.session.query(Discussion)
 
@@ -146,7 +152,29 @@ def search_discussions(topic_id=None, discussion_title=None, author_username=Non
         discussion_dict = discussion[0].to_dict()  
         # Dodajemo broj lajkova, naziv teme
         discussion_dict['like_count'] = discussion.like_count  
-        discussion_dict['topic_name'] = discussion.topic_name  
+        discussion_dict['topic_name'] = discussion.topic_name  or "Uncategorized"
+
+
+        # Dodavanje vote_status ako je user_id dostupan
+        if user_id:
+            discussion_dict['vote_status'] = get_vote_status(user_id, discussion[0].id)
+        else:
+            discussion_dict['vote_status'] = "neutral"
+
         discussion_list.append(discussion_dict)
 
     return discussion_list
+
+
+def get_vote_status(user_id, discussion_id):
+    """
+    Proverava status glasa (like/dislike/neutral) za korisnika i diskusiju.
+    """
+    try:
+        vote = db.session.query(Like).filter_by(user_id=user_id, discussion_id=discussion_id).first()
+        if vote:
+            return "liked" if vote.is_like else "disliked"
+        return "neutral"
+    except SQLAlchemyError as e:
+        print(f"Greška prilikom proveravanja statusa glasa: {str(e)}")
+        return None
