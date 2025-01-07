@@ -30,7 +30,8 @@ from .discussions_queries import (
     delete_discussion,
     get_all_discussions,
     get_discussion_by_id,
-    search_discussions
+    search_discussions,
+    get_vote_status
 )
 
 from .comments_queries import (

@@ -154,19 +154,33 @@ def get_all_discussions_route():
     Vraća sve diskusije u JSON formatu.
     """
     try:
+
+         # Dohvatanje tokena iz Authorization zaglavlja
+        user_token = request.headers.get('Authorization')
+        if not user_token:
+            return jsonify({"error_code": "MISSING_TOKEN", "message": "Token is required."}), 400
+
+        # Obrada "Bearer" prefiksa ako postoji
+        if user_token.startswith("Bearer "):
+            user_token = user_token[len("Bearer "):]
+
+        # Validacija tokena
+        session_data = session_handler.get_session(user_token)
+        if not session_data:
+            return jsonify({"error_code": "UNAUTHORIZED", "message": "Invalid or expired token."}), 401
+
+        # Dohvatanje user_id iz sesije
+        user_id = session_data.get("user_id")
+
         # Pozivanje servisne funkcije za dobijanje svih diskusija
-        discussions = get_all_discussions()
+        discussions = get_all_discussions(user_id=user_id)
 
         if not discussions:
             return jsonify({"error_code": "SERVER_ERROR", "message": "No discussions found."}), 500
 
-        # Pretvaranje diskusija u listu reči za JSON odgovor
-        discussions_list = [discussion.to_dict() for discussion in discussions]
-
-        # Uspešan odgovor sa listom svih diskusija
         return jsonify({
             "message": "Discussions retrieved successfully",
-            "discussions": discussions_list
+            "discussions": discussions
         }), 200
 
     except Exception as e:
@@ -193,6 +207,9 @@ def search_discussions_route():
         session_data = session_handler.get_session(user_token)
         if not session_data:
             return jsonify({"error_code": "UNAUTHORIZED", "message": "Invalid or expired token."}), 401
+        
+         #Dohvatanje user_id iz sesije
+        user_id = session_data.get("user_id")
 
         # Preuzimanje parametara iz upita
         topic_id = request.args.get('topic_id', default=None)
@@ -202,6 +219,7 @@ def search_discussions_route():
 
         # Pozivanje funkcije search_discussions sa filtrima
         discussions = search_discussions(
+            user_id=user_id,
             topic_id=topic_id if topic_id != "" else None,
             discussion_title=discussion_title if discussion_title != "" else None,
             author_username=author_username if author_username != "" else None,
