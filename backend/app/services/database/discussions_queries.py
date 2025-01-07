@@ -1,4 +1,4 @@
-from sqlalchemy import func
+from sqlalchemy import alias, case, func
 from app import db
 from app.models.discussions import Discussion
 from app.models.comments import Comment  
@@ -70,26 +70,31 @@ def delete_discussion(discussion_id):
 
 def get_all_discussions():
     try:
-        # Napravite upit koji uključuje broj lajkova i naziv teme
+        # Napravite upit koji uključuje broj lajkova, broj dislajkova, korisničko ime autora i naziv teme
         discussions = (
             db.session.query(
                 Discussion,
-                func.count(Like.id).label('like_count'),
-                Topic.name.label('topic_name')
+                func.sum(case((Like.is_like == True, 1), else_=0)).label('like_count'),
+                func.sum(case((Like.is_like == False, 1), else_=0)).label('dislike_count'),
+                Topic.name.label('topic_name'),
+                RegisteredUser.username.label('author_username')
             )
             .outerjoin(Like, Like.discussion_id == Discussion.id)
             .outerjoin(Topic, Topic.id == Discussion.topic_id)
-            .group_by(Discussion.id, Topic.id)
+            .outerjoin(RegisteredUser, RegisteredUser.id == Discussion.user_id)
+            .group_by(Discussion.id, Topic.id, RegisteredUser.id)
             .order_by(Discussion.created_at.desc())
             .all()
         )
 
         # Formatiranje rezultata
         result = []
-        for discussion, like_count, topic_name in discussions:
+        for discussion, like_count, dislike_count, topic_name, author_username in discussions:
             discussion_dict = discussion.to_dict()  # Preuzimanje osnovnih polja iz modela
             discussion_dict['like_count'] = like_count
+            discussion_dict['dislike_count'] = dislike_count
             discussion_dict['topic_name'] = topic_name or "Uncategorized"  # Dodavanje naziva teme
+            discussion_dict['author_username'] = author_username  # Dodavanje korisničkog imena autora
             result.append(discussion_dict)
 
         return result
@@ -99,54 +104,104 @@ def get_all_discussions():
 
 
 def get_discussion_by_id(discussion_id):
-
     try:
-        return Discussion.query.get(discussion_id)
+        # Upit za dohvatanje diskusije zajedno sa dodatnim informacijama
+        discussion = (
+            db.session.query(
+                Discussion.id,
+                Discussion.title,
+                Discussion.content,
+                Discussion.created_at,
+                Discussion.updated_at,
+                RegisteredUser.username.label("author_username"),
+                Topic.name.label("topic_name"),
+                func.count(func.nullif(Like.is_like, False)).label("like_count"),  # Broj lajkova
+                func.count(func.nullif(Like.is_like, True)).label("dislike_count")  # Broj dislajkova
+            )
+            .join(RegisteredUser, RegisteredUser.id == Discussion.user_id)
+            .join(Topic, Topic.id == Discussion.topic_id)
+            .outerjoin(Like, Like.discussion_id == Discussion.id)
+            .filter(Discussion.id == discussion_id)
+            .group_by(
+                Discussion.id,
+                RegisteredUser.username,
+                Topic.name
+            )
+            .first()
+        )
+
+        if not discussion:
+            return None  # Diskusija nije pronađena
+
+        # Konvertovanje rezultata u rečnik
+        return {
+            "id": discussion.id,
+            "title": discussion.title,
+            "content": discussion.content,
+            "created_at": discussion.created_at.isoformat() if discussion.created_at else None,
+            "updated_at": discussion.updated_at.isoformat() if discussion.updated_at else None,
+            "author_username": discussion.author_username,
+            "topic_name": discussion.topic_name,
+            "like_count": discussion.like_count,
+            "dislike_count": discussion.dislike_count
+        }
+
     except SQLAlchemyError as e:
         print(f"Greška: {str(e)}")
         return None
 
 def search_discussions(topic_id=None, discussion_title=None, author_username=None, author_email=None):
-    # Početni query za tabelu Discussion
-    query = db.session.query(Discussion)
+    # Kreiranje alias-a za tabelu RegisteredUser
+    Author = alias(RegisteredUser)  # Alias za autora diskusije
 
-    # Filtriranje na osnovu prosleđenih parametara
-    if topic_id is not None:  # Proveravamo da li je parametar prosleđen
+    # Subquery za broj lajkova
+    like_count_subquery = db.session.query(
+        Like.discussion_id,
+        func.count().label('like_count')
+    ).filter(Like.is_like == True).group_by(Like.discussion_id).subquery()
+
+    # Subquery za broj dislajkova
+    dislike_count_subquery = db.session.query(
+        Like.discussion_id,
+        func.count().label('dislike_count')
+    ).filter(Like.is_like == False).group_by(Like.discussion_id).subquery()
+
+    query = db.session.query(Discussion, like_count_subquery.c.like_count, dislike_count_subquery.c.dislike_count,
+                             Topic.name.label('topic_name'), Author.c.username.label('author_username')) \
+        .join(Author, Author.c.id == Discussion.user_id) \
+        .outerjoin(like_count_subquery, like_count_subquery.c.discussion_id == Discussion.id) \
+        .outerjoin(dislike_count_subquery, dislike_count_subquery.c.discussion_id == Discussion.id) \
+        .outerjoin(Topic, Topic.id == Discussion.topic_id)
+
+    # Filtriranje po topic_id i naslovu diskusije
+    if topic_id is not None:
         query = query.filter(Discussion.topic_id == topic_id)
     if discussion_title:
         query = query.filter(Discussion.title.ilike(f'%{discussion_title}%'))
 
-    # Ako se filtrira po korisniku, prvo dodajemo JOIN sa tabelom RegisteredUser
+    # Dodavanje filtera za autora diskusije prema username ili email
     if author_username:
-        query = query.join(RegisteredUser, RegisteredUser.id == Discussion.user_id) \
-                     .filter(RegisteredUser.username.ilike(f'%{author_username}%'))
-    
+        query = query.filter(Author.c.username.ilike(f'%{author_username}%'))
+
     if author_email:
-        query = query.join(RegisteredUser, RegisteredUser.id == Discussion.user_id) \
-                     .filter(RegisteredUser.email.ilike(f'%{author_email}%'))
- 
+        query = query.filter(Author.c.email.ilike(f'%{author_email}%'))
 
-    # Dodavanje broja lajkova i naziva teme
-    query = query.outerjoin(Like, Like.discussion_id == Discussion.id) \
-                 .outerjoin(Topic, Topic.id == Discussion.topic_id) \
-                 .add_columns(db.func.count(Like.id).label('like_count'),
-                              Topic.name.label('topic_name')) \
-                 .group_by(Discussion.id, Topic.id)
+    # Grupisanje i sortiranje
+    query = query.group_by(Discussion.id, Topic.id, Author.c.username) \
+                 .order_by(Discussion.created_at.desc())
 
-    # Sortiranje od najnovije do najstarije diskusije
-    query = query.order_by(Discussion.created_at.desc())
-
-    # Pozivanje .all() tek na kraju nakon što su svi JOIN-ovi i filtriranja završeni
+    # Dohvatanje rezultata
     discussions = query.all()
 
-    # Priprema rezultata
+    # Formiranje liste diskusija sa dodatnim podacima
     discussion_list = []
     for discussion in discussions:
-        # Objekat Discussion
-        discussion_dict = discussion[0].to_dict()  
-        # Dodajemo broj lajkova, naziv teme
-        discussion_dict['like_count'] = discussion.like_count  
-        discussion_dict['topic_name'] = discussion.topic_name  
+        # Pristup svim podacima
+        discussion_dict = discussion[0].to_dict()  # Pretpostavljamo da je 0. element Discussion objekat
+        discussion_dict['like_count'] = discussion[1] if discussion[1] is not None else 0
+        discussion_dict['dislike_count'] = discussion[2] if discussion[2] is not None else 0
+        discussion_dict['topic_name'] = discussion[3]
+        discussion_dict['author_username'] = discussion[4]
         discussion_list.append(discussion_dict)
 
     return discussion_list
