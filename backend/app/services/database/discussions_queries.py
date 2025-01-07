@@ -150,15 +150,28 @@ def get_discussion_by_id(discussion_id):
         print(f"Greška: {str(e)}")
         return None
 
-
-
-
 def search_discussions(topic_id=None, discussion_title=None, author_username=None, author_email=None):
     # Kreiranje alias-a za tabelu RegisteredUser
-    Author1 = alias(RegisteredUser)  # Alias za autora diskusije prema username-u
-    Author2 = alias(RegisteredUser)  # Alias za autora diskusije prema email-u
+    Author = alias(RegisteredUser)  # Alias za autora diskusije
 
-    query = db.session.query(Discussion)
+    # Subquery za broj lajkova
+    like_count_subquery = db.session.query(
+        Like.discussion_id,
+        func.count().label('like_count')
+    ).filter(Like.is_like == True).group_by(Like.discussion_id).subquery()
+
+    # Subquery za broj dislajkova
+    dislike_count_subquery = db.session.query(
+        Like.discussion_id,
+        func.count().label('dislike_count')
+    ).filter(Like.is_like == False).group_by(Like.discussion_id).subquery()
+
+    query = db.session.query(Discussion, like_count_subquery.c.like_count, dislike_count_subquery.c.dislike_count,
+                             Topic.name.label('topic_name'), Author.c.username.label('author_username')) \
+        .join(Author, Author.c.id == Discussion.user_id) \
+        .outerjoin(like_count_subquery, like_count_subquery.c.discussion_id == Discussion.id) \
+        .outerjoin(dislike_count_subquery, dislike_count_subquery.c.discussion_id == Discussion.id) \
+        .outerjoin(Topic, Topic.id == Discussion.topic_id)
 
     # Filtriranje po topic_id i naslovu diskusije
     if topic_id is not None:
@@ -168,23 +181,13 @@ def search_discussions(topic_id=None, discussion_title=None, author_username=Non
 
     # Dodavanje filtera za autora diskusije prema username ili email
     if author_username:
-        query = query.join(Author1, Author1.c.id == Discussion.user_id) \
-                     .filter(Author1.c.username.ilike(f'%{author_username}%'))
+        query = query.filter(Author.c.username.ilike(f'%{author_username}%'))
 
     if author_email:
-        query = query.join(Author2, Author2.c.id == Discussion.user_id) \
-                     .filter(Author2.c.email.ilike(f'%{author_email}%'))
+        query = query.filter(Author.c.email.ilike(f'%{author_email}%'))
 
-    # Dodavanje potrebnih JOIN-ova i dodatnih kolona za upit
-    query = query.outerjoin(Like, Like.discussion_id == Discussion.id) \
-                 .outerjoin(Topic, Topic.id == Discussion.topic_id) \
-                 .add_columns(
-                     func.count(Like.id).label('like_count'),  # Broj lajkova
-                     func.count(case((Like.is_like == False, Like.id), else_=None)).label('dislike_count'),  # Broj dislajkova
-                     Topic.name.label('topic_name'),  # Naziv teme
-                     Author1.c.username.label('author_username')  # Username autora
-                 ) \
-                 .group_by(Discussion.id, Topic.id, Author1.c.username) \
+    # Grupisanje i sortiranje
+    query = query.group_by(Discussion.id, Topic.id, Author.c.username) \
                  .order_by(Discussion.created_at.desc())
 
     # Dohvatanje rezultata
@@ -193,11 +196,12 @@ def search_discussions(topic_id=None, discussion_title=None, author_username=Non
     # Formiranje liste diskusija sa dodatnim podacima
     discussion_list = []
     for discussion in discussions:
-        discussion_dict = discussion[0].to_dict()
-        discussion_dict['like_count'] = discussion.like_count
-        discussion_dict['dislike_count'] = discussion.dislike_count
-        discussion_dict['topic_name'] = discussion.topic_name
-        discussion_dict['author_username'] = discussion.author_username
+        # Pristup svim podacima
+        discussion_dict = discussion[0].to_dict()  # Pretpostavljamo da je 0. element Discussion objekat
+        discussion_dict['like_count'] = discussion[1] if discussion[1] is not None else 0
+        discussion_dict['dislike_count'] = discussion[2] if discussion[2] is not None else 0
+        discussion_dict['topic_name'] = discussion[3]
+        discussion_dict['author_username'] = discussion[4]
         discussion_list.append(discussion_dict)
 
     return discussion_list
