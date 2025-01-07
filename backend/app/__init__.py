@@ -54,7 +54,8 @@ def create_app():
     from app.routes import(tag_bp)
     app.register_blueprint(tag_bp)
 
-    
+    from app.routes import(like_bp)
+    app.register_blueprint(like_bp)
     
 
     

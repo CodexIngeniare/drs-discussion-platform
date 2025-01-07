@@ -6,3 +6,4 @@ from .discussion import discussion_bp
 from .comment import comment_bp 
 from .topic import topic_bp
 from .tag import tag_bp
+from .like import like_bp

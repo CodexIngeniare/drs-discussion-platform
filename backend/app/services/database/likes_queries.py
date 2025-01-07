@@ -1,37 +1,43 @@
 from app import db
 from app.models.likes import Like
 
-def like_or_dislike(discussion_id, user_id, is_like=None):
 
+def like_or_dislike(discussion_id, user_id, status):
     try:
-        # Proveri da li postoji zapis za korisnika i diskusiju
+        # Ako je status neutral, pokušaj da izbrišeš lajk/dislajk ako postoji
+        if status == "neutral":
+            # Pokušaj da pronađeš postojeći lajk/dislajk
+            existing_like = db.session.query(Like).filter_by(user_id=user_id, discussion_id=discussion_id).first()
+
+            if existing_like:
+                # Ako postoji, obriši ga iz baze
+                db.session.delete(existing_like)
+                db.session.commit()
+                return {"message": "Like/Dislike removed successfully."}  # Poruka o uspešnom uklanjanju
+            else:
+                return {"message": "No like/dislike found to remove."}  # Ako ne postoji lajk/dislajk za brisanje
+
+        # Ako je status "like" ili "dislike", ažuriraj ili kreiraj novi unos
+        is_like = (status == "like")
+
+        # Pokušaj da pronađeš postojeći lajk/dislajk
         existing_like = db.session.query(Like).filter_by(user_id=user_id, discussion_id=discussion_id).first()
 
-        if is_like is None:
-            # Ako korisnik nije lajkovao ili dislajkovao, ostavi neutralno stanje
-            if existing_like:
-                db.session.delete(existing_like)  # Obrisi postojeći zapis
-                db.session.commit()
-                return {"status": "success", "message": "Stanje je postavljeno na neutralno."}
-            else:
-                # Ako nema postojeći zapis, stanje je već neutralno
-                return {"status": "success", "message": "Stanje je već neutralno."}
+        if existing_like:
+            # Ako već postoji, ažuriraj 'is_like' polje
+            existing_like.is_like = is_like
+            db.session.commit()
+            # Poruka sa informacijom da je lajk ili dislajk postavljen
+            return {"message": "Like updated successfully."} if is_like else {"message": "Dislike updated successfully."}
         else:
-            if existing_like:
-                # Ažuriraj postojeći zapis
-                existing_like.is_like = is_like
-                db.session.commit()
-                action = "lajkovano" if is_like else "dislajkovano"
-                return {"status": "success", "message": f"Diskusija je {action}."}
-            else:
-                # Kreiraj novi zapis za lajk ili dislajk
-                new_like = Like(user_id=user_id, discussion_id=discussion_id, is_like=is_like)
-                db.session.add(new_like)
-                db.session.commit()
-                action = "lajkovano" if is_like else "dislajkovano"
-                return {"status": "success", "message": f"Diskusija je {action}."}
+            # Ako ne postoji, kreiraj novi lajk/dislajk
+            new_like = Like(user_id=user_id, discussion_id=discussion_id, is_like=is_like)
+            db.session.add(new_like)
+            db.session.commit()
+            # Poruka sa informacijom o novom lajku ili dislajku
+            return {"message": "Like created successfully."} if is_like else {"message": "Dislike created successfully."}
+
     except Exception as e:
-        # Rollback u slučaju greške
         db.session.rollback()
-        print(f"Greška prilikom postavljanja stanja: {str(e)}")
-        return {"status": "error", "message": f"Greška: {str(e)}"}
+        print(f"Greška prilikom lajkovanja/dislajkovanja: {str(e)}")
+    return None

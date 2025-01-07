@@ -68,7 +68,7 @@ def delete_discussion(discussion_id):
         return False
 
 
-def get_all_discussions():
+def get_all_discussions(user_id=None):
     try:
         # Napravite upit koji uključuje broj lajkova, broj dislajkova, korisničko ime autora i naziv teme
         discussions = (
@@ -95,6 +95,12 @@ def get_all_discussions():
             discussion_dict['dislike_count'] = dislike_count
             discussion_dict['topic_name'] = topic_name or "Uncategorized"  # Dodavanje naziva teme
             discussion_dict['author_username'] = author_username  # Dodavanje korisničkog imena autora
+
+            if user_id:
+                discussion_dict['vote_status'] = get_vote_status(user_id, discussion.id)
+            else:
+                discussion_dict['vote_status'] = "neutral"
+
             result.append(discussion_dict)
 
         return result
@@ -150,7 +156,7 @@ def get_discussion_by_id(discussion_id):
         print(f"Greška: {str(e)}")
         return None
 
-def search_discussions(topic_id=None, discussion_title=None, author_username=None, author_email=None):
+def search_discussions(user_id=None,topic_id=None, discussion_title=None, author_username=None, author_email=None):
     # Kreiranje alias-a za tabelu RegisteredUser
     Author = alias(RegisteredUser)  # Alias za autora diskusije
 
@@ -202,6 +208,29 @@ def search_discussions(topic_id=None, discussion_title=None, author_username=Non
         discussion_dict['dislike_count'] = discussion[2] if discussion[2] is not None else 0
         discussion_dict['topic_name'] = discussion[3]
         discussion_dict['author_username'] = discussion[4]
+
+         # Dodavanje vote_status ako je user_id dostupan
+        if user_id:
+            discussion_dict['vote_status'] = get_vote_status(user_id, discussion[0].id)
+        else:
+            discussion_dict['vote_status'] = "neutral"
+
+  
+
         discussion_list.append(discussion_dict)
 
     return discussion_list
+
+
+def get_vote_status(user_id, discussion_id):
+    """
+    Proverava status glasa (like/dislike/neutral) za korisnika i diskusiju.
+    """
+    try:
+        vote = db.session.query(Like).filter_by(user_id=user_id, discussion_id=discussion_id).first()
+        if vote:
+            return "liked" if vote.is_like else "disliked"
+        return "neutral"
+    except SQLAlchemyError as e:
+        print(f"Greška prilikom proveravanja statusa glasa: {str(e)}")
+        return None
