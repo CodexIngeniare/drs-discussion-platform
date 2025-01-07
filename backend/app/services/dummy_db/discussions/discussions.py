@@ -25,4 +25,16 @@ dummy_discussions = [
         user_id=2,
         topic_id=6,
     ),
+    Discussion(
+        title="What makes a good software engineer?",
+        content="What are some of the qualities that make up a good versitale engineer.",
+        user_id=2,
+        topic_id=3,
+    ),
+    Discussion(
+        title="Duuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu a  a a a a a a a  aa a a a a  aa a a a a a a a a a a a a a a a a a a a a a a a a ",
+        content="What are some of the qualities that make up a good versitale engineer.",
+        user_id=2,
+        topic_id=3,
+    ),
 ]

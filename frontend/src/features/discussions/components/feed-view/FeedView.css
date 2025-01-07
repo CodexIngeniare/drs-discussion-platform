@@ -1,7 +1,19 @@
 
 .FeedView{
     height: 100%;
+    display: grid;
+    grid-template-rows: auto 1fr;
+}
+.FeedView__search-section{
+    grid-row: 1 / 2;
+    background-color: black;
+    border-width: 1px;
+}
+.FeedView__discussions-section{
+    grid-row: 2 / 3;
+    height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
+    overflow-y: auto;
 }

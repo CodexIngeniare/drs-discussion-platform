@@ -12,7 +12,11 @@ function FeedView (){
 
     return (
         <div className="FeedView">
-            <DiscussionList discussions={discussions}/>
+            <section className='FeedView__search-section'>
+            </section>
+            <section className='FeedView__discussions-section'>
+                <DiscussionList discussions={discussions}/>
+            </section>
         </div>
     );
 };

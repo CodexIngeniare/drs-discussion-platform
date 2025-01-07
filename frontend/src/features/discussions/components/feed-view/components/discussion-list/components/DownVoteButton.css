@@ -1,0 +1,10 @@
+
+.DownVoteButton{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    align-items: center;
+}
+.DownVoteButton__button{
+    border-width: 1px;
+}
