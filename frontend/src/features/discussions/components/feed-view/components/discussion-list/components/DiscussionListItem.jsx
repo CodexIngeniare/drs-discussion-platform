@@ -1,9 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
+import { DiscussionsContext } from '../../../../../context';
 import UpVoteButton from './UpVoteButton.jsx';
 import DownVoteButton from './DownVoteButton.jsx';
 import './DiscussionListItem.css';
 
 function DiscussionListItem ({ discussion }) {
+    const { setSelectedDiscussion } = useContext(DiscussionsContext);
     const [postedDate, setPostedDate] = useState("");
 
     useEffect(() => {
@@ -13,6 +15,9 @@ function DiscussionListItem ({ discussion }) {
         calculateDate();
     }, [discussion]);
 
+    const handleSelect = () => {
+        setSelectedDiscussion(discussion);
+    };
     const calculateDate = () => {
         const postDate = new Date(discussion.created_at);
         const currentDate = new Date();
@@ -40,7 +45,7 @@ function DiscussionListItem ({ discussion }) {
     };
 
     return (
-        <div className='DiscussionListItem'>
+        <div className='DiscussionListItem' onClick={handleSelect}>
             <div className='DiscussionListItem__vote-buttons-container'>
                 <UpVoteButton discussion={discussion}/>
                 <DownVoteButton discussion={discussion}/>
