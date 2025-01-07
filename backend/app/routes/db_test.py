@@ -1,4 +1,5 @@
 from flask import Blueprint, request
+from sqlalchemy.exc import SQLAlchemyError
 from app.services.database import (
     get_admin_emails,
     get_all_pending_users, 
@@ -472,15 +473,14 @@ def db_get_discussion_by_id(discussion_id):
         discussion = get_discussion_by_id(discussion_id)
 
         if not discussion:
-            raise Exception(f"Diskusija sa ID {discussion_id} nije pronađena.")
+            return {
+                "status": "error",
+                "message": f"Diskusija sa ID {discussion_id} nije pronađena."
+            }, 404
 
         return {
             "status": "success",
-            "discussion": {
-                "id": discussion.id,
-                "title": discussion.title,
-                "content": discussion.content
-            }
+            "discussion": discussion  # Funkcija već vraća rečnik sa svim potrebnim poljima
         }, 200
     except Exception as e:
         return {
@@ -594,31 +594,37 @@ def db_get_comment_by_id(comment_id):
 @db_bp.route('/db/like_or_dislike', methods=['POST'])
 def db_like_or_dislike():
     try:
-        # Uzimanje podataka iz tela zahteva
-        form_data = request.get_json()
-        user_id = form_data.get("user_id")
-        discussion_id = form_data.get("discussion_id")
-        is_like = form_data.get("is_like")
+        
+        data = request.get_json()
+        discussion_id = data.get('discussion_id')
+        user_id = data.get('user_id')
+        is_like = data.get('is_like')  
 
-        if user_id is None or discussion_id is None or is_like is None:
-            raise ValueError("Svi podaci (user_id, discussion_id, is_like) su obavezni.")
+   
+        if not discussion_id or not user_id:
+            return {
+                "status": "error",
+                "message": "Nedostaju obavezni parametri: discussion_id i user_id."
+            }, 400
 
-        # Poziv funkcije za lajkovanje ili dislajkovanje
-        like = like_or_dislike(discussion_id, user_id, is_like)
+        
+        result = like_or_dislike(discussion_id, user_id, is_like)
 
-        if not like:
-            raise Exception("Došlo je do greške prilikom lajkovanja/dislajkovanja.")
+       
+        if result is None:
+            return {
+                "status": "error",
+                "message": "Došlo je do greške prilikom obrade zahteva."
+            }, 500
 
+        
         return {
             "status": "success",
-            "message": "Lajk/dislajk je uspešno postavljen.",
-            "like": {
-                "user_id": like.user_id,
-                "discussion_id": like.discussion_id,
-                "is_like": like.is_like
-            }
+            "message": result["message"]  
         }, 200
+
     except Exception as e:
+        
         return {
             "status": "error",
             "message": str(e)
@@ -695,9 +701,16 @@ def db_search_discussions():
             "discussions": discussions
         }, 200
 
-    except Exception as e:
-        # Obrada grešaka
+    except SQLAlchemyError as e:
+        # Specifično za greške u bazi podataka
         return {
             "status": "error",
-            "message": str(e)
+            "message": f"Database error: {str(e)}"
+        }, 500
+
+    except Exception as e:
+        # Opšta greška
+        return {
+            "status": "error",
+            "message": f"An error occurred: {str(e)}"
         }, 500
