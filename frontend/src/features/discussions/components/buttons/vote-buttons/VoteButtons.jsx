@@ -3,7 +3,7 @@ import { useVote } from './hooks';
 import { UpVoteButton, DownVoteButton } from './components';
 import './VoteButtons.css';
 
-function VoteButtons ({ discussion }) {
+function VoteButtons ({ discussion, disabled=false }) {
     const { upVote, downVote, unVote } = useVote();
     const [upVotes, setUpVotes] = useState(0);
     const [isUpVoted, setIsUpVoted] = useState(false);
@@ -75,8 +75,8 @@ function VoteButtons ({ discussion }) {
 
     return (
         <div className='VoteButtons'>
-            <UpVoteButton upVoteCount={upVotes} isUpVoted={isUpVoted} handleClick={upVoteClick}/>
-            <DownVoteButton downVoteCount={downVotes} isDownVoted={isDownVoted} handleClick={downVoteClick}/>
+            <UpVoteButton upVoteCount={upVotes} isUpVoted={isUpVoted} handleClick={upVoteClick} disabled={disabled}/>
+            <DownVoteButton downVoteCount={downVotes} isDownVoted={isDownVoted} handleClick={downVoteClick} disabled={disabled}/>
         </div>
     );
 };

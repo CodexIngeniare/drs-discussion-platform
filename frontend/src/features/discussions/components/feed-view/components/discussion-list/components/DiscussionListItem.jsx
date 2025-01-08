@@ -51,7 +51,7 @@ function DiscussionListItem ({ discussion }) {
     return (
         <div className='DiscussionListItem'>
             <div className='DiscussionListItem__vote-buttons-container'>
-                <VoteButtons discussion={discussion}/>
+                <VoteButtons discussion={discussion} disabled={true}/>
             </div>
             <div className='DiscussionListItem__main-container' onClick={handleSelect}>
                 <div className='DiscussionListItem__header-container'>
