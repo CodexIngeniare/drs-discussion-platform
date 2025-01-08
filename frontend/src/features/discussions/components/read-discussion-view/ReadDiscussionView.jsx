@@ -1,8 +1,27 @@
+import { useState, useEffect, useContext } from 'react';
+import { AuthContext } from '../../../../context';
+import { DiscussionsContext } from '../../context';
 import { ReadDiscussionForm } from './components';
 import { BackButton, EditButton, DeleteButton } from '../buttons';
 import './ReadDiscussionView.css';
 
 function ReadDiscussionView () {
+    const { userID, userRole } = useContext(AuthContext);
+    const { selectedDiscussion } = useContext(DiscussionsContext);
+    const [hasAuthorPerm, setHasAuthorPerm] = useState(false);
+    const [hasAdminPerm, setHasAdminPerm] = useState(false);
+
+    useEffect(() => {
+        if(!selectedDiscussion){
+        }
+        if(selectedDiscussion.user_id === userID){
+            setHasAuthorPerm(true);
+        }
+        if(userRole === "admin"){
+            setHasAdminPerm(true);
+        }
+    }, []);
+
     return (
         <div className='ReadDiscussionView'>
             <section className='ReadDiscussionView__discussion-section'>
@@ -11,8 +30,8 @@ function ReadDiscussionView () {
                         <BackButton link="/dashboard/discussions/feed"/>
                     </div>
                     <div className='ReadDiscussionView__option-buttons'>
-                        <EditButton link="/dashboard/discussions/feed"/>
-                        <DeleteButton link="/dashboard/discussions/feed"/>
+                        {(hasAuthorPerm || hasAdminPerm) && <EditButton link="/dashboard/discussions/feed"/>}
+                        {(hasAuthorPerm || hasAdminPerm) && <DeleteButton link="/dashboard/discussions/feed"/>}
                     </div>
                 </div>
                 <ReadDiscussionForm/>

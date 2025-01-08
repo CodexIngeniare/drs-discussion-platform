@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
 import { DiscussionsContext } from '../../../../context';
-import { UpVoteButton, DownVoteButton } from '../../../buttons';
+import { VoteButtons } from '../../../buttons';
 import './ReadDiscussionForm.css';
 
 function ReadDiscussionForm(){
@@ -39,15 +39,14 @@ function ReadDiscussionForm(){
     return (
         <div className='ReadDiscussionForm'>
             <div className='ReadDiscussionForm__vote-buttons'>
-                <UpVoteButton/>
-                <DownVoteButton/>
+                <VoteButtons discussion={selectedDiscussion}/>
             </div>
             <div className='ReadDiscussionForm__main'>
                 <div className='ReadDiscussionForm__header'>
                     <div>
                         <label className='ReadDiscussionForm__topic'>{selectedDiscussion.topic_name}</label>
                         <label className='ReadDiscussionForm__posted-by'> - posted by </label>
-                        <label className='ReadDiscussionForm__author'>@AuthorUsername</label>
+                        <label className='ReadDiscussionForm__author'>@{selectedDiscussion.author_username}</label>
                     </div>
                     <div>
                         <label className='ReadDiscussionForm__date'>{postedDate}</label>

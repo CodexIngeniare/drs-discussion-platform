@@ -4,6 +4,7 @@ const AuthContext = createContext();
 
 export const AuthProvider = ( { children }) => {
     const [token, setToken] = useState(null);
+    const [userID, setUserID] = useState(null);
     const [userRole, setUserRole] = useState("user");
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
@@ -31,6 +32,7 @@ export const AuthProvider = ( { children }) => {
                 const userData = JSON.parse(storedUserData).user;
 
                 setUserRole(userData.is_admin === true ? "admin" : "user");
+                setUserID(userData.id);
                 setUsername(userData.username);
                 setEmail(userData.email);
                 setFirstName(userData.first_name);
@@ -48,6 +50,7 @@ export const AuthProvider = ( { children }) => {
     return (
         <AuthContext.Provider value={{
             token, setToken,
+            userID, setUserID,
             userRole, setUserRole,
             username, setUsername,
             email, setEmail,

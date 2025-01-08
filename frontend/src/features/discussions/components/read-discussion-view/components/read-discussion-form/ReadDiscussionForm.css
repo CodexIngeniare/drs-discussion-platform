@@ -42,6 +42,9 @@
 .ReadDiscussionForm__author{
     color: rgb(40, 121, 228);
 }
+.ReadDiscussionForm__author:hover{
+    text-decoration: underline;
+}
 .ReadDiscussionForm__date{
     font-style: italic;
     color: rgb(194, 194, 194);

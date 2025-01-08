@@ -45,6 +45,9 @@
 .DiscussionListItem__author{
     color: rgb(40, 121, 228);
 }
+.DiscussionListItem__author:hover{
+    text-decoration: underline;
+}
 .DiscussionListItem__date{
     font-style: italic;
     color: rgb(194, 194, 194);

@@ -1,8 +1,9 @@
 import { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { DiscussionsContext } from '../../../../../context';
-import { UpVoteButton } from '../../../../buttons';
-import { DownVoteButton } from '../../../../buttons';
+//import { UpVoteButton } from '../../../../buttons';
+//import { DownVoteButton } from '../../../../buttons';
+import { VoteButtons } from '../../../../buttons';
 import './DiscussionListItem.css';
 
 function DiscussionListItem ({ discussion }) {
@@ -48,17 +49,16 @@ function DiscussionListItem ({ discussion }) {
     };
 
     return (
-        <div className='DiscussionListItem' onClick={handleSelect}>
+        <div className='DiscussionListItem'>
             <div className='DiscussionListItem__vote-buttons-container'>
-                <UpVoteButton discussion={discussion}/>
-                <DownVoteButton discussion={discussion}/>
+                <VoteButtons discussion={discussion}/>
             </div>
-            <div className='DiscussionListItem__main-container'>
+            <div className='DiscussionListItem__main-container' onClick={handleSelect}>
                 <div className='DiscussionListItem__header-container'>
                     <div>
                         <label className='DiscussionListItem__topic'>{discussion.topic_name}</label>
                         <label className='DiscussionListItem__posted-by'> - posted by </label>
-                        <label className='DiscussionListItem__author'>@AuthorUser</label>
+                        <label className='DiscussionListItem__author'>@{discussion.author_username}</label>
                     </div>
                     <div>
                         <label className='DiscussionListItem__date'>{postedDate}</label>

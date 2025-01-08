@@ -6,12 +6,14 @@ def initialize_dummy_db():
         from .topics import dummy_topics
         from .discussions import dummy_discussions
         from .comments import dummy_comments
+        from .votes import dummy_votes
         db.create_all()
         db.session.add_all(dummy_registered_users)
         db.session.add_all(dummy_pending_users)
         db.session.add_all(dummy_topics)
         db.session.add_all(dummy_discussions)
         db.session.add_all(dummy_comments)
+        db.session.add_all(dummy_votes)
         db.session.commit()
         print("[SYSTEM] dummy db initialized")
     except Exception as e:
