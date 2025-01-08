@@ -1,11 +1,13 @@
 import { useState, useEffect, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { DiscussionsContext } from '../../../../../context';
-import UpVoteButton from './UpVoteButton.jsx';
-import DownVoteButton from './DownVoteButton.jsx';
+import { UpVoteButton } from '../../../../buttons';
+import { DownVoteButton } from '../../../../buttons';
 import './DiscussionListItem.css';
 
 function DiscussionListItem ({ discussion }) {
     const { setSelectedDiscussion } = useContext(DiscussionsContext);
+    const navigate = useNavigate();
     const [postedDate, setPostedDate] = useState("");
 
     useEffect(() => {
@@ -17,6 +19,7 @@ function DiscussionListItem ({ discussion }) {
 
     const handleSelect = () => {
         setSelectedDiscussion(discussion);
+        navigate("/dashboard/discussions/read");
     };
     const calculateDate = () => {
         const postDate = new Date(discussion.created_at);

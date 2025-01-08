@@ -1,0 +1,14 @@
+.EditButton{
+    background-color: var(--success-clr);
+    border-color: var(--hover-success-clr);
+    border-width: 1px;
+    font-size: 18px;
+    width: 110px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 8px;
+}
+.EditButton:hover{
+    background-color: var(--hover-success-clr);
+}
