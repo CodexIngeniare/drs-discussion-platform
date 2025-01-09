@@ -103,8 +103,9 @@ def get_discussion_comments():
     """
     try:
      
-        data = request.get_json()
-        discussion_id = data.get('discussion_id')
+        #data = request.get_json()
+        #discussion_id = data.get('discussion_id')
+        discussion_id = request.args.get('discussion_id')
 
         if not discussion_id:
             return jsonify({"error_code": "BAD_REQUEST", "message": "Discussion ID is required."}),400

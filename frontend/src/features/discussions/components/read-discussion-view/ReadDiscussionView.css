@@ -16,9 +16,7 @@
     width: 700px;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    border-left: solid;
-    border-width: 1px;
+    padding: 10px;
 }
 .ReadDiscussionView__buttons{
     display: flex;

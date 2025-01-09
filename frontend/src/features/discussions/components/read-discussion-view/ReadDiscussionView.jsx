@@ -1,13 +1,14 @@
 import { useState, useEffect, useContext } from 'react';
-import { useDiscussions } from '../../hooks';
+import { useDiscussions, useComments } from '../../hooks';
 import { AuthContext } from '../../../../context';
 import { DiscussionsContext } from '../../context';
-import { ReadDiscussionForm } from './components';
+import { ReadDiscussionForm, CommentList } from './components';
 import { BackButton, EditButton, DeleteButton } from '../buttons';
 import './ReadDiscussionView.css';
 
 function ReadDiscussionView () {
     const { deleteDiscussion } = useDiscussions();
+    const { comments, fetchComments } = useComments();
     const { userID, userRole } = useContext(AuthContext);
     const { selectedDiscussion } = useContext(DiscussionsContext);
     const [hasAuthorPerm, setHasAuthorPerm] = useState(false);
@@ -16,6 +17,8 @@ function ReadDiscussionView () {
     useEffect(() => {
         if(!selectedDiscussion){
         }
+        fetchComments(selectedDiscussion.id);
+
         if(selectedDiscussion.user_id === userID){
             setHasAuthorPerm(true);
         }
@@ -45,6 +48,7 @@ function ReadDiscussionView () {
                 <ReadDiscussionForm/>
             </section>
             <section className='ReadDiscussionView__comments-section'>
+                <CommentList comments={comments}/>
             </section>
         </div>
     );

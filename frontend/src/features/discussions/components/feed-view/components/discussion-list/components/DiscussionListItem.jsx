@@ -1,9 +1,8 @@
 import { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { DiscussionsContext } from '../../../../../context';
-//import { UpVoteButton } from '../../../../buttons';
-//import { DownVoteButton } from '../../../../buttons';
 import { VoteButtons } from '../../../../buttons';
+import { calcDateTimeSincePosted } from '../../../../../../../utils';
 import './DiscussionListItem.css';
 
 function DiscussionListItem ({ discussion }) {
@@ -15,37 +14,12 @@ function DiscussionListItem ({ discussion }) {
         if(!discussion){
             return;
         }
-        calculateDate();
+        setPostedDate(calcDateTimeSincePosted(discussion.created_at));
     }, [discussion]);
 
     const handleSelect = () => {
         setSelectedDiscussion(discussion);
         navigate("/dashboard/discussions/read");
-    };
-    const calculateDate = () => {
-        const postDate = new Date(discussion.created_at);
-        const currentDate = new Date();
-
-        const differenceInSeconds = Math.floor((currentDate - postDate) / 1000);
-        const differenceInMinutes = Math.floor(differenceInSeconds / 60);
-        const differenceInHours = Math.floor(differenceInMinutes / 60);
-        const differenceInDays = Math.floor(differenceInHours / 24);
-
-        let date = postDate.toISOString().split("T")[0];
-        if(differenceInDays < 10){
-            date = `${differenceInDays} days ago`;
-        }
-        if(differenceInHours < 24){
-            const minutesAgo = differenceInMinutes % 60;
-            date = `${differenceInHours}h and ${minutesAgo}min ago`;
-        }
-        if(differenceInMinutes < 60){
-            date = `${differenceInMinutes}min ago`;
-        }
-        if(differenceInSeconds < 60){
-            date = `${differenceInSeconds}s ago`;
-        }
-        setPostedDate(date);
     };
 
     return (
