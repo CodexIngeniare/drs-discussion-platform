@@ -1,4 +1,5 @@
 import { useState, useEffect, useContext } from 'react';
+import { useDiscussions } from '../../hooks';
 import { AuthContext } from '../../../../context';
 import { DiscussionsContext } from '../../context';
 import { ReadDiscussionForm } from './components';
@@ -6,6 +7,7 @@ import { BackButton, EditButton, DeleteButton } from '../buttons';
 import './ReadDiscussionView.css';
 
 function ReadDiscussionView () {
+    const { deleteDiscussion } = useDiscussions();
     const { userID, userRole } = useContext(AuthContext);
     const { selectedDiscussion } = useContext(DiscussionsContext);
     const [hasAuthorPerm, setHasAuthorPerm] = useState(false);
@@ -21,6 +23,12 @@ function ReadDiscussionView () {
             setHasAdminPerm(true);
         }
     }, []);
+    const handleDelete = async () => {
+        if(await deleteDiscussion(selectedDiscussion.id)){
+            return true;
+        }
+        return false;
+    };
 
     return (
         <div className='ReadDiscussionView'>
@@ -31,7 +39,7 @@ function ReadDiscussionView () {
                     </div>
                     <div className='ReadDiscussionView__option-buttons'>
                         {(hasAuthorPerm || hasAdminPerm) && <EditButton link="/dashboard/discussions/feed"/>}
-                        {(hasAuthorPerm || hasAdminPerm) && <DeleteButton link="/dashboard/discussions/feed"/>}
+                        {(hasAuthorPerm || hasAdminPerm) && <DeleteButton link="/dashboard/discussions/feed" handleDelete={handleDelete}/>}
                     </div>
                 </div>
                 <ReadDiscussionForm/>

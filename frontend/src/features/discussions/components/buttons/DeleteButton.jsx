@@ -3,11 +3,13 @@ import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 import './DeleteButton.css';
 
-function DeleteButton ({ link }) {
+function DeleteButton ({ link, handleDelete }) {
     const navigate = useNavigate();
 
-    const handleClick = () => {
-        navigate(link);
+    const handleClick = async () => {
+        if(await handleDelete()){
+            navigate(link);
+        }
     };
 
     return (
