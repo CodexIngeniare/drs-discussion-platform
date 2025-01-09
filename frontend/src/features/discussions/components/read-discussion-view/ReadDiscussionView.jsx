@@ -2,7 +2,7 @@ import { useState, useEffect, useContext } from 'react';
 import { useDiscussions, useComments } from '../../hooks';
 import { AuthContext } from '../../../../context';
 import { DiscussionsContext } from '../../context';
-import { ReadDiscussionForm, CommentList } from './components';
+import { ReadDiscussionForm, CommentsView } from './components';
 import { BackButton, EditButton, DeleteButton } from '../buttons';
 import './ReadDiscussionView.css';
 
@@ -13,6 +13,7 @@ function ReadDiscussionView () {
     const { selectedDiscussion } = useContext(DiscussionsContext);
     const [hasAuthorPerm, setHasAuthorPerm] = useState(false);
     const [hasAdminPerm, setHasAdminPerm] = useState(false);
+    const [showComments, setShowComments] = useState(false);
 
     useEffect(() => {
         if(!selectedDiscussion){
@@ -26,6 +27,13 @@ function ReadDiscussionView () {
             setHasAdminPerm(true);
         }
     }, []);
+    useEffect(() => {
+        if(!selectedDiscussion){
+        }
+        if(showComments){
+            fetchComments(selectedDiscussion.id);
+        }
+    }, [showComments]);
     const handleDelete = async () => {
         if(await deleteDiscussion(selectedDiscussion.id)){
             return true;
@@ -45,11 +53,13 @@ function ReadDiscussionView () {
                         {(hasAuthorPerm || hasAdminPerm) && <DeleteButton link="/dashboard/discussions/feed" handleDelete={handleDelete}/>}
                     </div>
                 </div>
-                <ReadDiscussionForm/>
+                <ReadDiscussionForm comments={comments} toggleComments={() => {setShowComments(!showComments)}}/>
             </section>
+            { showComments &&
             <section className='ReadDiscussionView__comments-section'>
-                <CommentList comments={comments}/>
+                <CommentsView comments={comments}/>
             </section>
+            }
         </div>
     );
 };

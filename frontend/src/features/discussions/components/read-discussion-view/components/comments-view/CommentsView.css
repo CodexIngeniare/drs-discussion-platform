@@ -1,9 +1,7 @@
 
-.CommentList{
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+.CommentsView{
     height: 100%;
+    width: 700px;
     padding: 10px 0px;
     border: solid;
     border-width: 1px;

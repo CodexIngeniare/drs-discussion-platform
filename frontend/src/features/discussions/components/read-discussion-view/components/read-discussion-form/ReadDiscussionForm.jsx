@@ -1,10 +1,11 @@
 import { useContext, useEffect, useState } from 'react';
 import { DiscussionsContext } from '../../../../context';
 import { VoteButtons } from '../../../buttons';
+import { CommentsButton } from './components';
 import { calcDateTimeSincePosted } from '../../../../../../utils';
 import './ReadDiscussionForm.css';
 
-function ReadDiscussionForm(){
+function ReadDiscussionForm({ comments=[], toggleComments}){
     const { selectedDiscussion } = useContext(DiscussionsContext);
     const [postedDate, setPostedDate] = useState("");
 
@@ -14,8 +15,9 @@ function ReadDiscussionForm(){
 
     return (
         <div className='ReadDiscussionForm'>
-            <div className='ReadDiscussionForm__vote-buttons'>
+            <div className='ReadDiscussionForm__left-side-buttons'>
                 <VoteButtons discussion={selectedDiscussion}/>
+                <CommentsButton commentsCount={comments.length} handleClick={toggleComments}/>
             </div>
             <div className='ReadDiscussionForm__main'>
                 <div className='ReadDiscussionForm__header'>

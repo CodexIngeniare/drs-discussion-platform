@@ -6,16 +6,17 @@
     border: solid;
     border-width: 1px;
     border-radius: 7px;
-    padding: 20px;
+    padding: 20px 20px 0px 20px;
     box-sizing: border-box;
     display: flex;
     flex-direction: row;
     gap: 20px;
 }
-.ReadDiscussionForm__vote-buttons{
+.ReadDiscussionForm__left-side-buttons{
     display: flex;
     flex-direction: column;
     gap: 10px;
+    align-items: center;
 }
 .ReadDiscussionForm__main{
     display: flex;
@@ -57,4 +58,8 @@
     margin: 0px;
     word-wrap: break-word;
     overflow-wrap: break-word;
+}
+.ReadDiscussionForm__content{
+    max-height: 650px;
+    overflow-y: auto;
 }
