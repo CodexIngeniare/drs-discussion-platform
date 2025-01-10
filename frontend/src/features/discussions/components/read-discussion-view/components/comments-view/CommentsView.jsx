@@ -1,10 +1,26 @@
+import { useContext, useEffect } from 'react';
+import { useComments } from '../../../../hooks';
+import { DiscussionsContext } from '../../../../context';
 import { CommentList } from './components';
 import './CommentsView.css';
 
-function CommentsView({ comments=[] }){
+function CommentsView(){
+    const { selectedDiscussion } = useContext(DiscussionsContext);
+    const { comments, fetchComments } = useComments();
+
+    useEffect(() => {
+        if(!selectedDiscussion){
+            return
+        }
+        fetchComments(selectedDiscussion.id);
+    }, []);
+    const refreshComments = () => {
+        fetchComments(selectedDiscussion.id);
+    };
+
     return (
         <div className='CommentsView'>
-            <CommentList comments={comments}/>
+            <CommentList comments={comments} refreshComments={refreshComments}/>
         </div>
     );
 };

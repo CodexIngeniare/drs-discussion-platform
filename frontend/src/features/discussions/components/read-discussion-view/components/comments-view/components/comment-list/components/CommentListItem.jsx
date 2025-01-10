@@ -1,19 +1,33 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
+import { AuthContext } from '../../../../../../../../../context';
 import { calcDateTimeSincePosted } from '../../../../../../../../../utils';
+import DeleteCommentButton from './DeleteCommentButton.jsx';
 import './CommentListItem.css';
 
-function CommentListItem({ comment }){
+function CommentListItem({ comment, refreshComments }){
+    const { userID, userRole } = useContext(AuthContext);
     const [postedDate, setPostedDate] = useState("");
+    const [hasAdminPerm, setHasAdminPerm] = useState(false);
+    const [hasAuthorPerm, setHasAuthorPerm] = useState(false);
 
     useEffect(() => {
+        if(comment.user_id === userID){
+            setHasAuthorPerm(true);
+        }
+        if(userRole === "admin"){
+            setHasAdminPerm(true);
+        }
         setPostedDate(calcDateTimeSincePosted(comment.created_at));
-    }, []);
+    }, [comment]);
 
     return (
         <div className='CommentListItem'>
             <div className='CommentListItem__header'>
-                <label className='CommentListItem__author'>@{comment.author_username}</label>
-                <label className='CommentListItem__date'>{postedDate}</label>
+                <div className='CommentListItem__author-date-container'>
+                    <label className='CommentListItem__author'>@{comment.author_username}</label>
+                    <label className='CommentListItem__date'>{postedDate}</label>
+                </div>
+                {(hasAdminPerm || hasAuthorPerm) && <DeleteCommentButton comment_id={comment.id} refreshComments={refreshComments}/>}
             </div>
             <div>
                 <p>{comment.content}</p>

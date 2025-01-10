@@ -1,11 +1,11 @@
 import { CommentListItem } from './components';
 import './CommentList.css';
 
-function CommentList({ comments=[] }){
+function CommentList({ comments=[], refreshComments=()=>{} }){
     return (
         <div className='CommentList'>
             {comments.map((comment, index) => (
-                <CommentListItem comment={comment}/>
+                <CommentListItem comment={comment} refreshComments={refreshComments}/>
             ))}
         </div>
     );

@@ -6,7 +6,7 @@ const useComments = () => {
     const getURL = 'http://localhost:5000/get_discussion_comments';
     //const createURL = 'http://localhost:5000/create_discussion';
     //const updateURL = 'http://localhost:5000/update_discussion';
-    //const deleteURL = 'http://localhost:5000/delete_discussion';
+    const deleteURL = 'http://localhost:5000/delete_comment';
     const [comments, setComments] = useState([]);
 
     const fetchComments = async (discussion_id) => {
@@ -24,13 +24,15 @@ const useComments = () => {
                 setComments(msg.comments);
                 return true;
             } else {
+                setComments([]);
                 return false;
             }
         } catch(error){
+            setComments([]);
             return false;
         }
     };
-    /*const deleteDiscussion = async (discussion_id) => {
+    const deleteComment = async (comment_id) => {
         try{
             const response = await fetch(deleteURL, {
                 method: 'DELETE',
@@ -38,7 +40,7 @@ const useComments = () => {
                     'Authorization': token,
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ discussion_id }),
+                body: JSON.stringify({ comment_id }),
             });
             if(response.ok){
                 //const msg = await response.json();
@@ -50,11 +52,12 @@ const useComments = () => {
         } catch(error){
             return false;
         }
-    };*/
+    };
 
     return {
         comments,
         fetchComments,
+        deleteComment,
     };
 };
 

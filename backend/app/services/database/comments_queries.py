@@ -42,7 +42,7 @@ def get_all_comments():
 
 def get_comments_by_discussion_id(discussion_id):
     try:
-        comments = db.session.query(Comment).filter_by(discussion_id=discussion_id).all()
+        #comments = db.session.query(Comment).filter_by(discussion_id=discussion_id).all()
 
         comments = (
             db.session.query(Comment, RegisteredUser.username.label('author_username'))
@@ -50,7 +50,6 @@ def get_comments_by_discussion_id(discussion_id):
             .filter(Comment.discussion_id == discussion_id)
             .all()
         )
-        print(comments)
         result = []
         for comment, author_username in comments:
             result.append({

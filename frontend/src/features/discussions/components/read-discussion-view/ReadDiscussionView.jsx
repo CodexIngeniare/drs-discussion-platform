@@ -29,10 +29,9 @@ function ReadDiscussionView () {
     }, []);
     useEffect(() => {
         if(!selectedDiscussion){
+            return;
         }
-        if(showComments){
-            fetchComments(selectedDiscussion.id);
-        }
+        fetchComments(selectedDiscussion.id);
     }, [showComments]);
     const handleDelete = async () => {
         if(await deleteDiscussion(selectedDiscussion.id)){
@@ -57,7 +56,7 @@ function ReadDiscussionView () {
             </section>
             { showComments &&
             <section className='ReadDiscussionView__comments-section'>
-                <CommentsView comments={comments}/>
+                <CommentsView/>
             </section>
             }
         </div>
