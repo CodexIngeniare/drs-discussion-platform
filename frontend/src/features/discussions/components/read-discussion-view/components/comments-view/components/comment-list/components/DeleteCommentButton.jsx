@@ -13,17 +13,14 @@ function DeleteCommentButton({ comment_id=null, refreshComments }){
             return;
         }
         setIsDeleteClicked(true);
-        /*if(await deleteComment(comment_id)){
-            refreshComments();
-        }*/
     };
     const handleConfirmDelete = async () => {
         if(!comment_id){
             return;
         }
         if(await deleteComment(comment_id)){
-            refreshComments();
             setIsDeleteClicked(false);
+            refreshComments();
         }
     };
     const handleRejectDelete = async () => {

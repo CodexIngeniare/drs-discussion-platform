@@ -109,7 +109,7 @@ dummy_discussions = [
                 imperdiet. Nostra dapibus euismod vivamus sodales montes. Arcu sociosqu lorem taciti non nam quisque
                 eget fames. Convallis at porta augue montes et erat.
                 """,
-        user_id=1,
+        user_id=3,
         topic_id=1,
     ),
     Discussion(
