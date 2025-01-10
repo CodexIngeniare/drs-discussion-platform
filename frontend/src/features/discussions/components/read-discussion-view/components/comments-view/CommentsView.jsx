@@ -1,7 +1,7 @@
 import { useContext, useEffect } from 'react';
 import { useComments } from '../../../../hooks';
 import { DiscussionsContext } from '../../../../context';
-import { CommentList } from './components';
+import { CommentList, CommentInput } from './components';
 import './CommentsView.css';
 
 function CommentsView(){
@@ -21,6 +21,7 @@ function CommentsView(){
     return (
         <div className='CommentsView'>
             <CommentList comments={comments} refreshComments={refreshComments}/>
+            <CommentInput refreshComments={refreshComments}/>
         </div>
     );
 };

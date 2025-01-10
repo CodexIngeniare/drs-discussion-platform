@@ -4,7 +4,7 @@ import { AuthContext } from '../../../context';
 const useComments = () => {
     const { token } = useContext(AuthContext);
     const getURL = 'http://localhost:5000/get_discussion_comments';
-    //const createURL = 'http://localhost:5000/create_discussion';
+    const createURL = 'http://localhost:5000/create_comment';
     //const updateURL = 'http://localhost:5000/update_discussion';
     const deleteURL = 'http://localhost:5000/delete_comment';
     const [comments, setComments] = useState([]);
@@ -29,6 +29,27 @@ const useComments = () => {
             }
         } catch(error){
             setComments([]);
+            return false;
+        }
+    };
+    const createComment = async (discussion_id, content) => {
+        try{
+            const response = await fetch(createURL, {
+                method: 'POST',
+                headers: {
+                    'Authorization': token,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ discussion_id, content }),
+            });
+            if(response.ok){
+                //const msg = await response.json();
+                return true;
+            } else {
+                //const error = await response.json();
+                return false;
+            }
+        } catch(error){
             return false;
         }
     };
@@ -57,6 +78,7 @@ const useComments = () => {
     return {
         comments,
         fetchComments,
+        createComment,
         deleteComment,
     };
 };
