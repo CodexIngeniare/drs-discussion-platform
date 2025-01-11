@@ -1,8 +1,6 @@
-import { useState } from 'react';
-import { validateTitle } from '../../../../../utils';
 import './TitleInput.css';
 
-function TitleInput ({ setTitle }){
+function TitleInput ({ setTitle, initValue = "" }){
 
     const handleChange = (e) => {
         setTitle(e.target.value);
@@ -12,6 +10,7 @@ function TitleInput ({ setTitle }){
             <textarea className='TitleInput__input'
                       onChange={handleChange}
                       rows={2}
+                      value={initValue}
                       spellCheck={false}
                       placeholder='enter title for discussion...'>
             </textarea>

@@ -46,7 +46,7 @@ function ReadDiscussionView () {
                         <BackButton link="/dashboard/discussions/feed"/>
                     </div>
                     <div className='ReadDiscussionView__option-buttons'>
-                        {(hasAuthorPerm || hasAdminPerm) && <EditButton link="/dashboard/discussions/feed"/>}
+                        {(hasAuthorPerm || hasAdminPerm) && <EditButton link="/dashboard/discussions/edit"/>}
                         {(hasAuthorPerm || hasAdminPerm) && <DeleteButton link="/dashboard/discussions/feed" handleDelete={handleDelete}/>}
                     </div>
                 </div>

@@ -45,14 +45,14 @@ function NewDiscussionForm (){
         <div className='NewDiscussionForm'>
             <div className='NewDiscussionForm__input-fields'>
                 <div className='NewDiscussionForm__header'>
-                    <TopicInput setTopicID={topic.handleChange}/>
+                    <TopicInput setTopicID={topic.handleChange} initValue={topic.value}/>
                     <button className='NewDiscussionForm__create-button' onClick={handleCreate}>
                         <FontAwesomeIcon icon={faPlus}/>
                         <label>Create</label>
                     </button>
                 </div>
-                <TitleInput setTitle={title.handleChange}/>
-                <ContentInput setContent={content.handleChange} />
+                <TitleInput setTitle={title.handleChange} initValue={title.value}/>
+                <ContentInput setContent={content.handleChange} initValue={content.value}/>
             </div>
         </div>
     );

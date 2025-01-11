@@ -1,6 +1,6 @@
 import './ContentInput.css';
 
-function ContentInput ({ setContent }){
+function ContentInput ({ setContent, initValue = "" }){
     const handleChange = (e) => {
         setContent(e.target.value);
     };
@@ -9,6 +9,7 @@ function ContentInput ({ setContent }){
             <textarea className='ContentInput__input'
                       onChange={handleChange}
                       spellCheck={false}
+                      value={initValue}
                       placeholder='enter content for discussion...'>
             </textarea>
         </div>

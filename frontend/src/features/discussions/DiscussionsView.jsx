@@ -2,7 +2,7 @@ import { Routes, Route, Navigate} from 'react-router-dom';
 import { DiscussionsProvider } from './context';
 import { Sidebar } from '../../layouts';
 import { NavLink } from '../../components';
-import { FeedView, ReadDiscussionView, NewDiscussionView } from './components';
+import { FeedView, ReadDiscussionView, NewDiscussionView, EditDiscussionView } from './components';
 import './DiscussionsView.css';
 
 function DiscussionsView () {
@@ -25,6 +25,7 @@ function DiscussionsView () {
                         <Route path="/feed/*" element={<FeedView/>}/>
                         <Route path="/new/*" element={<NewDiscussionView/>}/>
                         <Route path="/read/*" element={<ReadDiscussionView/>}/>
+                        <Route path="/edit/*" element={<EditDiscussionView/>}/>
                     </Routes>
                 </section>
             </div>
