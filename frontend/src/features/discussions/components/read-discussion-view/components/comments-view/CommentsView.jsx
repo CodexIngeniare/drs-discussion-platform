@@ -4,7 +4,7 @@ import { DiscussionsContext } from '../../../../context';
 import { CommentList, CommentInput } from './components';
 import './CommentsView.css';
 
-function CommentsView(){
+function CommentsView({ setCommentCount=()=>{}}){
     const { selectedDiscussion } = useContext(DiscussionsContext);
     const { comments, fetchComments } = useComments();
 
@@ -14,6 +14,11 @@ function CommentsView(){
         }
         fetchComments(selectedDiscussion.id);
     }, []);
+    useEffect(() => {
+        if(comments){
+            setCommentCount(comments.length);
+        }
+    }, [comments]);
     const refreshComments = () => {
         fetchComments(selectedDiscussion.id);
     };

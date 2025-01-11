@@ -5,7 +5,7 @@ import { CommentsButton } from './components';
 import { calcDateTimeSincePosted } from '../../../../../../utils';
 import './ReadDiscussionForm.css';
 
-function ReadDiscussionForm({ comments=[], toggleComments}){
+function ReadDiscussionForm({ commentsCount="", toggleComments}){
     const { selectedDiscussion } = useContext(DiscussionsContext);
     const [postedDate, setPostedDate] = useState("");
 
@@ -17,7 +17,7 @@ function ReadDiscussionForm({ comments=[], toggleComments}){
         <div className='ReadDiscussionForm'>
             <div className='ReadDiscussionForm__left-side-buttons'>
                 <VoteButtons discussion={selectedDiscussion}/>
-                <CommentsButton commentsCount={comments.length} handleClick={toggleComments}/>
+                <CommentsButton commentsCount={commentsCount} handleClick={toggleComments}/>
             </div>
             <div className='ReadDiscussionForm__main'>
                 <div className='ReadDiscussionForm__header'>

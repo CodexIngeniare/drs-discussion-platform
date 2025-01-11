@@ -10,7 +10,7 @@ import './NewDiscussionForm.css';
 function NewDiscussionForm (){
     const { createDiscussion } = useDiscussions();
     const navigate = useNavigate();
-    const topic = useInputField(null, false, () => {return { isValid:true, errorMessage:""}}, true);
+    const topic = useInputField("", false, () => {return { isValid:true, errorMessage:""}}, true);
     const title = useInputField("", false, validateTitle, true);
     const content = useInputField("", false, validateContent, true);
 

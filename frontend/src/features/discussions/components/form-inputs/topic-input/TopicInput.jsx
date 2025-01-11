@@ -15,7 +15,7 @@ function TopicInput ({ setTopicID }){
     return (
         <div className='TopicInput'>
             <select className='TopicInput__select' onChange={handleChange} title='Select topic for discussion'>
-                <option value={null}>Select topic</option>
+                <option value={""}>Select topic</option>
                 {topics.map((topic, index) => (
                     <option value={topic.id} title={topic.description}>
                         {topic.name}

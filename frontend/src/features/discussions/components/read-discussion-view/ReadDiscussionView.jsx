@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from 'react';
-import { useDiscussions, useComments } from '../../hooks';
+import { useDiscussions } from '../../hooks';
 import { AuthContext } from '../../../../context';
 import { DiscussionsContext } from '../../context';
 import { ReadDiscussionForm, CommentsView } from './components';
@@ -8,17 +8,16 @@ import './ReadDiscussionView.css';
 
 function ReadDiscussionView () {
     const { deleteDiscussion } = useDiscussions();
-    const { comments, fetchComments } = useComments();
     const { userID, userRole } = useContext(AuthContext);
     const { selectedDiscussion } = useContext(DiscussionsContext);
     const [hasAuthorPerm, setHasAuthorPerm] = useState(false);
     const [hasAdminPerm, setHasAdminPerm] = useState(false);
     const [showComments, setShowComments] = useState(false);
+    const [commentsCount, setCommentCount] = useState("");
 
     useEffect(() => {
         if(!selectedDiscussion){
         }
-        fetchComments(selectedDiscussion.id);
 
         if(selectedDiscussion.user_id === userID){
             setHasAuthorPerm(true);
@@ -31,7 +30,6 @@ function ReadDiscussionView () {
         if(!selectedDiscussion){
             return;
         }
-        fetchComments(selectedDiscussion.id);
     }, [showComments]);
     const handleDelete = async () => {
         if(await deleteDiscussion(selectedDiscussion.id)){
@@ -52,11 +50,11 @@ function ReadDiscussionView () {
                         {(hasAuthorPerm || hasAdminPerm) && <DeleteButton link="/dashboard/discussions/feed" handleDelete={handleDelete}/>}
                     </div>
                 </div>
-                <ReadDiscussionForm comments={comments} toggleComments={() => {setShowComments(!showComments)}}/>
+                <ReadDiscussionForm commentsCount={commentsCount} toggleComments={() => {setShowComments(!showComments)}}/>
             </section>
             { showComments &&
             <section className='ReadDiscussionView__comments-section'>
-                <CommentsView/>
+                <CommentsView setCommentCount={setCommentCount}/>
             </section>
             }
         </div>
