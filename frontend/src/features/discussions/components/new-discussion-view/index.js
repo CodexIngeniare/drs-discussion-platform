@@ -1,0 +1,1 @@
+export { default as NewDiscussionView } from './NewDiscussionView.jsx';

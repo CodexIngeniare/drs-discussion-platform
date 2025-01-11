@@ -10,3 +10,5 @@ export { validateCity } from './UserDataValidations.js';
 export { validateAddress } from './UserDataValidations.js';
 export { validateTopicName } from './TopicValidations.js';
 export { validateTopicDescription } from './TopicValidations.js';
+export { validateTitle } from './DiscussionValidations.js';
+export { validateContent } from './DiscussionValidations.js';

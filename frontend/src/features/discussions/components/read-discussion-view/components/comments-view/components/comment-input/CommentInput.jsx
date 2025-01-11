@@ -57,6 +57,7 @@ function CommentInput ({ refreshComments=()=>{}}){
                 ref={textareaRef}
                 onChange={(e) => {setCommentContent(e.target.value)}}
                 value={commentContent}
+                spellCheck={false}
                 placeholder='Type your thoughts to join discussion...'/>
         </div>
     );

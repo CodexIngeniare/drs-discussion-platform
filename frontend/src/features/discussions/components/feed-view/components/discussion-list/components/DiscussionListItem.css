@@ -1,7 +1,7 @@
 @import "../../../../../../../assets/styles/global_variables.css";
 
 .DiscussionListItem{
-    width: 1200px;
+    width: 100%;
     border: solid;
     border-width: 1px;
     border-radius: 7px;

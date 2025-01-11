@@ -1,0 +1,14 @@
+
+.TopicInput{
+    width: 300px;
+}
+.TopicInput__select{
+    background-color: rgb(20, 20, 20);
+    color: white;
+    border-radius: 7px;
+    border: solid;
+    border-width: 1px;
+    padding: 10px;
+    font-size: 18px;
+    width: 100%;
+}

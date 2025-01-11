@@ -1,0 +1,22 @@
+
+.TitleInput{
+    width: 100%;
+}
+.TitleInput__input{
+    background-color: rgb(20, 20, 20);
+    color: white;
+    border-radius: 7px;
+    border:solid;
+    border-width: 1px;
+    padding: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    width: 100%;
+    resize: none;
+    box-sizing: border-box;
+}
+.TitleInput__input::placeholder{
+    font-style: italic;
+    font-size: 18px;
+    color: rgb(194, 194, 194);
+}

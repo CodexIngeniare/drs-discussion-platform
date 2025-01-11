@@ -4,7 +4,7 @@ import { AuthContext } from '../../../context';
 const useDiscussions = () => {
     const { token } = useContext(AuthContext);
     const getURL = 'http://localhost:5000/get_all_discussions';
-    //const createURL = 'http://localhost:5000/create_discussion';
+    const createURL = 'http://localhost:5000/create_discussion';
     //const updateURL = 'http://localhost:5000/update_discussion';
     const deleteURL = 'http://localhost:5000/delete_discussion';
     const [discussions, setDiscussions] = useState([]);
@@ -21,6 +21,27 @@ const useDiscussions = () => {
             if(response.ok){
                 const msg = await response.json();
                 setDiscussions(msg.discussions);
+                return true;
+            } else {
+                //const error = await response.json();
+                return false;
+            }
+        } catch(error){
+            return false;
+        }
+    };
+    const createDiscussion = async (title, content, topic_id) => {
+        try{
+            const response = await fetch(createURL, {
+                method: 'POST',
+                headers: {
+                    'Authorization': token,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ title, content, topic_id }),
+            });
+            if(response.ok){
+                //const msg = await response.json();
                 return true;
             } else {
                 //const error = await response.json();
@@ -55,6 +76,7 @@ const useDiscussions = () => {
     return {
         discussions,
         fetchDiscussions,
+        createDiscussion,
         deleteDiscussion,
     };
 };
