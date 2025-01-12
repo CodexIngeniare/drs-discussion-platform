@@ -7,7 +7,13 @@
 .FeedView__search-section{
     grid-row: 1 / 2;
     background-color: black;
+    border-bottom: solid;
     border-width: 1px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    padding: 20px 120px;
 }
 .FeedView__discussions-section{
     grid-row: 2 / 3;
@@ -18,4 +24,9 @@
     align-items: center;
     overflow-y: auto;
     overflow-x: hidden;
+}
+.FeedView__search-results{
+    font-size: 20px;
+    margin-top: 5px;
+    font-style: italic;
 }

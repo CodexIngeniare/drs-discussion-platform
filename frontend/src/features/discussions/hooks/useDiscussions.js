@@ -7,6 +7,7 @@ const useDiscussions = () => {
     const createURL = 'http://localhost:5000/create_discussion';
     const updateURL = 'http://localhost:5000/update_discussion';
     const deleteURL = 'http://localhost:5000/delete_discussion';
+    const searchURL = 'http://localhost:5000/search_discussions';
     const [discussions, setDiscussions] = useState([]);
 
     const fetchDiscussions = async () => {
@@ -93,6 +94,30 @@ const useDiscussions = () => {
             return false;
         }
     };
+    const searchDiscussions = async (topic_id, author_username, author_email, discussion_title) => {
+        try{
+            const url = `${searchURL}?topic_id=${topic_id}&author_username=${author_username}&author_email=${author_email}&discussion_title=${discussion_title}`;
+            const response = await fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Authorization': token,
+                    'Content-Type': 'application/json',
+                },
+            });
+            if(response.ok){
+                const msg = await response.json();
+                setDiscussions(msg.discussions);
+                return true;
+            } else {
+                //const error = await response.json();
+                setDiscussions([]);
+                return false;
+            }
+        } catch(error){
+            setDiscussions([]);
+            return false;
+        }
+    };
 
     return {
         discussions,
@@ -100,6 +125,7 @@ const useDiscussions = () => {
         createDiscussion,
         updateDiscussion,
         deleteDiscussion,
+        searchDiscussions,
     };
 };
 

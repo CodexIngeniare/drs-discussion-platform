@@ -4,6 +4,7 @@
     display: grid;
     grid-template-columns: 1fr auto;
     height: 100%;
+    box-sizing: ;
 }
 .ReadDiscussionView__discussion-section{
     grid-column: 1 / 2;

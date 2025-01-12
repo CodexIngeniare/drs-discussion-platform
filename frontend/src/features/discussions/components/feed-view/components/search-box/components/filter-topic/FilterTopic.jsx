@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
-import { useTopics } from '../../../../admin/components/topics-view/hooks';
-import './TopicInput.css';
+import { useTopics } from '../../../../../../../admin/components/topics-view/hooks';
+import './FilterTopic.css';
 
-function TopicInput ({ setTopicID = () => {}, initValue = ""}){
+function FilterTopic({ setTopicID = () => {}, value = ""}){
     const { topics, fetchTopics } = useTopics();
 
     useEffect(() => {
@@ -13,9 +13,9 @@ function TopicInput ({ setTopicID = () => {}, initValue = ""}){
     };
 
     return (
-        <div className='TopicInput'>
-            <select className='TopicInput__select' value={initValue} onChange={handleChange} title='Select topic for discussion'>
-                <option value={""}>Select topic</option>
+        <div className='FilterTopic'>
+            <select className='FilterTopic__select' value={value} onChange={handleChange} title='Search for topic'>
+                <option value={""}>Filter by topic</option>
                 {topics.map((topic, index) => (
                     <option value={topic.id} title={topic.description}>
                         {topic.name}
@@ -26,4 +26,4 @@ function TopicInput ({ setTopicID = () => {}, initValue = ""}){
     );
 };
 
-export default TopicInput;
+export default FilterTopic;

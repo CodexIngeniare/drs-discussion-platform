@@ -68,7 +68,7 @@ function EditDiscussionForm (){
                         </button>
                         <button className='EditDiscussionForm__create-button' onClick={handleEdit}>
                             <FontAwesomeIcon icon={faEdit}/>
-                            <label>Edit</label>
+                            <label>Save</label>
                         </button>
                     </div>
                 </div>

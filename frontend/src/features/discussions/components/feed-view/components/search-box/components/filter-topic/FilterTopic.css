@@ -1,0 +1,11 @@
+
+.FilterTopic__select{
+    border: solid;
+    border-width: 1px;
+    border-radius: 7px;
+    border-color: white;
+    background-color: black;
+    color: white;
+    padding: 10px;
+    font-size: 16px;
+}
