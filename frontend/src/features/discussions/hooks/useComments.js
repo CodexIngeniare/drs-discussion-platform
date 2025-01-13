@@ -8,6 +8,7 @@ const useComments = () => {
     //const updateURL = 'http://localhost:5000/update_discussion';
     const deleteURL = 'http://localhost:5000/delete_comment';
     const [comments, setComments] = useState([]);
+    const [newComment, setNewComment] = useState(null);
 
     const fetchComments = async (discussion_id) => {
         try{
@@ -43,13 +44,16 @@ const useComments = () => {
                 body: JSON.stringify({ discussion_id, content }),
             });
             if(response.ok){
-                //const msg = await response.json();
+                const msg = await response.json();
+                setNewComment(msg.comment);
                 return true;
             } else {
                 //const error = await response.json();
+                setNewComment(null);
                 return false;
             }
         } catch(error){
+            setNewComment(null);
             return false;
         }
     };
@@ -77,6 +81,7 @@ const useComments = () => {
 
     return {
         comments,
+        newComment, setNewComment,
         fetchComments,
         createComment,
         deleteComment,
