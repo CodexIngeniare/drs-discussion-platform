@@ -45,7 +45,8 @@ function EditDiscussionForm (){
         }
         return isValid;
     }
-    const handleEdit = async () => {
+    const handleEdit = async (e) => {
+        e.preventDefault();
         if(!validateInputs()){
             return;
         }
@@ -63,7 +64,7 @@ function EditDiscussionForm (){
 
     return (
         <div className='EditDiscussionForm'>
-            <div className='EditDiscussionForm__input-fields'>
+            <form className='EditDiscussionForm__input-fields'>
                 <div className='EditDiscussionForm__header'>
                     <TopicInput setTopicID={topic.handleChange} initValue={topic.value}/>
                     <div className='EditDiscussionForm__buttons-container'>
@@ -79,7 +80,7 @@ function EditDiscussionForm (){
                 </div>
                 <TitleInput setTitle={title.handleChange} initValue={title.value}/>
                 <ContentInput setContent={content.handleChange} initValue={content.value}/>
-            </div>
+            </form>
         </div>
     );
 };

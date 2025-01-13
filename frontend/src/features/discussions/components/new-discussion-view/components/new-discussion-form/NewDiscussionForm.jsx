@@ -42,7 +42,8 @@ function NewDiscussionForm ({ setIsCreated = () => {}}){
         }
         return isValid;
     }
-    const handleCreate = async () => {
+    const handleCreate = async (e) => {
+        e.preventDefault();
         if(!validateInputs()){
             return;
         }
@@ -51,7 +52,7 @@ function NewDiscussionForm ({ setIsCreated = () => {}}){
     };
 
     return (
-        <div className='NewDiscussionForm'>
+        <form className='NewDiscussionForm'>
             <div className='NewDiscussionForm__input-fields'>
                 <div className='NewDiscussionForm__header'>
                     <TopicInput setTopicID={topic.handleChange} initValue={topic.value}/>
@@ -63,7 +64,7 @@ function NewDiscussionForm ({ setIsCreated = () => {}}){
                 <TitleInput setTitle={title.handleChange} initValue={title.value}/>
                 <ContentInput setContent={content.handleChange} initValue={content.value}/>
             </div>
-        </div>
+        </form>
     );
 };
 
