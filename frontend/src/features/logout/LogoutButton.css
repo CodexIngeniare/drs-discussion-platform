@@ -3,6 +3,8 @@
 .LogoutButton{
     width: 100%;
     font-size: 20px;
+    border-width: 1px;
+    border-color: var(--hover-caution-clr);
     background-color: var(--caution-clr);
 }
     .LogoutButton:hover{

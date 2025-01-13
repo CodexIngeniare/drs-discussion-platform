@@ -32,6 +32,7 @@
 .EditTopicForm__cancel-button{
     font-size: 24px;
     width: 150px;
+    border-width: 1px;
 }
 .EditTopicForm__update-delete-container{
     display: flex;
@@ -39,6 +40,8 @@
     gap: 20px;
 }
 .EditTopicForm__update-button{
+    border-width: 1px;
+    border-color: var(--hover-success-clr);
     background-color: var(--success-clr);
     font-size: 24px;
     width: 150px;
@@ -47,6 +50,8 @@
         background-color: var(--hover-success-clr);
     }
 .EditTopicForm__delete-button{
+    border-width: 1px;
+    border-color: var(--hover-caution-clr);
     background-color: var(--caution-clr);
     font-size: 24px;
     width: 150px;

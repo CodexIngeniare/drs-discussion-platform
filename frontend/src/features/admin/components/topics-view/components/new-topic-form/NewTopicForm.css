@@ -24,8 +24,11 @@
 .NewTopicForm__cancel-button{
     font-size: 24px;
     width: 150px;
+    border-width: 1px;
 }
 .NewTopicForm__create-button{
+    border-width: 1px;
+    border-color: var(--hover-success-clr);
     background-color: var(--success-clr);
     font-size: 24px;
     width: 150px;

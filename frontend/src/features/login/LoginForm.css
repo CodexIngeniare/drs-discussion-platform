@@ -6,6 +6,13 @@
     gap: 20px; 
     width: 100%;
 }
-    .LoginForm .success-btn{
-        font-size: 20px;
-    }
+.LoginForm__login-button{
+    font-size: 20px;
+    background-color: var(--success-clr);
+    border: solid;
+    border-width: 1px;
+    border-color: var(--hover-success-clr);
+}
+.LoginForm__login-button:hover{
+    background-color: var(--hover-success-clr);
+}

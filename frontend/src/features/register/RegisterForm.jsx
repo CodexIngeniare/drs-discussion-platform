@@ -221,7 +221,7 @@ function RegisterForm(props) {
                     <hr />
                 </div>
                 <div>
-                    <button className='success-btn' type='submit' disabled={isSubmitting}>
+                    <button className='RegisterForm__register-button' type='submit' disabled={isSubmitting}>
                         {isSubmitting ? 'Signing up...' : 'Sign up'}
                     </button>
                 </div>
