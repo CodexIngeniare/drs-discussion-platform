@@ -1,19 +1,29 @@
-import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 import { useInputField } from '../../../../../../hooks';
-import { useDiscussions } from '../../../../hooks';
+import { useDiscussions, useMentions } from '../../../../hooks';
 import { validateTitle, validateContent } from '../../../../../../utils';
 import { TopicInput, TitleInput, ContentInput } from '../../../form-inputs';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import './NewDiscussionForm.css';
 
-function NewDiscussionForm (){
-    const { createDiscussion } = useDiscussions();
-    const navigate = useNavigate();
+function NewDiscussionForm ({ setIsCreated = () => {}}){
+    const { newDiscussion, createDiscussion } = useDiscussions();
+    const { mentionUser, extractMentions } = useMentions();
     const topic = useInputField("", false, () => {return { isValid:true, errorMessage:""}}, true);
     const title = useInputField("", false, validateTitle, true);
     const content = useInputField("", false, validateContent, true);
 
+    useEffect(()=>{
+        if(!newDiscussion){
+            return;
+        }
+        let mentionedUsers = extractMentions(newDiscussion.content);
+        mentionedUsers.forEach(taggedUser => {
+            mentionUser(taggedUser, newDiscussion.id);
+        });
+        setIsCreated(true);
+    }, [newDiscussion]);
     const validateInputs = () => {
         let isValid = true;
 
@@ -37,7 +47,6 @@ function NewDiscussionForm (){
             return;
         }
         if(await createDiscussion(title.value, content.value, topic.value)){
-            navigate("/dashboard/discussions/feed");
         }
     };
 

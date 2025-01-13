@@ -9,6 +9,7 @@ const useDiscussions = () => {
     const deleteURL = 'http://localhost:5000/delete_discussion';
     const searchURL = 'http://localhost:5000/search_discussions';
     const [discussions, setDiscussions] = useState([]);
+    const [newDiscussion, setNewDiscussion] = useState(null);
 
     const fetchDiscussions = async () => {
         try{
@@ -42,13 +43,16 @@ const useDiscussions = () => {
                 body: JSON.stringify({ title, content, topic_id }),
             });
             if(response.ok){
-                //const msg = await response.json();
+                const msg = await response.json();
+                setNewDiscussion(msg.discussion);
                 return true;
             } else {
                 //const error = await response.json();
+                setNewDiscussion(null);
                 return false;
             }
         } catch(error){
+            setNewDiscussion(null);
             return false;
         }
     };
@@ -121,6 +125,7 @@ const useDiscussions = () => {
 
     return {
         discussions,
+        newDiscussion, setNewDiscussion,
         fetchDiscussions,
         createDiscussion,
         updateDiscussion,

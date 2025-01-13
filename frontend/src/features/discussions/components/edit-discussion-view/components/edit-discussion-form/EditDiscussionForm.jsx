@@ -2,7 +2,7 @@ import { useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { DiscussionsContext } from '../../../../context';
 import { useInputField } from '../../../../../../hooks';
-import { useDiscussions } from '../../../../hooks';
+import { useDiscussions, useMentions } from '../../../../hooks';
 import { TopicInput, TitleInput, ContentInput } from '../../../form-inputs';
 import { validateTitle, validateContent } from '../../../../../../utils';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -13,6 +13,7 @@ function EditDiscussionForm (){
     const { selectedDiscussion } = useContext(DiscussionsContext);
     const navigate = useNavigate();
     const { updateDiscussion } = useDiscussions();
+    const { mentionUser, extractMentions } = useMentions();
     const topic = useInputField("", false, () => {return { isValid:true, errorMessage:""}}, true);
     const title = useInputField("", false, validateTitle, true);
     const content = useInputField("", false, validateContent, true);
@@ -49,6 +50,10 @@ function EditDiscussionForm (){
             return;
         }
         if(await updateDiscussion(selectedDiscussion.id, title.value, content.value, topic.value)){
+            let mentionedUsers = extractMentions(content.value);
+            mentionedUsers.forEach(taggedUser => {
+            mentionUser(taggedUser, selectedDiscussion.id);
+            });
             navigate("/dashboard/discussions/feed");
         }
     };
