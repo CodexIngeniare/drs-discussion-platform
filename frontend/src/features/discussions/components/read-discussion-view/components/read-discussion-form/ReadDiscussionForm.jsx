@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import { DiscussionsContext } from '../../../../context';
 import { VoteButtons } from '../../../buttons';
-import { CommentsButton } from './components';
+import { CommentsButton, FormattedText } from './components';
 import { calcDateTimeSincePosted } from '../../../../../../utils';
 import './ReadDiscussionForm.css';
 
@@ -33,7 +33,8 @@ function ReadDiscussionForm({ commentsCount="", toggleComments}){
                 <div>
                     <p className='ReadDiscussionForm__title'>{selectedDiscussion.title}</p>
                     <hr/>
-                    <p className='ReadDiscussionForm__content'>{selectedDiscussion.content}</p>
+                    {/*<p className='ReadDiscussionForm__content'>{selectedDiscussion.content}</p>*/}
+                    <FormattedText content={selectedDiscussion.content} />
                 </div>
             </div>
         </div>

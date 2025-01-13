@@ -31,6 +31,22 @@ function CommentListItem({ comment, refreshComments }){
         }
         setPostedDate(calcDateTimeSincePosted(comment.created_at));
     }, [comment]);
+    
+    const parseMentions = (content) => {
+        const mentionRegex = /@\S+/g;
+        const parts = content.split(/(@[\S]+)/);
+        
+        return parts.map((part, index) => {
+            if (mentionRegex.test(part)) {
+                return (
+                    <span className="CommentListItem__mention">
+                        {part}
+                    </span>
+                );
+            }
+            return part;
+        });
+    };
 
     return (
         <div className='CommentListItem'>
@@ -42,7 +58,7 @@ function CommentListItem({ comment, refreshComments }){
                 {(hasAdminPerm || hasDiscussionAuthorPerm || hasCommentAuthorPerm) && <DeleteCommentButton comment_id={comment.id} refreshComments={refreshComments}/>}
             </div>
             <div>
-                <p>{comment.content}</p>
+                <p>{parseMentions(comment.content)}</p>
             </div>
         </div>
     );

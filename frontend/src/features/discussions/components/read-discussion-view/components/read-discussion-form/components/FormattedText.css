@@ -1,0 +1,11 @@
+
+.FormattedText{
+    max-height: 650px;
+    overflow-y: auto;
+}
+.FormattedText__mention{
+    color: rgb(40, 121, 228);
+}
+.FormattedText__mention:hover{
+    text-decoration: underline;
+}

@@ -29,3 +29,9 @@
     font-style: italic;
     color: rgb(194, 194, 194);
 }
+.CommentListItem__mention{
+    color: rgb(40, 121, 228);
+}
+.CommentListItem__mention:hover{
+    text-decoration: underline;
+}
