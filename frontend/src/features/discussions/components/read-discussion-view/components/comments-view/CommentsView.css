@@ -1,0 +1,19 @@
+
+.CommentsView{
+    height: calc(100vh - 80px);
+    width: 500px;
+    padding: 10px 0px 5px 0px;
+    border: solid;
+    border-width: 1px;
+    border-radius: 7px;
+    background-color: black;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+.CommentList{
+    flex: 1;
+}
+.CommentsView.open {
+    transform: translateX(-100%); /* Move it to the right when open */
+}

@@ -10,7 +10,6 @@
     grid-area: 1 / 1 / 2 / 2;
     width: 400px;
     padding: 30px 70px 100px 70px;
-    border-right: solid;
     background-color: var(--secondary-clr);
     overflow-y: auto;
 }

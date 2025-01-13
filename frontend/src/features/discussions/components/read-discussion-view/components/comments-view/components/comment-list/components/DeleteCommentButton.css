@@ -1,0 +1,44 @@
+@import '../../../../../../../../../assets/styles/global_variables.css';
+
+.DeleteCommentButton{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 5px;
+}
+.DeleteCommentButton__confirm-container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 7px;
+}
+.DeleteCommentButton__delete-button{
+    padding: 5px 10px;
+    background-color: var(--caution-clr);
+    border-color: var(--hover-caution-clr);
+    border-width: 1px;
+    width: 35px;
+}
+.DeleteCommentButton__delete-button:hover{
+    background-color: var(--hover-caution-clr);
+}
+.DeleteCommentButton__delete-confirm-button{
+    padding: 5px 10px;
+    background-color: var(--success-clr);
+    border-color: var(--hover-success-clr);
+    border-width: 1px;
+    width: 35px;
+}
+.DeleteCommentButton__delete-confirm-button:hover{
+    background-color: var(--hover-success-clr);
+}
+.DeleteCommentButton__delete-reject-button{
+    padding: 5px 10px;
+    background-color: var(--caution-clr);
+    border-color: var(--hover-caution-clr);
+    border-width: 1px;
+    width: 35px;
+}
+.DeleteCommentButton__delete-reject-button:hover{
+    background-color: var(--hover-caution-clr);
+}

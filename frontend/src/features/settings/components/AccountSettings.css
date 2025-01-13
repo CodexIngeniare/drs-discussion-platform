@@ -24,6 +24,8 @@
 .AccountSettings__change-button{
     margin-left: auto;
     font-size: 20px;
+    border-width: 1px;
+    border-color: var(--hover-success-clr);
     background-color: var(--success-clr);
 }
     .AccountSettings__change-button:hover{

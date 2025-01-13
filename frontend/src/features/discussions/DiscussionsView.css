@@ -1,0 +1,18 @@
+
+.DiscussionsView{
+    display: grid;
+    grid-template-columns: auto 1fr;
+    height: 100%;
+}
+.DiscussionsView__left-sidebar-section{
+    grid-column: 1 / 2;
+    width: 240px;
+    background-color: black;
+    border-right: solid;
+    border-width: 1px;
+}
+.DiscussionsView__main-section{
+    grid-column: 2 / 3;
+    height: 100%;
+    max-height: calc(100vh - 50px);
+}

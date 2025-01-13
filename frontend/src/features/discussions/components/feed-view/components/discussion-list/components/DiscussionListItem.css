@@ -1,0 +1,63 @@
+@import "../../../../../../../assets/styles/global_variables.css";
+
+.DiscussionListItem{
+    width: 100%;
+    border: solid;
+    border-width: 1px;
+    border-radius: 7px;
+    padding: 20px;
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    background-color: black;
+}
+    .DiscussionListItem:hover{
+        background-color: rgb(22, 22, 22);
+    }
+.DiscussionListItem__vote-buttons-container{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.DiscussionListItem__main-container{
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    width: 100%;
+}
+.DiscussionListItem__header-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+}
+.DiscussionListItem__topic{
+    background-color: rgb(70, 161, 70);
+    color: black;
+    font-weight: bold;
+    padding: 5px;
+    border-radius: 7px;
+}
+.DiscussionListItem__posted-by{
+    font-style: italic;
+    color: rgb(194, 194, 194);
+}
+.DiscussionListItem__author{
+    color: rgb(40, 121, 228);
+}
+.DiscussionListItem__author:hover{
+    text-decoration: underline;
+}
+.DiscussionListItem__date{
+    font-style: italic;
+    color: rgb(194, 194, 194);
+}
+.DiscussionListItem__title{
+    width: calc(100% - 5%);
+    font-size: 24px;
+    font-weight: bold;
+    padding: 0px;
+    margin: 0px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}

@@ -1,0 +1,42 @@
+@import '../../../../../../assets/styles/global_variables.css';
+
+.NewDiscussionForm{
+    height: 100%;
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.NewDiscussionForm__input-fields{
+    background-color: black;
+    border:solid;
+    border-width: 1px;
+    border-radius: 7px;
+    padding: 20px;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.NewDiscussionForm__header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+.NewDiscussionForm__create-button{
+    background-color: var(--success-clr);
+    border: solid;
+    border-color: var(--hover-success-clr);
+    border-width: 1px;
+    font-size: 20px;
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+}
+.NewDiscussionForm__create-button:hover{
+    background-color: var(--hover-success-clr);
+}

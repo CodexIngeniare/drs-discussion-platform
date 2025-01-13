@@ -1,0 +1,14 @@
+.DeleteButton{
+    background-color: var(--caution-clr);
+    border-color: var(--hover-caution-clr);
+    border-width: 1px;
+    font-size: 18px;
+    width: 110px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 8px;
+}
+.DeleteButton:hover{
+    background-color: var(--hover-caution-clr);
+}

@@ -1,0 +1,8 @@
+
+.CommentList{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    overflow-y: auto;
+    box-sizing: border-box;
+}

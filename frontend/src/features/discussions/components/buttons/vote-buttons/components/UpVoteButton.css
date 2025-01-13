@@ -1,0 +1,19 @@
+@import '../../../../../../assets/styles/global_variables.css';
+
+.UpVoteButton{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    align-items: center;
+}
+.UpVoteButton__neutral{
+    border-width: 1px;
+}
+.UpVoteButton__up-voted{
+    background-color: var(--success-clr);
+    border-color: var(--hover-success-clr);
+    border-width: 1px;
+}
+.UpVoteButton__up-voted:hover{
+    background-color: var(--hover-success-clr);
+}

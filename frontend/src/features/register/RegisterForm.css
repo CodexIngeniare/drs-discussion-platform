@@ -17,9 +17,11 @@
     .register-form-container input{
         font-size: 16px;
         padding: 10px;
+        border-width: 1px;
     }
     .register-form-container button{
         font-size: 18px;
+        border-width: 1px;
     }
     .register-form-container hr{
         margin: 15px 0px;
@@ -42,3 +44,13 @@
             border-top-left-radius: 0px;
             border-bottom-left-radius: 0px;
         }
+.RegisterForm__register-button{
+    font-size: 20px;
+    background-color: var(--success-clr);
+    border: solid;
+    border-width: 1px;
+    border-color: var(--hover-success-clr);
+}
+.RegisterForm__register-button:hover{
+    background-color: var(--hover-success-clr);
+}

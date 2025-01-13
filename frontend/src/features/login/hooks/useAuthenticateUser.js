@@ -18,7 +18,6 @@ const useAuthenticateUser = (authenticateEndpoint) => {
                 const data = await response.json();
                 const token = data.token;
                 sessionStorage.setItem('token', token);
-                console.log('LOGIN token: ', token);
                 setIsAuthenticating(false);
                 return true;
             } else {

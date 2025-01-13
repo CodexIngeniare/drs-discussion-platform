@@ -1,0 +1,49 @@
+from app.models import Like
+
+dummy_votes = [
+    Like(
+        user_id=1,
+        discussion_id=1,
+        is_like=True
+    ),
+    Like(
+        user_id=2,
+        discussion_id=1,
+        is_like=True
+    ),
+    Like(
+        user_id=3,
+        discussion_id=1,
+        is_like=False
+    ),
+    Like(
+        user_id=1,
+        discussion_id=2,
+        is_like=False
+    ),
+    Like(
+        user_id=2,
+        discussion_id=2,
+        is_like=True
+    ),
+    Like(
+        user_id=3,
+        discussion_id=2,
+        is_like=False
+    ),
+    Like(
+        user_id=1,
+        discussion_id=3,
+        is_like=False
+    ),
+    Like(
+        user_id=2,
+        discussion_id=3,
+        is_like=False
+    ),
+    Like(
+        user_id=3,
+        discussion_id=3,
+        is_like=False
+    ),
+]

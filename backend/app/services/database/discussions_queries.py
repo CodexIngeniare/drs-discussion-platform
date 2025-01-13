@@ -57,6 +57,7 @@ def delete_discussion(discussion_id):
 
         # Obriši sve komentare koji pripadaju diskusiji
         Comment.query.filter_by(discussion_id=discussion_id).delete()
+        Like.query.filter_by(discussion_id=discussion_id).delete()
 
         # Obriši diskusiju
         db.session.delete(discussion)
@@ -111,47 +112,7 @@ def get_all_discussions(user_id=None):
 
 def get_discussion_by_id(discussion_id):
     try:
-        # Upit za dohvatanje diskusije zajedno sa dodatnim informacijama
-        discussion = (
-            db.session.query(
-                Discussion.id,
-                Discussion.title,
-                Discussion.content,
-                Discussion.created_at,
-                Discussion.updated_at,
-                RegisteredUser.username.label("author_username"),
-                Topic.name.label("topic_name"),
-                func.count(func.nullif(Like.is_like, False)).label("like_count"),  # Broj lajkova
-                func.count(func.nullif(Like.is_like, True)).label("dislike_count")  # Broj dislajkova
-            )
-            .join(RegisteredUser, RegisteredUser.id == Discussion.user_id)
-            .join(Topic, Topic.id == Discussion.topic_id)
-            .outerjoin(Like, Like.discussion_id == Discussion.id)
-            .filter(Discussion.id == discussion_id)
-            .group_by(
-                Discussion.id,
-                RegisteredUser.username,
-                Topic.name
-            )
-            .first()
-        )
-
-        if not discussion:
-            return None  # Diskusija nije pronađena
-
-        # Konvertovanje rezultata u rečnik
-        return {
-            "id": discussion.id,
-            "title": discussion.title,
-            "content": discussion.content,
-            "created_at": discussion.created_at.isoformat() if discussion.created_at else None,
-            "updated_at": discussion.updated_at.isoformat() if discussion.updated_at else None,
-            "author_username": discussion.author_username,
-            "topic_name": discussion.topic_name,
-            "like_count": discussion.like_count,
-            "dislike_count": discussion.dislike_count
-        }
-
+        return Discussion.query.get(discussion_id)
     except SQLAlchemyError as e:
         print(f"Greška: {str(e)}")
         return None

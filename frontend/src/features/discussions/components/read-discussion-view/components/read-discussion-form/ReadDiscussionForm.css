@@ -1,0 +1,65 @@
+
+.ReadDiscussionForm{
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    border: solid;
+    border-width: 1px;
+    border-radius: 7px;
+    padding: 20px 20px 0px 20px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+.ReadDiscussionForm__left-side-buttons{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+}
+.ReadDiscussionForm__main{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+}
+.ReadDiscussionForm__header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.ReadDiscussionForm__topic{
+    background-color: rgb(70, 161, 70);
+    color: black;
+    font-weight: bold;
+    padding: 5px;
+    border-radius: 7px;
+}
+.ReadDiscussionForm__posted-by{
+    font-style: italic;
+    color: rgb(194, 194, 194);
+}
+.ReadDiscussionForm__author{
+    color: rgb(40, 121, 228);
+}
+.ReadDiscussionForm__author:hover{
+    text-decoration: underline;
+}
+.ReadDiscussionForm__date{
+    font-style: italic;
+    color: rgb(194, 194, 194);
+}
+.ReadDiscussionForm__title{
+    width: calc(100% - 5%);
+    font-size: 24px;
+    font-weight: bold;
+    padding: 0px;
+    margin: 0px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+.ReadDiscussionForm__content{
+    max-height: 650px;
+    overflow-y: auto;
+}

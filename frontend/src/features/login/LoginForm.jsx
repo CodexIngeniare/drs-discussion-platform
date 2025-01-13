@@ -74,7 +74,7 @@ function LoginForm(props) {
                 error={passwordField.error}
                 placeholder="enter your password"
             />  
-            <button className='success-btn' type='submit' disabled={isAuthenticating || isFetching}>
+            <button className='LoginForm__login-button' type='submit' disabled={isAuthenticating || isFetching}>
                 {isAuthenticating || isFetching ? 'Signing in...' : 'Sign in'}
             </button>
         </form>

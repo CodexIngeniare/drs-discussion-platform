@@ -1,3 +1,4 @@
+@import '../../../../../../../assets/styles/global_variables.css';
 
 .UserListItem{
     display: flex;
@@ -9,6 +10,7 @@
     padding: 15px;
     box-sizing: border-box;
     gap: 20px;
+    background-color: var(--secondary-clr);
 }
     .UserListItem:hover{
         background-color: #242424;

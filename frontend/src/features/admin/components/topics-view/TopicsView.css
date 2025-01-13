@@ -25,6 +25,8 @@
     font-size: 28px;
 }
 .TopicsView__new-topic-button{
+    border-width: 1px;
+    border-color: var(--hover-success-clr);
     background-color: var(--success-clr);
     font-size: 20px;
     height: fit-content;

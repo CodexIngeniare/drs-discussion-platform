@@ -1,0 +1,1 @@
+export { default as FilterTopic } from './FilterTopic.jsx';

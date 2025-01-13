@@ -1,0 +1,8 @@
+
+.SearchBox{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    box-sizing: border-box;
+}

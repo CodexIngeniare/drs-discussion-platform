@@ -1,5 +1,5 @@
 from app import db
-from app.models.comments import Comment
+from app.models import Comment, RegisteredUser
 from sqlalchemy.exc import SQLAlchemyError
 
 def create_comment(discussion_id, user_id, content):
@@ -42,13 +42,20 @@ def get_all_comments():
 
 def get_comments_by_discussion_id(discussion_id):
     try:
-        comments = db.session.query(Comment).filter_by(discussion_id=discussion_id).all()
+        #comments = db.session.query(Comment).filter_by(discussion_id=discussion_id).all()
 
+        comments = (
+            db.session.query(Comment, RegisteredUser.username.label('author_username'))
+            .outerjoin(RegisteredUser, RegisteredUser.id == Comment.user_id)
+            .filter(Comment.discussion_id == discussion_id)
+            .all()
+        )
         result = []
-        for comment in comments:
+        for comment, author_username in comments:
             result.append({
                 "id": comment.id,
                 "user_id": comment.user_id,
+                "author_username": author_username,
                 "discussion_id": comment.discussion_id,
                 "content": comment.content,
                 "created_at": comment.created_at.isoformat() if comment.created_at else None,  

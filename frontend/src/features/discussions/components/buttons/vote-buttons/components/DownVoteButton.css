@@ -1,0 +1,19 @@
+@import '../../../../../../assets/styles/global_variables.css';
+
+.DownVoteButton{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    align-items: center;
+}
+.DownVoteButton__neutral{
+    border-width: 1px;
+}
+.DownVoteButton__down-voted{
+    border-width: 1px;
+    border-color: var(--hover-caution-clr);
+    background-color: var(--caution-clr);
+}
+.DownVoteButton__down-voted:hover{
+    background-color: var(--hover-caution-clr);
+}

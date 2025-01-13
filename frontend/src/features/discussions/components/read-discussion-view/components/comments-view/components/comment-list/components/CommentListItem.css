@@ -1,0 +1,37 @@
+
+.CommentListItem{
+    display: flex;
+    flex-direction: column;
+    padding: 10px 20px;
+}
+.CommentListItem:hover{
+    background-color: rgb(29, 29, 29);
+}
+.CommentListItem__header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+.CommentListItem__author-date-container{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+.CommentListItem__author{
+    color: rgb(40, 121, 228);
+}
+.CommentListItem__author:hover{
+    text-decoration: underline;
+}
+.CommentListItem__date{
+    font-style: italic;
+    color: rgb(194, 194, 194);
+}
+.CommentListItem__mention{
+    color: rgb(40, 121, 228);
+}
+.CommentListItem__mention:hover{
+    text-decoration: underline;
+}

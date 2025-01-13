@@ -13,6 +13,8 @@
     gap: 30px;
 }
 .UserApprovalForm__reject-button{
+    border-width: 1px;
+    border-color: var(--hover-caution-clr);
     background-color: var(--caution-clr);
     font-size: 24px;
     width: 180px;
@@ -21,6 +23,8 @@
         background-color: var(--hover-caution-clr);
     }
 .UserApprovalForm__approve-button{
+    border-width: 1px;
+    border-color: var(--hover-success-clr);
     background-color: var(--success-clr);
     font-size: 24px;
     width: 180px;

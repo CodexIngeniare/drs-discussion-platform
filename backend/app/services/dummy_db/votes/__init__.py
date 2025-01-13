@@ -1,0 +1,1 @@
+from .votes import dummy_votes
