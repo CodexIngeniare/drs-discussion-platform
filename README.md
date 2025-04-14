@@ -4,7 +4,7 @@ A full-stack discussion board web app where users can post and engage in topic-b
 ## Features
 - **User Authentication** – Secure login system using tokens.
 - **User Account Registration** – Users can request account registration. Admins must approve these requests. Results are sent via email.
-- **User Account Settings** – Users can update their email, username, and password.
+- **User Account Settings** – Users can update their account data.
 - **Role-Based Access** – Two roles: **Admin** and **Regular User**. Admins have access to an additional **Administration** page.
 - **Discussion Posts** – Users can create, edit, and delete their own discussions. Admins can delete any discussion.
 - **Upvoting/Downvoting** – Votes influence a discussion's popularity and its ranking in search results.
