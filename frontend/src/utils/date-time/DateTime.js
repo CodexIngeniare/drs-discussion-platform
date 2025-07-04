@@ -2,7 +2,7 @@ export function calcDateTimeSincePosted(postOnDate){
     const postDate = new Date(postOnDate);
     const currentDate = new Date();
 
-    const differenceInSeconds = Math.floor((currentDate - postDate) / 1000) - (1 * 60 * 60);
+    const differenceInSeconds = Math.floor((currentDate - postDate) / 1000) - (2 * 60 * 60);
     const differenceInMinutes = Math.floor(differenceInSeconds / 60);
     const differenceInHours = Math.floor(differenceInMinutes / 60);
     const differenceInDays = Math.floor(differenceInHours / 24);
