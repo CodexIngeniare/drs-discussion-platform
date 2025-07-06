@@ -28,4 +28,6 @@ ENV FLASK_APP=run.py
 ENV FLASK_ENV=development
 
 # Pokreni aplikaciju koristeći Pipenv
-CMD ["pipenv", "run", "flask", "run", "--host=0.0.0.0"]
+
+#CMD ["pipenv", "run", "flask", "run", "--host=0.0.0.0"]
+CMD ["pipenv", "run", "python", "run.py", "--host=0.0.0.0"]

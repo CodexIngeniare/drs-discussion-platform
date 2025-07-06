@@ -5,3 +5,4 @@ class Config:
     
     EMAIL_USERNAME = "discussion.platform.team@gmail.com"
     EMAIL_PASSWORD = "wkwx fsbj wigl oarc"
+    ADMIN_EMAIL = "nikola.rapidfire@gmail.com"

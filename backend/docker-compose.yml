@@ -10,7 +10,7 @@ services:
       MYSQL_ROOT_PASSWORD: my-secret-pw  # Postavi root korisnikov password
       MYSQL_DATABASE: docker_mysql_db    # Kreiraću bazu podataka pod ovim imenom
     ports:
-      - "3307:3306"  # Host port 3307 -> Container port 3306
+      - "3308:3306"  # Host port 3307 -> Container port 3306
     volumes:
       - mysql_data:/var/lib/mysql  # Trajno skladištenje podataka baze
       - ./mysql_config/my.cnf:/etc/mysql/my.cnf  # Prilagođena konfiguracija
@@ -32,14 +32,19 @@ services:
       - MYSQL_USER=root  # Korisničko ime za bazu (root)
       - MYSQL_PASSWORD=my-secret-pw  # Lozinka za bazu
       - MYSQL_DB=docker_mysql_db  # Naziv baze podataka
-    volumes:
-      - ./backend:/app  # Montiranje backend koda u kontejner
+    volumes:  
+  #    - ./backend:/app  # Montiranje backend koda u kontejner
+      - .:/app  # Montiranje backend koda u kontejner
       - ./backend/uploads:/app/uploads  # Montiranje direktorijuma za upload fajlove
     networks:
       - app_network
     depends_on:
       - mysql  # Backend zavisi od MySQL baze
-    command: flask run --host=0.0.0.0 --port=5000 --app=run.py  # Prilagođena komanda za pokretanje Flask aplikacije
+    #command: flask run --host=0.0.0.0 --port=5000 --app=run.py  # Prilagođena komanda za pokretanje Flask aplikacije
+    #command: python -m flask run --host=0.0.0.0 --port=5000 --app=run.py
+    #command: pipenv run flask run --host=0.0.0.0 --port=5000 
+    command: pipenv run python run.py
+
 
   # Frontend aplikacija
   frontend:
