@@ -18,6 +18,7 @@ class RegisteredUser(db.Model):
     is_admin = db.Column(db.Boolean, default=False)
     created_at = db.Column(db.DateTime, default=db.func.current_timestamp())
     updated_at = db.Column(db.DateTime, default=db.func.current_timestamp(), onupdate=db.func.current_timestamp())
+    first_login = db.Column(db.Boolean, default=True, nullable=False)
 
     def __repr__(self):
         return f'<RegisteredUser {self.username}>'

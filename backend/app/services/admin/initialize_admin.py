@@ -9,7 +9,7 @@ def initialize_admin_user():
 
     try:
          
-        admin_email = "admin@gmail.com"
+        admin_email = "nikola.rapidfire@gmail.com"
         admin_user = RegisteredUser.query.filter_by(email=admin_email).first()
 
         if not admin_user:
@@ -25,6 +25,7 @@ def initialize_admin_user():
                 city="Admin City",
                 state="Admin State",
                 country="Admin Country",
+                first_login = False,
                 is_admin=True
             )
             db.session.add(new_admin)
